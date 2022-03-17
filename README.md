@@ -1,5 +1,5 @@
 # Gologic-DevOpsMetrics
 
-#Config file
+# Config file
 
 Rename config.default.cfg in config.cfg and fill it with your parameters.
