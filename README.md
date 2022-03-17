@@ -1,4 +1,12 @@
 # Gologic-DevOpsMetrics
+The current verison of the script gather logs from a Jira Instance and store it into a csv file. For now, we only store logs about ticket status changes.
+
+# Usage 
+
+`python3 -p <projectkey> -o <outputfile>`
+
+The project key is the 3 letters associated to a Jira Project. <br />
+The output file will be a csv file, you have to specify the extension manually.
 
 # Config file
 
