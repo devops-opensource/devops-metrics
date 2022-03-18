@@ -128,6 +128,21 @@ def save_logs_in_json(file_path, log_list):
         file_path = file_path+".json"
     with open(file_path,'w',encoding="UTF=8") as file:
         json.dump(log_list,file)
+
+def elk_create_new_index(index_name,config):
+    """
+    Create a new index in the elasticsearch instance
+    """
+    elk_url = config["ELK"]["ELASTICSEARCH_URL"]
+    headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+    }
+    with open("mapping.json",'r',encoding="UTF=8") as file:
+        mapping = json.load(file)
+        response = requests.put(elk_url+"/"+index_name,headers=headers,data=mapping)
+
+
 def main(argv):
     """
     This script gather logs on a Jira server and save then in a csv file, for now

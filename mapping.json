@@ -1,0 +1,13 @@
+{
+  "settings": {
+    "number_of_shards": 1
+  },
+  "mappings": {
+    "properties": {
+      "Name": { "type": "text" },
+      "Type of recipe": { "type": "text" },
+      "Number of serving":  { "type": "integer" },
+      "Description":  { "type": "text" }
+    }
+  }
+}
