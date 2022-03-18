@@ -7,7 +7,7 @@ To run the script use the following command: <br />
 `python3 -p <projectkey> -o <outputfile>`
 
 The project key is the 3 letters associated to a Jira Project. <br />
-The output file will be a csv file, you have to specify the extension manually.
+The output file will be a csv file.
 
 # Config file
 

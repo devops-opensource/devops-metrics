@@ -126,7 +126,10 @@ def main(argv):
         if opt in ("-p", "--projectkey"):
             project_name = arg
         elif opt in ("-o", "--ofile"):
-            output_file = arg
+            if arg.endswith(".csv"):
+                output_file = arg
+            else:
+                output_file = arg+".csv"
     config = configparser.ConfigParser()
     config.read('config.cfg')
     results = get_status_change_logs(project_name,config)
