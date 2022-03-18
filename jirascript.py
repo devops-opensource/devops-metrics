@@ -3,32 +3,39 @@ import requests
 import math
 import csv
 import configparser
+import json
 
-def get_status_change_logs(project_name, config):
+def get_status_change_logs(jira_type,project_name, config):
     """
     Get ticket logs from a jira server
     """
-    email = config["JIRA"]["jira_user_email"]
-    access_token = config["JIRA"]["jira_user_token"]
-    jira_adress = config["JIRA"]["jira_server_url"]
+    if(jira_type == "server"):
+        email = config["JIRA_SERVER"]["jira_user_email"]
+        passwd = config["JIRA_SERVER"]["jira_user_token"]
+        jira_adress = config["JIRA_SERVER"]["jira_server_url"]
+    else:
+        email = config["JIRA_CLOUD"]["jira_user_email"]
+        passwd = config["JIRA_CLOUD"]["jira_user_token"]
+        jira_adress = config["JIRA_CLOUD"]["jira_cloud_url"]
+    
     headers = {
     "Accept": "application/json",
     "Content-Type": "application/json",
     }
-    project_list_response = requests.get(jira_adress+"/rest/api/2/project",auth=(email, access_token), headers=headers)
+    project_list_response = requests.get(jira_adress+"/rest/api/2/project",auth=(email, passwd), headers=headers)
     if(project_list_response.status_code != 200):
         return #TODO ajouter un message d'erreur
 
     project_id = get_project_id(project_name,project_list_response.json())
 
-    status_list_response = requests.get(jira_adress+"/rest/api/2/status",auth=(email, access_token), headers=headers)
+    status_list_response = requests.get(jira_adress+"/rest/api/2/status",auth=(email, passwd), headers=headers)
     if(status_list_response.status_code != 200):
         return #TODO ajouter un message d'erreur
 
     new_status = get_new_status(project_id,status_list_response.json())
     
     response = requests.get(jira_adress+"/rest/api/2/search?jql=project="+
-        project_name+"&expand=changelog",auth=(email, access_token), headers=headers)
+        project_name+"&expand=changelog",auth=(email, passwd), headers=headers)
 
     if(response.status_code != 200):
         return #TODO ajouter un message d'erreur
@@ -42,7 +49,7 @@ def get_status_change_logs(project_name, config):
     for i in range(0, nb_of_pages):
         if(i>0):
             response = requests.get(jira_adress+"/rest/api/2/search?jql=project="+
-                project_name+"&expand=changelog&startAt="+str(i*max_results),auth=(email, access_token), headers=headers)
+                project_name+"&expand=changelog&startAt="+str(i*max_results),auth=(email, passwd), headers=headers)
             json = response.json()
         issue_list = json["issues"]
         for issue in issue_list:
@@ -104,6 +111,8 @@ def save_logs_in_csv(file_path, log_list):
     """
     Save a list of Jira logs as a csv file
     """
+    if(not file_path.endswith(".csv")):
+        file_path = file_path+".csv"
     fields = ["timestamp","id","key","project_id","project_key","parent_id","parent_key","type_id","type_name","status_id","status_name"]
     with open(file_path, 'w', encoding="UTF-8") as file:
         write = csv.writer(file)
@@ -111,29 +120,46 @@ def save_logs_in_csv(file_path, log_list):
         for log in log_list:
             write.writerow(log.values())
 
+def save_logs_in_json(file_path, log_list):
+    """
+    Save a list of Jira logs as a json file
+    """
+    if(not file_path.endswith(".json")):
+        file_path = file_path+".json"
+    with open(file_path,'w',encoding="UTF=8") as file:
+        json.dump(log_list,file)
 def main(argv):
     """
     This script gather logs on a Jira server and save then in a csv file, for now
     """
     project_name = None
     output_file = None
+    output_type = None
+    jira_type = "cloud"
     try:
-        opts, args = getopt.getopt(argv,"p:o:",["project=","ofile="])
+        opts, args = getopt.getopt(argv,"p:t:o:",["project=","otype=","ofile="])
     except getopt.GetoptError:
-        print("jirascript.py -p <projectkey> -o <outputfile>")
+        print("jirascript.py -p <projectkey> -t <outputtype> -o <outputfile>")
         sys.exit(2)
     for opt, arg in opts:
         if opt in ("-p", "--projectkey"):
             project_name = arg
-        elif opt in ("-o", "--ofile"):
-            if arg.endswith(".csv"):
-                output_file = arg
+        elif opt in ("-t", "--outputtype"):
+            if arg in ("csv","json"):
+                output_type = arg
             else:
-                output_file = arg+".csv"
+                sys.exit(2)
+        elif opt in ("-o", "--ofile"):
+            output_file = arg
+        elif opt in ("-s","--server"):
+            jira_type = "server"
     config = configparser.ConfigParser()
     config.read('config.cfg')
-    results = get_status_change_logs(project_name,config)
-    save_logs_in_csv(output_file,results)
+    results = get_status_change_logs(jira_type,project_name,config)
+    if(output_type == "csv"):
+        save_logs_in_csv(output_file,results)
+    else:
+        save_logs_in_json(output_file,results)
 
 if __name__ == "__main__":
     main(sys.argv[1:])
