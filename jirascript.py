@@ -11,7 +11,7 @@ def get_status_change_logs(jira_type,project_name, config):
     """
     if(jira_type == "server"):
         email = config["JIRA_SERVER"]["jira_user_email"]
-        passwd = config["JIRA_SERVER"]["jira_user_token"]
+        passwd = config["JIRA_SERVER"]["jira_user_password"]
         jira_adress = config["JIRA_SERVER"]["jira_server_url"]
     else:
         email = config["JIRA_CLOUD"]["jira_user_email"]
@@ -28,11 +28,11 @@ def get_status_change_logs(jira_type,project_name, config):
 
     project_id = get_project_id(project_name,project_list_response.json())
 
-    status_list_response = requests.get(jira_adress+"/rest/api/2/status",auth=(email, passwd), headers=headers)
+    status_list_response = requests.get(jira_adress+"/rest/api/2/project/"+project_id+"/statuses",auth=(email, passwd), headers=headers)
     if(status_list_response.status_code != 200):
         return #TODO ajouter un message d'erreur
 
-    new_status = get_new_status(project_id,status_list_response.json())
+    new_statuses = get_new_statuses(status_list_response.json())
     
     response = requests.get(jira_adress+"/rest/api/2/search?jql=project="+
         project_name+"&expand=changelog",auth=(email, passwd), headers=headers)
@@ -53,7 +53,8 @@ def get_status_change_logs(jira_type,project_name, config):
             json = response.json()
         issue_list = json["issues"]
         for issue in issue_list:
-            log = create_log(issue, issue["fields"]["created"], new_status[0], new_status[1])
+            new_status_tuple = new_statuses[issue["fields"]["issuetype"]["id"]]
+            log = create_log(issue, issue["fields"]["created"], new_status_tuple[0], new_status_tuple[1])
             log_list.append(log)
             for changelog in issue["changelog"]["histories"]:
                 for item in changelog["items"]:
@@ -95,17 +96,16 @@ def get_project_id(project_key, project_list):
             return project["id"]
     return None
 
-def get_new_status(project_id, status_list):
+def get_new_statuses(status_list):
     """
-    return the id of the status assigned to new tickets
+    return a dict containing the id and name of the new status for each issue type
     """
-    for status in status_list:
-        if(status.get("scope") is not None
-        and status["scope"]["type"]=="PROJECT"
-        and status["scope"]["project"]["id"] == str(project_id)
-        and status["statusCategory"]["key"] == "new"):
-            return (status["id"],status["untranslatedName"])
-    return None
+    new_status_dict = dict() 
+    for ticket in status_list:
+        for status in ticket["statuses"]:
+            if(status["statusCategory"]["key"]=="new"):
+                new_status_dict[ticket["id"]]=(status["id"],status["name"])
+    return new_status_dict
 
 def save_logs_in_csv(file_path, log_list):
     """
@@ -135,12 +135,12 @@ def elk_create_new_index(index_name,config):
     """
     elk_url = config["ELK"]["ELASTICSEARCH_URL"]
     headers = {
-    "Accept": "application/json",
     "Content-Type": "application/json",
     }
     with open("mapping.json",'r',encoding="UTF=8") as file:
         mapping = json.load(file)
         response = requests.put(elk_url+"/"+index_name,headers=headers,data=mapping)
+        print(response)
 
 
 def main(argv):
@@ -152,7 +152,7 @@ def main(argv):
     output_type = None
     jira_type = "cloud"
     try:
-        opts, args = getopt.getopt(argv,"p:t:o:",["project=","otype=","ofile="])
+        opts, args = getopt.getopt(argv,"p:t:o:s",["project=","otype=","ofile=","server"])
     except getopt.GetoptError:
         print("jirascript.py -p <projectkey> -t <outputtype> -o <outputfile>")
         sys.exit(2)
