@@ -11,5 +11,5 @@ def elk_create_new_index(index_name,config):
     }
     with open("mapping.json",'r',encoding="UTF=8") as file:
         mapping = json.load(file)
-        response = requests.put(elk_url+"/"+index_name,headers=headers,data=mapping)
+        response = requests.put(elk_url+"/"+index_name,headers=headers,data=json.dumps(mapping))
         return response
