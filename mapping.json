@@ -4,10 +4,16 @@
   },
   "mappings": {
     "properties": {
-      "Name": { "type": "text" },
-      "Type of recipe": { "type": "text" },
-      "Number of serving":  { "type": "integer" },
-      "Description":  { "type": "text" }
+      "Timestamp": { "type": "date" },
+      "Id": { "type": "integer" },
+      "ProjectId":  { "type": "integer" },
+      "ProjectKey":  { "type": "text" },
+      "ParentId":  { "type": "integer" },
+      "ParentKey":  { "type": "text" },
+      "TypeId":  { "type": "integer" },
+      "TypeName":  { "type": "text" },
+      "StatusId":  { "type": "integer" },
+      "StatusName":  { "type": "text" }
     }
   }
 }

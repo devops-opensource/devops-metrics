@@ -71,19 +71,19 @@ def create_log(issue, timestamp, status_id, status_name):
     """
     log = dict()
     log["timestamp"] = timestamp
-    log["id"] = issue["id"]
+    log["id"] = int(issue["id"])
     log["key"] = issue["key"]
-    log["project_id"] = issue["fields"]["project"]["id"]
+    log["project_id"] = int(issue["fields"]["project"]["id"])
     log["project_key"] = issue["fields"]["project"]["key"]
     if(issue["fields"].get("parent") is not None):
-        log["parent_id"] = issue["fields"]["parent"]["id"]
+        log["parent_id"] = int(issue["fields"]["parent"]["id"])
         log["parent_key"] = issue["fields"]["parent"]["key"]
     else:
-        log["parent_id"] = "null"
+        log["parent_id"] = -1
         log["parent_key"] = "null"
-    log["type_id"] = issue["fields"]["issuetype"]["id"]
+    log["type_id"] = int(issue["fields"]["issuetype"]["id"])
     log["type_name"] = issue["fields"]["issuetype"]["name"]
-    log["status_id"] = status_id
+    log["status_id"] = int(status_id)
     log["status_name"] = status_name
     return log
 
@@ -128,19 +128,6 @@ def save_logs_in_json(file_path, log_list):
         file_path = file_path+".json"
     with open(file_path,'w',encoding="UTF=8") as file:
         json.dump(log_list,file)
-
-def elk_create_new_index(index_name,config):
-    """
-    Create a new index in the elasticsearch instance
-    """
-    elk_url = config["ELK"]["ELASTICSEARCH_URL"]
-    headers = {
-    "Content-Type": "application/json",
-    }
-    with open("mapping.json",'r',encoding="UTF=8") as file:
-        mapping = json.load(file)
-        response = requests.put(elk_url+"/"+index_name,headers=headers,data=mapping)
-        print(response)
 
 
 def main(argv):
