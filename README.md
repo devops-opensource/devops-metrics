@@ -1,7 +1,9 @@
 # Gologic-DevOpsMetrics
+```mermaid
 classdiagram
 TicketChangeLog <|-- AveryLongClass : Cool
 TicketChangeLog : int id
+```
 
 # Usage 
 Use `python -m pip install requests` to install the module. <br />
