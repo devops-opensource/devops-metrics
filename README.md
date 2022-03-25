@@ -1,8 +1,10 @@
 # Gologic-DevOpsMetrics
-The current verison of the script gather logs from a Jira Instance and store it into a csv file. For now, we only store logs about ticket status changes.
+classdiagram
+TicketChangeLog <|-- AveryLongClass : Cool
+TicketChangeLog : int id
 
 # Usage 
-You need the `requests` module in order to run the script. Use `python -m pip install requests` to install the module. <br />
+Use `python -m pip install requests` to install the module. <br />
 To run the script use the following command: <br />
 `python3 -p <projectkey> -t <outputtype> -o <outputfile>` <br />
 The output type can be `csv` for a csv file or `json` for a json file. <br />
