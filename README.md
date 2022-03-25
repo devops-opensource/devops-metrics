@@ -1,6 +1,6 @@
 # Gologic-DevOpsMetrics
 ```mermaid
-classdiagram
+GRPAH classdiagram;
 TicketChangeLog <|-- AveryLongClass : Cool
 TicketChangeLog : int id
 ```
