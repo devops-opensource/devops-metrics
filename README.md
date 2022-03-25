@@ -2,7 +2,7 @@
 ```mermaid
 classDiagram
   class TicketChangeLog
-  TicketCHangeLog : String TimeStamp
+  TicketChangeLog : String TimeStamp
   TicketChangeLog : int Id
   TicketChangeLog : String Key
   TicketChangeLog : int ProjectId
