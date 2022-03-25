@@ -1,7 +1,8 @@
 # Gologic-DevOpsMetrics
 ```mermaid
 classDiagram
-TicketChangeLog : int id
+  class TicketChangeLog
+  TicketChangeLog : int id
 ```
 
 # Usage 
