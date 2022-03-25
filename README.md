@@ -2,7 +2,17 @@
 ```mermaid
 classDiagram
   class TicketChangeLog
-  TicketChangeLog : int id
+  TicketChangeLog : int Id
+  TicketChangeLog : String Key
+  TicketChangeLog : int ProjectId
+  TicketChangeLog : String ProjectKey
+  TicketChangeLog : int ParentId
+  TicketChangeLog : String ParentKey
+  TicketChangeLog : int IssuetypeId
+  TicketChangeLog : String IssuetypeName
+  TicketChangeLog : int StatusId
+  TicketChangeLog : String StatusName
+  TicketChangeLog : int TicketPoint
 ```
 
 # Usage 
