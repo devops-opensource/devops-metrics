@@ -26,7 +26,7 @@ classDiagram
   TestExecution : String TestCaseKey
   TestExecution : double ExecutionTime
 ```
-The goal of this project is to provide script collecting data 
+
 # Config file
 
 Rename config.default.cfg in config.cfg and fill it with your configurations.
