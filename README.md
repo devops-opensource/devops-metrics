@@ -14,7 +14,20 @@ classDiagram
   TicketChangeLog : int StatusId
   TicketChangeLog : String StatusName
   TicketChangeLog : int TicketPoint
+  class TestCase
+  TestCase : int Id
+  TestCase : String Key
+  TestCase : String Category
+  TestCase : String Type
+  class TestExecution
+  TestExecution : int Id
+  TestExecution : String Key
+  TestExecution : String TestCaseKey
+  TestExecution : double ExecutionTime
 ```
+# Config file
+
+Rename config.default.cfg in config.cfg and fill it with your configurations.
 
 # Usage 
 Use `python -m pip install requests` to install the module. <br />
@@ -26,6 +39,4 @@ If you are using Jira Server and not Jira Cloud, use the `-s` or `--server` opti
 The project key is the 3 letters associated to a Jira Project. <br />
 The output file will be a csv file.
 
-# Config file
 
-Rename config.default.cfg in config.cfg and fill it with your configurations.
