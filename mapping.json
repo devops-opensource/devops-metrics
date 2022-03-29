@@ -6,6 +6,7 @@
     "properties": {
       "Timestamp": { "type": "date" },
       "Id": { "type": "integer" },
+      "Key": { "type": "text" },
       "ProjectId":  { "type": "integer" },
       "ProjectKey":  { "type": "text" },
       "ParentId":  { "type": "integer" },
