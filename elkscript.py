@@ -27,10 +27,11 @@ def elk_post_logs_bulk(json_file_path,index,config):
     }
     with open(json_file_path,'r',encoding="UTF-8") as file:
         logs = json.load(file)
-        to_insert = {"index":{}}
-        for i in range(0,len(logs)):
-            logs.insert(2*i,to_insert)
-        response = requests.post(elk_url+"/"+index+"/_bulk", headers=headers,data=json.dumps(logs))
+        to_insert = "{\"index\":{}}"
+        data_string = ""
+        for log in logs
+            data_string = data_string + to_insert + json.dumps(log)
+        response = requests.post(elk_url+"/"+index+"/_bulk", headers=headers,data=data_string)
         return response
 
 def main(argv):
