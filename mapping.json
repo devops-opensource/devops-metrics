@@ -4,17 +4,17 @@
   },
   "mappings": {
     "properties": {
-      "Timestamp": { "type": "date" },
-      "Id": { "type": "integer" },
-      "Key": { "type": "text" },
-      "ProjectId":  { "type": "integer" },
-      "ProjectKey":  { "type": "text" },
-      "ParentId":  { "type": "integer" },
-      "ParentKey":  { "type": "text" },
-      "TypeId":  { "type": "integer" },
-      "TypeName":  { "type": "text" },
-      "StatusId":  { "type": "integer" },
-      "StatusName":  { "type": "text" }
+      "timestamp": { "type": "date" },
+      "id": { "type": "integer" },
+      "key": { "type": "text" },
+      "project_id":  { "type": "integer" },
+      "project_key":  { "type": "text" },
+      "parent_id":  { "type": "integer" },
+      "parent_key":  { "type": "text" },
+      "type_id":  { "type": "integer" },
+      "type_name":  { "type": "text" },
+      "status_id":  { "type": "integer" },
+      "status_name":  { "type": "text" }
     }
   }
 }
