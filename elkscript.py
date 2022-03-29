@@ -54,7 +54,7 @@ def main(argv):
     response = elk_create_new_index(index_name,config)
     print(response)
     response = elk_post_logs_bulk(logfile,index_name,config)
-    return response
+    return response.content
 
 if __name__ == "__main__":
     main(sys.argv[1:])
