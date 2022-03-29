@@ -29,7 +29,7 @@ def elk_post_logs_bulk(json_file_path,index,config):
         logs = json.load(file)
         to_insert = "{\"index\":{}}"
         data_string = ""
-        for log in logs
+        for log in logs:
             data_string = data_string + to_insert + json.dumps(log)
         response = requests.post(elk_url+"/"+index+"/_bulk", headers=headers,data=data_string)
         return response
