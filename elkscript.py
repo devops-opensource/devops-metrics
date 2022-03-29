@@ -53,9 +53,9 @@ def main(argv):
     config = configparser.ConfigParser()
     config.read('config.cfg')
     response = elk_create_new_index(index_name,config)
-    print(response)
+    print(response.content)
     response = elk_post_logs_bulk(logfile,index_name,config)
-    return response.content
+    print(response.content)
 
 if __name__ == "__main__":
     main(sys.argv[1:])
