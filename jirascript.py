@@ -37,7 +37,8 @@ def get_status_change_logs(jira_type,project_name, config):
     new_statuses = get_new_statuses(status_list_response.json())
     
     response = requests.get(jira_adress+"/rest/api/2/search?jql=project="+
-        project_name+"&expand=changelog",auth=(email, passwd), headers=headers)
+        project_name+"&fields=issuetype,status,created,project,parent"+
+        "&expand=changelog",auth=(email, passwd), headers=headers)
 
     if(response.status_code != 200):
         print(response.status_code) 
@@ -53,7 +54,8 @@ def get_status_change_logs(jira_type,project_name, config):
         if(i>0):
             print(str(i)+"/"+str(nb_of_pages))
             response = requests.get(jira_adress+"/rest/api/2/search?jql=project="+
-                project_name+"&expand=changelog&startAt="+str(i*max_results),auth=(email, passwd), headers=headers)
+                project_name+"&fields=issuetype,status,created,project,parent"+
+                "&expand=changelog&startAt="+str(i*max_results),auth=(email, passwd), headers=headers)
             json = response.json()
         issue_list = json["issues"]
         for issue in issue_list:
@@ -169,3 +171,17 @@ def main(argv):
 
 if __name__ == "__main__":
     main(sys.argv[1:])
+
+#TODO
+"""
+Un potentiel problème est si l'historique de changement comporte plus de 100 entrées. Si cela devient une
+limitation il faudra alors faire un appel sur GET /rest/api/3/issue/{issueIdOrKey}/changelog
+
+Pour rendre les champs que l'on récupère totalement paramétrables, créer une fonction récursive qui explore
+les champs et les dictionnaires retournés: exemple si le chemin d'un champs est /fields/trucA/trucB alors il faudra
+un premier appel pour récupérer le dict fields, un autre pour récupérer le dict trucA et enfin un appel terminal pour accéder
+champ trucB.
+
+Pour réduire le temps d'exécution on pourrait modifier les requêtes pour ne retourner que les champs nécessaires, cela réduirait
+le payload des réponses
+"""
