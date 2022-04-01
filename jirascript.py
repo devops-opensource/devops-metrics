@@ -24,13 +24,15 @@ def get_status_change_logs(jira_type,project_name, config):
     }
     project_list_response = requests.get(jira_adress+"/rest/api/2/project",auth=(email, passwd), headers=headers)
     if(project_list_response.status_code != 200):
-        return #TODO ajouter un message d'erreur
+        print(project_list_response.content)
+        return #TODO lancer une exception
 
     project_id = get_project_id(project_name,project_list_response.json())
 
     status_list_response = requests.get(jira_adress+"/rest/api/2/project/"+project_id+"/statuses",auth=(email, passwd), headers=headers)
     if(status_list_response.status_code != 200):
-        return #TODO ajouter un message d'erreur
+        print(status_list_response.content)
+        return #TODO lancer une exception
 
     new_statuses = get_new_statuses(status_list_response.json())
     
@@ -38,7 +40,8 @@ def get_status_change_logs(jira_type,project_name, config):
         project_name+"&expand=changelog",auth=(email, passwd), headers=headers)
 
     if(response.status_code != 200):
-        return #TODO ajouter un message d'erreur
+        print(response.status_code) 
+        return #TODO lancer une exception
         
     json = response.json()
     max_results = json["maxResults"]
@@ -48,6 +51,7 @@ def get_status_change_logs(jira_type,project_name, config):
 
     for i in range(0, nb_of_pages):
         if(i>0):
+            print(str(i)+"/"+str(nb_of_pages))
             response = requests.get(jira_adress+"/rest/api/2/search?jql=project="+
                 project_name+"&expand=changelog&startAt="+str(i*max_results),auth=(email, passwd), headers=headers)
             json = response.json()
