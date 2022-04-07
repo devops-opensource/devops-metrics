@@ -1,4 +1,3 @@
-from cmath import log
 import sys,getopt
 import requests
 import json

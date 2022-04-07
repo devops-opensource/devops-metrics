@@ -38,7 +38,7 @@ def get_status_change_logs(jira_type,project_name, config):
     
     response = requests.get(jira_adress+"/rest/api/2/search?jql=project="+
         project_name+"&fields=issuetype,status,created,project,parent"+
-        "&expand=changelog",auth=(email, passwd), headers=headers)
+        "&expand=changelog&maxResults=200",auth=(email, passwd), headers=headers)
 
     if(response.status_code != 200):
         print(response.status_code) 
@@ -55,7 +55,7 @@ def get_status_change_logs(jira_type,project_name, config):
             print(str(i)+"/"+str(nb_of_pages))
             response = requests.get(jira_adress+"/rest/api/2/search?jql=project="+
                 project_name+"&fields=issuetype,status,created,project,parent"+
-                "&expand=changelog&startAt="+str(i*max_results),auth=(email, passwd), headers=headers)
+                "&expand=changelog&maxResults=200&startAt="+str(i*max_results),auth=(email, passwd), headers=headers)
             json = response.json()
         issue_list = json["issues"]
         for issue in issue_list:
@@ -120,7 +120,7 @@ def save_logs_in_csv(file_path, log_list):
     if(not file_path.endswith(".csv")):
         file_path = file_path+".csv"
     fields = ["timestamp","id","key","project_id","project_key","parent_id","parent_key","type_id","type_name","status_id","status_name"]
-    with open(file_path, 'w', encoding="UTF-8") as file:
+    with open(file_path, 'w', encoding="UTF-8", newline='') as file:
         write = csv.writer(file)
         write.writerow(fields)
         for log in log_list:
