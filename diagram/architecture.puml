@@ -1,0 +1,35 @@
+@startuml DevOps Metrics Architecture
+
+object Main
+
+object Extract 
+object Transform
+' diamond Transform 
+object Load 
+
+object "Jira connector" as jira
+object "GitHub connector" as github
+
+object "Source Query" as Source
+
+object "Splunk importer" as splunk
+object "Csv importer" as csv
+
+' Extract
+Extract  --> Main
+
+jira --> Extract
+Source -> jira
+
+github --> Extract
+Source -> github
+
+
+' Tranform
+Transform  --> Main
+
+' Load
+Load --> Main
+csv --> Load
+splunk --> Load
+@enduml
