@@ -5,7 +5,7 @@ import csv
 import configparser
 import json
 
-def get_status_change_logs(jira_type,project_name, config):
+def get_status_change_logs(jira_type,project_name,epic_key,config):
     """
     Get ticket logs from a jira server
     """
@@ -36,9 +36,14 @@ def get_status_change_logs(jira_type,project_name, config):
 
     new_statuses = get_new_statuses(status_list_response.json())
     
-    response = requests.get(jira_adress+"/rest/api/2/search?jql=project="+
-        project_name+"&fields=issuetype,status,created,project,parent"+
-        "&expand=changelog&maxResults=200",auth=(email, passwd), headers=headers)
+    if(epic_key == ""):
+        response = requests.get(jira_adress+"/rest/api/2/search?jql=project="+
+            project_name+"&fields=issuetype,status,created,project,parent"+
+            "&expand=changelog&maxResults=200",auth=(email, passwd), headers=headers)
+    else:
+        response = requests.get(jira_adress+"/rest/api/2/search?jql=cf[11200]="+
+            epic_key+"|key="+epic_key+"&fields=issuetype,status,created,project,parent"+
+            "&expand=changelog&maxResults=200",auth=(email, passwd), headers=headers)
 
     if(response.status_code != 200):
         print(response.status_code) 
@@ -144,8 +149,9 @@ def main(argv):
     output_file = None
     output_type = None
     jira_type = "cloud"
+    epic_key=""
     try:
-        opts, args = getopt.getopt(argv,"p:t:o:s",["project=","otype=","ofile=","server"])
+        opts, args = getopt.getopt(argv,"e:p:t:o:s",["epickey=","project=","otype=","ofile=","server"])
     except getopt.GetoptError:
         print("jirascript.py -p <projectkey> -t <outputtype> -o <outputfile>")
         sys.exit(2)
@@ -161,9 +167,11 @@ def main(argv):
             output_file = arg
         elif opt in ("-s","--server"):
             jira_type = "server"
+        elif opt in ("-e", "--epickey"):
+            epic_key = arg
     config = configparser.ConfigParser()
     config.read('config.cfg')
-    results = get_status_change_logs(jira_type,project_name,config)
+    results = get_status_change_logs(jira_type,project_name,epic_key,config)
     if(output_type == "csv"):
         save_logs_in_csv(output_file,results)
     else:
