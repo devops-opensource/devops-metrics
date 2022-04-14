@@ -42,7 +42,7 @@ def get_status_change_logs(jira_type,project_name,epic_key,config):
             "&expand=changelog&maxResults=200",auth=(email, passwd), headers=headers)
     else:
         response = requests.get(jira_adress+"/rest/api/2/search?jql=cf[11200]="+
-            epic_key+"|key="+epic_key+"&fields=issuetype,status,created,project,parent"+
+            epic_key+"|key="+epic_key+"&fields=issuetype,status,created,project,parent,customfield_11200"+
             "&expand=changelog&maxResults=200",auth=(email, passwd), headers=headers)
 
     if(response.status_code != 200):
@@ -58,9 +58,14 @@ def get_status_change_logs(jira_type,project_name,epic_key,config):
     for i in range(0, nb_of_pages):
         if(i>0):
             print(str(i)+"/"+str(nb_of_pages))
-            response = requests.get(jira_adress+"/rest/api/2/search?jql=project="+
-                project_name+"&fields=issuetype,status,created,project,parent"+
-                "&expand=changelog&maxResults=200&startAt="+str(i*max_results),auth=(email, passwd), headers=headers)
+            if(epic_key == ""):
+                response = requests.get(jira_adress+"/rest/api/2/search?jql=project="+
+                    project_name+"&fields=issuetype,status,created,project,parent"+
+                    "&expand=changelog&maxResults=200&startAt="+str(i*max_results),auth=(email, passwd), headers=headers)
+            else:
+                response = requests.get(jira_adress+"/rest/api/2/search?jql=cf[11200]="+
+                    epic_key+"|key="+epic_key+"&fields=issuetype,status,created,project,parent,customfield_11200"+
+                    "&expand=changelog&maxResults=200&startAt="+str(i*max_results),auth=(email, passwd), headers=headers)
             json = response.json()
         issue_list = json["issues"]
         for issue in issue_list:
@@ -89,6 +94,9 @@ def create_log(issue, timestamp, status_id, status_name):
     if(issue["fields"].get("parent") is not None):
         log["parent_id"] = int(issue["fields"]["parent"]["id"])
         log["parent_key"] = issue["fields"]["parent"]["key"]
+    elif(issue["fields"].get("customfield_11200") is not None):
+        log["parent_key"] = issue["fields"]["customfield_11200"]
+        log["parent_id"] = -1
     else:
         log["parent_id"] = -1
         log["parent_key"] = "null"
