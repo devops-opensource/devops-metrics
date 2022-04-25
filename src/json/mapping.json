@@ -1,0 +1,20 @@
+{
+  "settings": {
+    "number_of_shards": 1
+  },
+  "mappings": {
+    "properties": {
+      "timestamp": { "type": "date" },
+      "id": { "type": "integer" },
+      "key": { "type": "text" },
+      "project_id":  { "type": "integer" },
+      "project_key":  { "type": "text" },
+      "parent_id":  { "type": "integer" },
+      "parent_key":  { "type": "text" },
+      "type_id":  { "type": "integer" },
+      "type_name":  { "type": "text" },
+      "status_id":  { "type": "integer" },
+      "status_name":  { "type": "text" }
+    }
+  }
+}
