@@ -1,0 +1,6 @@
+[submodule "_splunk"]
+	path = _splunk
+	url = https://github.com/georgestarcher/Splunk-Class-httpevent.git
+[submodule "_submodules/splunk"]
+	path = _submodules/splunk
+	url = https://github.com/georgestarcher/Splunk-Class-httpevent.git
