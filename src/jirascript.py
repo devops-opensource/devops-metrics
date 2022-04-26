@@ -185,7 +185,8 @@ def main(argv):
     else:
         save_logs_in_json(output_file,results)
 
-
+if __name__ == "__main__":
+    main(sys.argv[1:])
 
 #TODO
 """
