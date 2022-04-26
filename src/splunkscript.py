@@ -1,5 +1,5 @@
 import sys,getopt,configparser
-from splunk_http_event_collector import splunk_http_event_collector
+import splunk_http_event_collector
 import json
 
 def splunk_export_log(index, json_file, config):
