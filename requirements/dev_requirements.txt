@@ -1,0 +1,2 @@
+setuptools == 62.1.0 
+requests
