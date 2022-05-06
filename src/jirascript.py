@@ -7,7 +7,7 @@ import json
 
 class JiraExporter:
 
-    def __init__(self,config, jira_type, project_key, epic_key):
+    def __init__(self,config, jira_type, project_key, epic_key, output_type, output_file):
         if(jira_type == "server"):
             self.email = config["JIRA_SERVER"]["jira_user_email"]
             self.passwd = config["JIRA_SERVER"]["jira_user_password"]
@@ -25,12 +25,18 @@ class JiraExporter:
         self.project_id =  -1
         self.new_status_dict = dict()
         self.log_list = list()
+        self.output_type = output_type
+        self.output_file = output_file
 
     def run(self):
         self.project_id = self.get_project_id()
         self.new_status_dict = self.get_new_statuses()
         changelogs = self.get_status_change_logs()
         self.log_list = self.transform_changelogs(changelogs)
+        if(self.output_type == "json"):
+            self.save_logs_in_json()
+        elif(self.output_type == "csv"):
+            self.save_logs_in_csv()
         return self.log_list
 
     def get_status_change_logs(self):
@@ -74,8 +80,10 @@ class JiraExporter:
     def transform_changelogs(self,changelogs):
         log_list = []
         for issue in changelogs:
-            new_status_tuple = self.new_status_dict[issue["fields"]["issuetype"]["id"]]
-            log = self.create_log(issue, issue["fields"]["created"], new_status_tuple[0], new_status_tuple[1])
+            issuetype_id = issue["fields"]["issuetype"]["id"]
+            new_status_tuple = self.new_status_dict[issuetype_id]
+            log = self.create_log(issue, issue["fields"]["created"], 
+                status_id = new_status_tuple[0], status_name = new_status_tuple[1])
             log_list.append(log)
             for changelog in issue["changelog"]["histories"]:
                 for item in changelog["items"]:
@@ -91,6 +99,7 @@ class JiraExporter:
         issue["fields"]["created"], issue["id"],issue["key"],issue["project"]["id"], issue["project"]["key"]
         """
         log = dict()
+        epic_link_field = "customfield_11200"
         log["timestamp"] = timestamp
         log["id"] = int(issue["id"])
         log["key"] = issue["key"]
@@ -99,8 +108,8 @@ class JiraExporter:
         if(issue["fields"].get("parent") is not None):
             log["parent_id"] = int(issue["fields"]["parent"]["id"])
             log["parent_key"] = issue["fields"]["parent"]["key"]
-        elif(issue["fields"].get("customfield_11200") is not None):
-            log["parent_key"] = issue["fields"]["customfield_11200"]
+        elif(issue["fields"].get(epic_link_field) is not None):
+            log["parent_key"] = issue["fields"][epic_link_field]
             log["parent_id"] = -1
         else:
             log["parent_id"] = -1
@@ -122,10 +131,11 @@ class JiraExporter:
         
         project_list = project_list_response.json()
 
-        for project in project_list:
-            if(project["key"] == self.project_key):
-                return project["id"]
-        return None
+        project = list(filter(lambda x: (x["key"] == self.project_key),project_list))
+
+        if(len(project) > 0):
+            return project[0]["id"]
+        return -1
 
     def get_new_statuses(self):
         """
@@ -146,26 +156,27 @@ class JiraExporter:
                     new_status_dict[ticket["id"]]=(status["id"],status["name"])
         return new_status_dict
 
-    def save_logs_in_csv(self,file_path):
+    def save_logs_in_csv(self):
         """
         Save a list of Jira logs as a csv file
         """
-        if(not file_path.endswith(".csv")):
-            file_path = file_path+".csv"
+        
+        if(not self.output_file.endswith(".csv")):
+            self.output_file = self.output_file+".csv"
         fields = ["timestamp","id","key","project_id","project_key","parent_id","parent_key","type_id","type_name","status_id","status_name"]
-        with open(file_path, 'w', encoding="UTF-8", newline='') as file:
+        with open(self.output_file, 'w', encoding="UTF-8", newline='') as file:
             write = csv.writer(file)
             write.writerow(fields)
             for log in self.log_list:
                 write.writerow(log.values())
 
-    def save_logs_in_json(self,file_path):
+    def save_logs_in_json(self):
         """
         Save a list of Jira logs as a json file
         """
-        if(not file_path.endswith(".json")):
-            file_path = file_path+".json"
-        with open(file_path,'w',encoding="UTF=8") as file:
+        if(not self.output_file.endswith(".json")):
+            self.output_file = self.output_file+".json"
+        with open(self.output_file,'w',encoding="UTF=8") as file:
             json.dump(self.log_list,file)
 
 
@@ -198,13 +209,10 @@ def main(argv):
         elif opt in ("-e", "--epickey"):
             epic_key = arg
     config = configparser.ConfigParser()
-    config.read('../config.cfg')
-    jira_exp = JiraExporter(config, jira_type, project_name, epic_key)
+    config.read('config.cfg')
+    jira_exp = JiraExporter(config, jira_type, project_name, epic_key, output_type,output_file)
     results = jira_exp.run()
-    if(output_type == "csv"):
-        jira_exp.save_logs_in_csv(output_file)
-    else:
-        jira_exp.save_logs_in_json(output_file)
+    return results
 
 if __name__ == "__main__":
     main(sys.argv[1:])
