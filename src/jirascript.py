@@ -215,9 +215,6 @@ def main(argv):
     results = jira_exp.run()
     return results
 
-if __name__ == "__main__":
-    main(sys.argv[1:])
-
 #TODO
 """
 Un potentiel problème est si l'historique de changement comporte plus de 100 entrées. Si cela devient une
