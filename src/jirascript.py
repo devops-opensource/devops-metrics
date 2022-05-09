@@ -1,13 +1,10 @@
-import sys,getopt
 import requests
 import math
 import csv
-import configparser
 import json
-
 class JiraExporter:
 
-    def __init__(self,config, jira_type, project_key, epic_key, output_type, output_file):
+    def __init__(self,config, jira_type, epic_key):
         if(jira_type == "server"):
             self.email = config["JIRA_SERVER"]["jira_user_email"]
             self.passwd = config["JIRA_SERVER"]["jira_user_password"]
@@ -22,23 +19,22 @@ class JiraExporter:
         "Accept": "application/json",
         "Content-Type": "application/json",
         }
-        self.project_key = project_key
+        self.project_key = config["JIRA_SERVER"]["jira_project_key"]
         self.epic_key = epic_key
         self.project_id =  -1
         self.new_status_dict = dict()
         self.log_list = list()
-        self.output_type = output_type
-        self.output_file = output_file
+
 
     def run(self):
         self.project_id = self.get_project_id()
         self.new_status_dict = self.get_new_statuses()
         changelogs = self.get_status_change_logs()
         self.log_list = self.transform_changelogs(changelogs)
-        if(self.output_type == "json"):
-            self.save_logs_in_json()
-        elif(self.output_type == "csv"):
-            self.save_logs_in_csv()
+        
+        self.save_logs_in_json()
+        self.save_logs_in_csv()
+
         return self.log_list
 
     def get_status_change_logs(self):
@@ -161,11 +157,8 @@ class JiraExporter:
         """
         Save a list of Jira logs as a csv file
         """
-        
-        if(not self.output_file.endswith(".csv")):
-            self.output_file = self.output_file+".csv"
         fields = ["timestamp","id","key","project_id","project_key","parent_id","parent_key","type_id","type_name","status_id","status_name"]
-        with open(self.output_file, 'w', encoding="UTF-8", newline='') as file:
+        with open("data.csv", 'w', encoding="UTF-8", newline='') as file:
             write = csv.writer(file)
             write.writerow(fields)
             for log in self.log_list:
@@ -174,50 +167,9 @@ class JiraExporter:
     def save_logs_in_json(self):
         """
         Save a list of Jira logs as a json file
-        """
-        if(not self.output_file.endswith(".json")):
-            self.output_file = self.output_file+".json"
-        with open(self.output_file,'w',encoding="UTF=8") as file:
+        """       
+        with open("data.json",'w',encoding="UTF=8") as file:
             json.dump(self.log_list,file)
-
-
-def main(argv):
-    """
-    This script gather logs on a Jira server and save then in a csv file, for now
-    """
-    project_name = None
-    output_file = None
-    output_type = None
-    jira_type = "cloud"
-    epic_key=""
-    try:
-        opts, args = getopt.getopt(argv,"e:p:t:o:s",["epickey=","project=","otype=","ofile=","server"])
-    except getopt.GetoptError:
-        print("jirascript.py -p <projectkey> -t <outputtype> -o <outputfile>")
-        sys.exit(2)
-    for opt, arg in opts:
-        if opt in ("-p", "--projectkey"):
-            project_name = arg
-        elif opt in ("-t", "--outputtype"):
-            if arg in ("csv","json"):
-                output_type = arg
-            else:
-                sys.exit(2)
-        elif opt in ("-o", "--ofile"):
-            output_file = arg
-        elif opt in ("-s","--server"):
-            jira_type = "server"
-        elif opt in ("-e", "--epickey"):
-            epic_key = arg
-    config = configparser.ConfigParser()
-    config.read('config.cfg')
-    jira_exp = JiraExporter(config, jira_type, project_name, epic_key, output_type,output_file)
-    results = jira_exp.run()
-    return results
-
-if __name__ == "__main__":
-    main(sys.argv[1:])
-
 #TODO
 """
 Un potentiel problème est si l'historique de changement comporte plus de 100 entrées. Si cela devient une
@@ -226,7 +178,7 @@ limitation il faudra alors faire un appel sur GET /rest/api/3/issue/{issueIdOrKe
 Pour rendre les champs que l'on récupère totalement paramétrables, créer une fonction récursive qui explore
 les champs et les dictionnaires retournés: exemple si le chemin d'un champs est /fields/trucA/trucB alors il faudra
 un premier appel pour récupérer le dict fields, un autre pour récupérer le dict trucA et enfin un appel terminal pour accéder
-champ trucB.
+champ truc
 
 Pour réduire le temps d'exécution on pourrait modifier les requêtes pour ne retourner que les champs nécessaires, cela réduirait
 le payload des réponses
