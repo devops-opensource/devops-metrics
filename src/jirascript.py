@@ -4,7 +4,7 @@ import csv
 import json
 class JiraExporter:
 
-    def __init__(self,config, jira_type, epic_key):
+    def __init__(self, config, jira_type, epic_key):
         if(jira_type == "server"):
             self.email = config["JIRA_SERVER"]["jira_user_email"]
             self.passwd = config["JIRA_SERVER"]["jira_user_password"]
