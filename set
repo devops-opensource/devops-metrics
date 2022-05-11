@@ -1,0 +1,77 @@
+from setuptools import find_packages, setup
+from setuptools.command.install import install
+from os import path
+import re
+from subprocess import check_call
+
+
+name = "devops-metrics"
+here = path.abspath(path.dirname(__file__))
+
+def gitcmd_update_submodules():
+	'''	Check if the package is being deployed as a git repository. If so, recursively
+		update all dependencies.
+
+		@returns True if the package is a git repository and the modules were updated.
+			False otherwise.
+	'''
+	if  path.exists(path.join(here, '.git')):
+		check_call(['git', 'submodule', 'update', '--init', '--recursive'])
+		return True
+
+	return False
+
+class gitcmd_install(install):
+	'''	Specialized packaging class that runs git submodule update --init --recursive
+		as part of the update/install procedure.
+	'''
+	def run(self):
+		gitcmd_update_submodules()
+		install.run(self)
+
+with open(path.join(here, "__init__.py"), encoding="utf-8") as f:
+    result = re.search(r'__version__ = ["\']([^"\']+)', f.read())
+    if not result:
+        raise ValueError(os.path.join("Can't find the version in ",name,"/__init__.py"))
+
+    version = result.group(1)
+
+with open("README.md", "r", encoding="utf-8") as fh:
+    long_description = fh.read();
+
+# get the dependencies and installs
+with open("requirements/dev_requirements.txt", encoding="utf-8") as f:
+    requires = [x.strip() for x in f if x.strip()];
+    print(requires)
+
+# get test dependencies and installs
+with open("requirements/test_requirements.txt", encoding="utf-8") as f:
+    test_requires = [x.strip() for x in f if x.strip() and not x.startswith("-r")]
+
+setup(
+    cmdclass={
+		'install': gitcmd_install, 
+	}, 
+    name=name,
+    version=version,
+    description="DevOps metrics let you agregate data from multiple sources",
+    license="Apache Software License (Apache 2.0)",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    url="https://github.com/devops-opensource/devops-metrics",
+    python_requires=">=3.7, <3.11",
+    packages=find_packages(exclude=["docs*", "tests*", "tools*"]),
+    include_package_data=True,
+    tests_require=test_requires,
+    install_requires=requires,
+    author="Dorian Vandamme, Sébastien Bernard",
+    package_data={
+        name: ["py.typed", "test_requirements.txt"]
+    },
+    zip_safe=False,
+    keywords="pipelines, machine learning, data pipelines, data science, data engineering",
+    classifiers=[
+        "Programming Language :: Python :: 3.10",
+        "Operating System :: OS Independent"
+    ]
+)

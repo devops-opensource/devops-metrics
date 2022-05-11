@@ -28,16 +28,12 @@ RUN pip install --upgrade pip
 
 WORKDIR ${HOME}
 
-ADD requirements requirements/
-RUN pip install -r requirements/dev_requirements.txt
-RUN pip install -r requirements/test_requirements.txt
-
-ADD . ${HOME}/${APP_NAME}
+ADD . ${APP_NAME}   
 ENV PATH $PATH:${HOME}/${APP_NAME}/bin
 
-RUN pip install -e ${HOME}/${APP_NAME} && \
-git submodule update --init  &&\
-pip install _submodules/Splunk
+WORKDIR ${HOME}/${APP_NAME}
+
+RUN pip install -r requirements/dev_requirements.txt && pip install _submodules/splunk
 
 # Drop root and change ownership of the application folder to the user
 RUN chown -R ${USER_ID}:${GROUP_ID} ${HOME}
