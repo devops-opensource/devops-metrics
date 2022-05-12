@@ -39,28 +39,33 @@ class JiraExporter:
 
         return self.log_list
 
+    def execute_jql_request(self,query,fields,parameters):
+        jira_search_url = f"{self.jira_adress}/searchrest/api/2/search?"
+        
+        field_string = f"&{fields}" if fields else ""
+        parameters_string = f"&{parameters}" if parameters else ""
+        query_string = f"jql={query}"
+
+        jql_query = f"{jira_search_url}{query}{field_string}{parameters_string}"
+        response = requests.get(jql_query, auth=(self.email, self.passwd), headers=self.headers)
+        
+        try: 
+            response.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            return "Error: " + str(e)
+
+        return response.json()
+
     def get_status_change_logs(self):
         """
         Get ticket changelogs from a jira server
         """
-        jira_search_url = self.jira_adress+"/rest/api/2/search?"
-        jira_fields = "&fields=issuetype,status,created,project,parent,"+self.epic_link_field
-        jira_others = "&expand=changelog&maxResults=200"
+        jira_fields = f"issuetype,status,created,project,parent,{self.epic_link_field}"
+        jira_others = "expand=changelog&maxResults=200"
+        jira_jql = f"cf[11200]= {self.epic_key}" if self.epic_key else f"project={self.project_key} AND issuetype in (Story)"
 
-        if(self.epic_key != ""):
-            jira_jql = "jql=cf[11200]=" + self.epic_key +"|key="+self.epic_key
-
-        else:
-            jira_jql = "jql=project="+self.project_key
-        response = requests.get(jira_search_url+jira_jql+jira_fields+jira_others,
-            auth=(self.email, self.passwd), headers=self.headers)
-        
-
-        if(response.status_code != 200):
-            print(response.status_code) 
-            return #TODO lancer une exception
-
-        json = response.json()
+        json = execute_jql_request(jira_jql, fields, parameters)
+      
         max_results = json["maxResults"]
         nb_of_pages = math.ceil(json["total"]/max_results)
         print("max results: " + str(max_results) + " json total: " + str(json["total"]))
