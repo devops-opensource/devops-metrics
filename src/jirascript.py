@@ -2,6 +2,8 @@ import requests
 import math
 import csv
 import json
+import pandas 
+
 class JiraExporter:
 
     def __init__(self,config, jira_type, epic_key):
@@ -9,12 +11,12 @@ class JiraExporter:
             self.email = config["JIRA_SERVER"]["jira_user_email"]
             self.passwd = config["JIRA_SERVER"]["jira_user_password"]
             self.jira_adress = config["JIRA_SERVER"]["jira_server_url"]
-            self.epic_link_field = "parent"
+            
         else:
             self.email = config["JIRA_CLOUD"]["jira_user_email"]
             self.passwd = config["JIRA_CLOUD"]["jira_user_token"]
             self.jira_adress = config["JIRA_CLOUD"]["jira_cloud_url"]
-            self.epic_link_field = "customfield_11200"
+        self.epic_link_field = "customfield_11200"
         self.headers = {
         "Accept": "application/json",
         "Content-Type": "application/json",
@@ -42,11 +44,10 @@ class JiraExporter:
         Get ticket changelogs from a jira server
         """
         jira_search_url = self.jira_adress+"/rest/api/2/search?"
-        jira_fields = "&fields=issuetype,status,created,project,parent"
+        jira_fields = "&fields=issuetype,status,created,project,parent,"+self.epic_link_field
         jira_others = "&expand=changelog&maxResults=200"
 
         if(self.epic_key != ""):
-            jira_fields = jira_fields + self.epic_link_field
             jira_jql = "jql=cf[11200]=" + self.epic_key +"|key="+self.epic_key
 
         else:
@@ -75,6 +76,22 @@ class JiraExporter:
         return changelogs
 
     def transform_changelogs(self,changelogs):
+        
+        fields_to_keep = ["key","fields.project.key","fields.customfield_11200","fields.status.name",
+            "fields.issuetype.name","changelog.histories.created","field","toString"]
+        
+        norm_history = pandas.json_normalize(changelogs,["changelog","histories","items"],["key",["changelog","histories","created"]])
+        norm_fields = pandas.json_normalize(changelogs)
+        norm_merged = norm_history.merge(norm_fields)
+        norm_merged = norm_merged.append(norm_merged.drop_duplicates("key")
+            .assign(field="status",toString=lambda x:x["fields.issuetype.id"]), ignore_index=True)
+
+        for col in norm_merged.columns:
+            if col not in fields_to_keep:
+                norm_merged = norm_merged.drop(columns=col)
+        print(norm_merged)
+
+
         log_list = []
         for issue in changelogs:
             issuetype_id = issue["fields"]["issuetype"]["id"]
