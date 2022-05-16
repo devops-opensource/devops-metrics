@@ -77,19 +77,29 @@ class JiraExporter:
 
     def transform_changelogs(self,changelogs):
         
-        fields_to_keep = ["key","fields.project.key","fields.customfield_11200","fields.status.name",
-            "fields.issuetype.name","changelog.histories.created","field","toString"]
+        #fields_to_keep = ["key","fields.project.key","fields.customfield_11200",
+        #    "fields.issuetype.name","changelog.histories.created","field","fromString","toString"]
+        fields_to_keep = ["key","changelog.histories.created","field","fromString","toString","fromDate"]
         
+        fieldnames_mapping = {"changelog.histories.created":"toDate"}
+
         norm_history = pandas.json_normalize(changelogs,["changelog","histories","items"],["key",["changelog","histories","created"]])
         norm_fields = pandas.json_normalize(changelogs)
         norm_merged = norm_history.merge(norm_fields)
-        norm_merged = norm_merged.append(norm_merged.drop_duplicates("key")
-            .assign(field="status",toString=lambda x:x["fields.issuetype.id"]), ignore_index=True)
-
+        
+        norm_merged = norm_merged[norm_merged["field"]=="status"]
+        norm_merged["changelog.histories.created"] = pandas.to_datetime(norm_merged["changelog.histories.created"])
+        norm_merged["fields.created"] = pandas.to_datetime(norm_merged["fields.created"])
+        norm_merged["fromDate"] = norm_merged.sort_values(["changelog.histories.created"]).groupby("key")["changelog.histories.created"].shift()
+        norm_merged["fromDate"].fillna(norm_merged["fields.created"],inplace=True)
         for col in norm_merged.columns:
             if col not in fields_to_keep:
                 norm_merged = norm_merged.drop(columns=col)
-        print(norm_merged)
+        
+        norm_merged = norm_merged.rename(columns=fieldnames_mapping)
+
+        results = norm_merged.to_json(orient="records")
+        print(results)
 
 
         log_list = []
