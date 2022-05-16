@@ -25,19 +25,19 @@ class JiraExporter:
         self.epic_key = epic_key
         self.project_id =  -1
         self.new_status_dict = dict()
-        self.log_list = list()
+        self.df_logs = pandas.DataFrame()
 
 
     def run(self):
         self.project_id = self.get_project_id()
         self.new_status_dict = self.get_new_statuses()
         changelogs = self.get_status_change_logs()
-        self.log_list = self.transform_changelogs(changelogs)
+        self.df_logs = self.transform_changelogs(changelogs)
         
         self.save_logs_in_json()
         self.save_logs_in_csv()
 
-        return self.log_list
+        return json.loads(self.df_logs.to_json(orient="records"))
 
     def get_status_change_logs(self):
         """
@@ -77,11 +77,16 @@ class JiraExporter:
 
     def transform_changelogs(self,changelogs):
         
-        #fields_to_keep = ["key","fields.project.key","fields.customfield_11200",
-        #    "fields.issuetype.name","changelog.histories.created","field","fromString","toString"]
-        fields_to_keep = ["key","changelog.histories.created","field","fromString","toString","fromDate"]
+        fields_to_keep = ["key","fields.project.key","fields.customfield_11200",
+            "fields.issuetype.name","changelog.histories.created","fromString","toString","from_date"]
         
-        fieldnames_mapping = {"changelog.histories.created":"toDate"}
+        fieldnames_mapping = {"key":"key",
+                            "fields.project.key":"project_key",
+                            "fields.customfield_11200":"parent_key",
+                            "fields.issuetype.name":"issue_type",
+                            "fromString":"from_status",
+                            "toString":"to_status",
+                            "changelog.histories.created":"to_date"}
 
         norm_history = pandas.json_normalize(changelogs,["changelog","histories","items"],["key",["changelog","histories","created"]])
         norm_fields = pandas.json_normalize(changelogs)
@@ -90,17 +95,15 @@ class JiraExporter:
         norm_merged = norm_merged[norm_merged["field"]=="status"]
         norm_merged["changelog.histories.created"] = pandas.to_datetime(norm_merged["changelog.histories.created"])
         norm_merged["fields.created"] = pandas.to_datetime(norm_merged["fields.created"])
-        norm_merged["fromDate"] = norm_merged.sort_values(["changelog.histories.created"]).groupby("key")["changelog.histories.created"].shift()
-        norm_merged["fromDate"].fillna(norm_merged["fields.created"],inplace=True)
+        norm_merged["from_date"] = norm_merged.sort_values(["changelog.histories.created"]).groupby("key")["changelog.histories.created"].shift()
+        norm_merged["from_date"].fillna(norm_merged["fields.created"],inplace=True)
         for col in norm_merged.columns:
             if col not in fields_to_keep:
                 norm_merged = norm_merged.drop(columns=col)
         
         norm_merged = norm_merged.rename(columns=fieldnames_mapping)
 
-        results = norm_merged.to_json(orient="records")
-        print(results)
-
+        return norm_merged
 
         log_list = []
         for issue in changelogs:
@@ -184,19 +187,22 @@ class JiraExporter:
         """
         Save a list of Jira logs as a csv file
         """
-        fields = ["timestamp","id","key","project_id","project_key","parent_id","parent_key","type_id","type_name","status_id","status_name"]
         with open("data.csv", 'w', encoding="UTF-8", newline='') as file:
-            write = csv.writer(file)
-            write.writerow(fields)
-            for log in self.log_list:
-                write.writerow(log.values())
+            self.df_logs.to_csv(file)
+        # fields = ["timestamp","id","key","project_id","project_key","parent_id","parent_key","type_id","type_name","status_id","status_name"]
+        # with open("data.csv", 'w', encoding="UTF-8", newline='') as file:
+        #     write = csv.writer(file)
+        #     write.writerow(fields)
+        #     for log in self.log_list:
+        #         write.writerow(log.values())
 
     def save_logs_in_json(self):
         """
         Save a list of Jira logs as a json file
         """       
         with open("data.json",'w',encoding="UTF=8") as file:
-            json.dump(self.log_list,file)
+            self.df_logs.to_json(file,orient="records")
+            #json.dump(self.log_list,file)
 #TODO
 """
 Un potentiel problème est si l'historique de changement comporte plus de 100 entrées. Si cela devient une
