@@ -29,9 +29,6 @@ class JiraExporter:
 
 
     def get_changelogs(self):
-        self.project_id = self.get_project_id()
-        self.new_status_dict = self.get_new_statuses()
-
         # self.get_test_execution()
         changelogs = self.get_status_change_logs()
         self.df_logs = self.transform_changelogs(changelogs)
@@ -173,83 +170,6 @@ class JiraExporter:
 
         return norm_merged
 
-        log_list = []
-        for issue in changelogs:
-            issuetype_id = issue["fields"]["issuetype"]["id"]
-            new_status_tuple = self.new_status_dict[issuetype_id]
-            log = self.create_log(issue, issue["fields"]["created"], 
-                status_id = new_status_tuple[0], status_name = new_status_tuple[1])
-            log_list.append(log)
-            for changelog in issue["changelog"]["histories"]:
-                for item in changelog["items"]:
-                    if(item["field"]=="status"):
-                        log = self.create_log(issue,changelog["created"],item["to"],item["toString"])
-                        log_list.append(log)
-
-        return log_list
-
-    def create_log(self,issue, timestamp, status_id, status_name):
-        """
-        Create a log entry
-        issue["fields"]["created"], issue["id"],issue["key"],issue["project"]["id"], issue["project"]["key"]
-        """
-        log = dict()
-        epic_link_field = "customfield_11200"
-        log["timestamp"] = timestamp
-        log["id"] = int(issue["id"])
-        log["key"] = issue["key"]
-        log["project_id"] = int(issue["fields"]["project"]["id"])
-        log["project_key"] = issue["fields"]["project"]["key"]
-        if(issue["fields"].get("parent") is not None):
-            log["parent_id"] = int(issue["fields"]["parent"]["id"])
-            log["parent_key"] = issue["fields"]["parent"]["key"]
-        elif(issue["fields"].get(epic_link_field) is not None):
-            log["parent_key"] = issue["fields"][epic_link_field]
-            log["parent_id"] = -1
-        else:
-            log["parent_id"] = -1
-            log["parent_key"] = "null"
-        log["type_id"] = int(issue["fields"]["issuetype"]["id"])
-        log["type_name"] = issue["fields"]["issuetype"]["name"]
-        log["status_id"] = int(status_id)
-        log["status_name"] = status_name
-        return log
-
-    def get_project_id(self):
-        """
-        return the id associated to a project key after getting the project list from the jira instance
-        """
-        project_list_response = requests.get(self.jira_adress+"/rest/api/2/project",auth=(self.email, self.passwd), headers=self.headers)
-        if(project_list_response.status_code != 200):
-            print(project_list_response.content)
-            return #TODO lancer une exception
-        
-        project_list = project_list_response.json()
-
-        project = list(filter(lambda x: (x["key"] == self.project_key),project_list))
-
-        if(len(project) > 0):
-            return project[0]["id"]
-        return -1
-
-    def get_new_statuses(self):
-        """
-        return a dict containing the id and name of the new status for each issue type
-        """
-        status_list_url = self.jira_adress+"/rest/api/2/project/"+self.project_id+"/statuses"
-        status_list_response = requests.get(status_list_url,auth=(self.email, self.passwd), headers=self.headers)
-        if(status_list_response.status_code != 200):
-            print(status_list_response.content)
-            return #TODO lancer une exception
-
-        status_list = status_list_response.json()
-
-        new_status_dict = dict() 
-        for ticket in status_list:
-            for status in ticket["statuses"]:
-                if(status["statusCategory"]["key"]=="new"):
-                    new_status_dict[ticket["id"]]=(status["id"],status["name"])
-        return new_status_dict
 
     def save_logs_in_csv(self):
         """
