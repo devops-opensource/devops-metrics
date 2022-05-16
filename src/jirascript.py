@@ -28,9 +28,11 @@ class JiraExporter:
         self.log_list = list()
 
 
-    def run(self):
+    def get_changelogs(self):
         self.project_id = self.get_project_id()
         self.new_status_dict = self.get_new_statuses()
+
+        # self.get_test_execution()
         changelogs = self.get_status_change_logs()
         self.log_list = self.transform_changelogs(changelogs)
         
@@ -39,39 +41,105 @@ class JiraExporter:
 
         return self.log_list
 
+    def get_test_execution(self):
+            self.get_test_execution()
+            # TODO: save as a json and csv
+
+    def execute_jql_request(self, query, fields, parameters):
+        jira_search_url = f"{self.jira_adress}/rest/api/2/search?"
+        
+        field_string = f"&{fields}" if fields else ""
+        parameters_string = f"&{parameters}" if parameters else ""
+        query_string = f"jql={query}"
+
+        jql_query = f"{jira_search_url}{query_string}{field_string}{parameters_string}"
+        response = requests.get(jql_query, auth=(self.email, self.passwd), headers=self.headers)
+        
+        try: 
+            response.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            return "Error: " + str(e)
+
+        reponse = self.execute_multiple_pages(response.json(),query, fields, parameters)
+
+        return reponse
+
+    def execute_xray_request(self, endpoint, parameters):
+        jira_url = f"{self.jira_adress}/rest/raven/2.0/api/{endpoint}"
+        
+
+        parameters_string = f"?{parameters}" if parameters else ""
+
+        query = f"{jira_url}{parameters_string}"
+        response = requests.get(query, auth=(self.email, self.passwd), headers=self.headers)
+        
+        try: 
+            response.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            return "Error: " + str(e)
+
+        return response.json()
+
+    def execute_multiple_pages(self,json_output, query, fields, parameters):
+        max_results = json_output["maxResults"]
+        nb_of_pages = math.ceil(json_output["total"]/max_results)
+        print("max results: " + str(max_results) + " json total: " + str(json_output["total"]))
+        result = json_output["issues"]
+
+        for i in range(1, nb_of_pages):
+                print(str(i)+"/"+str(nb_of_pages))
+                parameters =f"{parameters}&startAt={str(i*max_results)}"
+                response = self.execute_jql_request(query, fields, parameters)
+                result.extend(response["issues"])
+        return result
+    
+    def get_test_execution(self):
+        """
+        Get ticket changelogs from a jira + xray server
+        """
+        # 1) Retrieve the test executions
+        fields = f""
+        parameters = "maxResults=200"
+        query = f"project = {self.project_key} AND issuetype = 'Test Execution' AND createdDate > startOfMonth()"
+
+        json = self.execute_jql_request(query, fields, parameters)
+        # 2) Retrieve the execution for those tests 
+        executions = [] 
+
+        for execution in json: 
+            parameters = f"testExecKey={execution['key']}"
+            endpoint = f"testruns"
+            response = self.execute_xray_request(endpoint, parameters)       
+            if len(response) > 0:
+                for execution_info in response: 
+                    test_execution_model = {
+                        "event_type": "test_execution",
+                        "key": execution_info['testExecKey'],
+                        "test_key": execution_info['testKey'],
+                        "project_key": self.project_key,
+                        "status": execution_info['status'],
+                        "test_type": execution_info["type"] if "type" in execution_info else "", 
+                        "started_at": execution_info["start"] if "start" in execution_info else "",
+                        "ended_at":  execution_info["finish"] if "finish" in execution_info else "",
+                        "executed_by": execution_info["executedBy"] if "executedBy" in execution_info else "",
+                        "environment": execution_info["testEnvironments"][0] if len(execution_info["testEnvironments"]) == 1 else ""
+                    }
+                    executions.append(test_execution_model)
+            else:
+                print(json)         
+        # 3)
+
+        return executions
+
     def get_status_change_logs(self):
         """
         Get ticket changelogs from a jira server
         """
-        jira_search_url = self.jira_adress+"/rest/api/2/search?"
-        jira_fields = "&fields=issuetype,status,created,project,parent,"+self.epic_link_field
-        jira_others = "&expand=changelog&maxResults=200"
+        fields = f"issuetype,status,created,project,parent,{self.epic_link_field}"
+        parameters = "expand=changelog&maxResults=200"
+        query = f"cf[11200]= {self.epic_key}" if self.epic_key else f"project={self.project_key}"
 
-        if(self.epic_key != ""):
-            jira_jql = "jql=cf[11200]=" + self.epic_key +"|key="+self.epic_key
-
-        else:
-            jira_jql = "jql=project="+self.project_key
-        response = requests.get(jira_search_url+jira_jql+jira_fields+jira_others,
-            auth=(self.email, self.passwd), headers=self.headers)
-        
-
-        if(response.status_code != 200):
-            print(response.status_code) 
-            return #TODO lancer une exception
-
-        json = response.json()
-        max_results = json["maxResults"]
-        nb_of_pages = math.ceil(json["total"]/max_results)
-        print("max results: " + str(max_results) + " json total: " + str(json["total"]))
-        changelogs= response.json()["issues"]
-
-        for i in range(0, nb_of_pages):
-            if(i>0):
-                print(str(i)+"/"+str(nb_of_pages))
-                response = requests.get(jira_search_url+jira_jql+jira_fields+jira_others+"&startAt="+str(i*max_results),
-                    auth=(self.email, self.passwd), headers=self.headers)
-                changelogs.extend(response.json()["issues"])
+        changelogs = self.execute_jql_request(query, fields, parameters)
 
         return changelogs
 
