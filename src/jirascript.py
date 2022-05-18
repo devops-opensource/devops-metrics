@@ -3,7 +3,7 @@ import math
 import csv
 import json
 import pandas 
-
+from src.common import execution_time
 class JiraExporter:
 
     def __init__(self,config, jira_type, epic_key):
@@ -27,7 +27,6 @@ class JiraExporter:
         self.new_status_dict = dict()
         self.df_logs = pandas.DataFrame()
 
-
     def get_changelogs(self):
         # self.get_test_execution()
         changelogs = self.get_status_change_logs()
@@ -38,11 +37,8 @@ class JiraExporter:
 
         return json.loads(self.df_logs.to_json(orient="records"))
 
-    def get_test_execution(self):
-            self.get_test_execution()
-            # TODO: save as a json and csv
-
-    def execute_jql_request(self, query, fields, parameters):
+    @execution_time
+    def execute_jql_request(self, query, fields, parameters, is_recursive = True):
         jira_search_url = f"{self.jira_adress}/rest/api/2/search?"
         
         field_string = f"&{fields}" if fields else ""
@@ -56,15 +52,28 @@ class JiraExporter:
             response.raise_for_status()
         except requests.exceptions.HTTPError as e:
             return "Error: " + str(e)
+        
+        response_json = response.json()
+        issues = response_json["issues"]
+        total = response_json["total"]
+        current_issue = response_json["startAt"]
 
-        reponse = self.execute_multiple_pages(response.json(),query, fields, parameters)
+        if not is_recursive:
+            return issues 
+        
+        while (current_issue + 200 < total):
+            print(f"Percentage complete: {current_issue/total*100} %")
+            next_parameters =f"{parameters}&startAt={current_issue}"
+            response = self.execute_jql_request(query, fields, next_parameters,is_recursive = False)
+            issues.extend(response)
+            current_issue += 200
+        
+        return issues
 
-        return reponse
-
+    @execution_time
     def execute_xray_request(self, endpoint, parameters):
         jira_url = f"{self.jira_adress}/rest/raven/2.0/api/{endpoint}"
         
-
         parameters_string = f"?{parameters}" if parameters else ""
 
         query = f"{jira_url}{parameters_string}"
@@ -77,19 +86,6 @@ class JiraExporter:
 
         return response.json()
 
-    def execute_multiple_pages(self,json_output, query, fields, parameters):
-        max_results = json_output["maxResults"]
-        nb_of_pages = math.ceil(json_output["total"]/max_results)
-        print("max results: " + str(max_results) + " json total: " + str(json_output["total"]))
-        result = json_output["issues"]
-
-        for i in range(1, nb_of_pages):
-                print(str(i)+"/"+str(nb_of_pages))
-                parameters =f"{parameters}&startAt={str(i*max_results)}"
-                response = self.execute_jql_request(query, fields, parameters)
-                result.extend(response["issues"])
-        return result
-    
     def get_test_execution(self):
         """
         Get ticket changelogs from a jira + xray server
@@ -100,12 +96,13 @@ class JiraExporter:
         query = f"project = {self.project_key} AND issuetype = 'Test Execution' AND createdDate > startOfMonth()"
 
         json = self.execute_jql_request(query, fields, parameters)
+       
         # 2) Retrieve the execution for those tests 
         executions = [] 
 
         for execution in json: 
             parameters = f"testExecKey={execution['key']}"
-            endpoint = f"testruns"
+            endpoint = f"testruns" 
             response = self.execute_xray_request(endpoint, parameters)       
             if len(response) > 0:
                 for execution_info in response: 
@@ -124,7 +121,6 @@ class JiraExporter:
                     executions.append(test_execution_model)
             else:
                 print(json)         
-        # 3)
 
         return executions
 
@@ -133,8 +129,8 @@ class JiraExporter:
         Get ticket changelogs from a jira server
         """
         fields = f"issuetype,status,created,project,parent,{self.epic_link_field}"
-        parameters = "expand=changelog&maxResults=200"
-        query = f"cf[11200]= {self.epic_key}" if self.epic_key else f"project={self.project_key}"
+        parameters = "expad=changelog&maxResults=200"
+        query = f"cf[11200]= {self.epic_key}" if self.epic_key else f"project={self.project_key} AND createdDate > startOfYear()"
 
         changelogs = self.execute_jql_request(query, fields, parameters)
 
@@ -170,19 +166,12 @@ class JiraExporter:
 
         return norm_merged
 
-
     def save_logs_in_csv(self):
         """
         Save a list of Jira logs as a csv file
         """
         with open("data.csv", 'w', encoding="UTF-8", newline='') as file:
             self.df_logs.to_csv(file)
-        # fields = ["timestamp","id","key","project_id","project_key","parent_id","parent_key","type_id","type_name","status_id","status_name"]
-        # with open("data.csv", 'w', encoding="UTF-8", newline='') as file:
-        #     write = csv.writer(file)
-        #     write.writerow(fields)
-        #     for log in self.log_list:
-        #         write.writerow(log.values())
 
     def save_logs_in_json(self):
         """
@@ -190,7 +179,7 @@ class JiraExporter:
         """       
         with open("data.json",'w',encoding="UTF=8") as file:
             self.df_logs.to_json(file,orient="records")
-            #json.dump(self.log_list,file)
+
 #TODO
 """
 Un potentiel problème est si l'historique de changement comporte plus de 100 entrées. Si cela devient une
