@@ -4,6 +4,8 @@ import csv
 import json
 import pandas 
 from src.common import execution_time
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
 class JiraExporter:
 
     def __init__(self,config, jira_type, epic_key):
@@ -26,6 +28,7 @@ class JiraExporter:
         self.project_id =  -1
         self.new_status_dict = dict()
         self.df_logs = pandas.DataFrame()
+
 
     def get_changelogs(self):
         # self.get_test_execution()
@@ -61,16 +64,20 @@ class JiraExporter:
         if not is_recursive:
             return issues 
         
-        while (current_issue + 200 < total):
-            print(f"Percentage complete: {current_issue/total*100} %")
-            next_parameters =f"{parameters}&startAt={current_issue}"
-            response = self.execute_jql_request(query, fields, next_parameters,is_recursive = False)
-            issues.extend(response)
-            current_issue += 200
+        with ThreadPoolExecutor(max_workers= 20) as executor:
+            threads= []
+            print(f"Total issues: {total}" )
+            while (current_issue + 200 < total):
+                print(f"startAt={current_issue}")
+                next_parameters =f"{parameters}&startAt={current_issue}"
+                threads.append(executor.submit(self.execute_jql_request, query, fields, next_parameters, is_recursive = False))  
+                current_issue += 200
+
+        for task in as_completed(threads):
+            issues.extend(task.result()) 
         
         return issues
-
-    @execution_time
+ 
     def execute_xray_request(self, endpoint, parameters):
         jira_url = f"{self.jira_adress}/rest/raven/2.0/api/{endpoint}"
         
@@ -129,8 +136,8 @@ class JiraExporter:
         Get ticket changelogs from a jira server
         """
         fields = f"issuetype,status,created,project,parent,{self.epic_link_field}"
-        parameters = "expad=changelog&maxResults=200"
-        query = f"cf[11200]= {self.epic_key}" if self.epic_key else f"project={self.project_key} AND createdDate > startOfYear()"
+        parameters = "expand=changelog&maxResults=200"
+        query = f"cf[11200]= {self.epic_key}" if self.epic_key else f"project={self.project_key} AND issuetype in (Story)"
 
         changelogs = self.execute_jql_request(query, fields, parameters)
 
