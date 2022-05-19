@@ -18,6 +18,9 @@ if __name__ == "__main__":  # pragma: no cover
     epicKey = args.epicKey if args.epicKey else ""
 
     jira_exporter = jira_importer.JiraExporter(config, isJiraServer ,epicKey)
-    logs = jira_exporter.run()
 
-    splunk_importer.export_log(logs,config)
+    changelogs = jira_exporter.get_changelogs()
+    test_execution = jira_exporter.get_test_execution()
+
+    splunk_importer.export_log(changelogs,config)
+    splunk_importer.export_log(test_execution,config)

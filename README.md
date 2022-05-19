@@ -58,6 +58,8 @@ You should see in your terminal (.env) from the moment you use the command sourc
 ## Install dependencies in your virtuel environmment
 ``` bash
 python3 -m pip install -r requirements.txt
+git submodules update --init
+python3 -m pip install _submodules/splunk
 ```
 # Execute the script
 
@@ -68,13 +70,11 @@ Rename config.default.cfg in config.cfg and fill it with your configurations.
 To run the script use the following command:
 
 ```bash
-python3 -p <projectkey> -t <outputtype> -o <outputfile>
+python3 main.py server_jira splunk
 ```
 
-| Input                                   | Value       |
-|-----------------------------------------|-------------|
-| Project key                             | String      |
-| Output type                             | csv or json |
-| Output file                             | String      |
+| Input                                   | Value                        |
+|-----------------------------------------|------------------------------|
+| Importer                                | server_jira, cloud_jira      |
+| Exporter                                | csv, splunk                  |
 
-If you are using Jira Server and not Jira Cloud, use the `-s` or `--server` option.
