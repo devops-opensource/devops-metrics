@@ -12,8 +12,7 @@ class JiraExporter:
         if(jira_type == "server"):
             self.email = config["JIRA_SERVER"]["jira_user_email"]
             self.passwd = config["JIRA_SERVER"]["jira_user_password"]
-            self.jira_adress = config["JIRA_SERVER"]["jira_server_url"]
-            
+            self.jira_adress = config["JIRA_SERVER"]["jira_server_url"]   
         else:
             self.email = config["JIRA_CLOUD"]["jira_user_email"]
             self.passwd = config["JIRA_CLOUD"]["jira_user_token"]
@@ -28,7 +27,6 @@ class JiraExporter:
         self.project_id =  -1
         self.new_status_dict = dict()
         self.df_logs = pandas.DataFrame()
-
 
     def get_changelogs(self):
         # self.get_test_execution()
@@ -179,6 +177,7 @@ class JiraExporter:
         """
         with open("data.csv", 'w', encoding="UTF-8", newline='') as file:
             self.df_logs.to_csv(file)
+
 
     def save_logs_in_json(self):
         """
