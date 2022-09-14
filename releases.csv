@@ -1,0 +1,6 @@
+event_type,name,project_key,release_date,start_date,description
+release_management,GODEVOPS-1.0.0,GODEVOPS,1644111274,,blablabla
+release_management,GODEVOPS-1.1.0,GODEVOPS,1644975274,,blablabla
+release_management,GODEVOPS-1.2.0,GODEVOPS,1645885000,,blablabla
+release_management,GODEVOPS-2.0.0,GODEVOPS,1646749000,,blablabla
+release_management,GODEVOPS-2.1.0,GODEVOPS,1647598600,,blablabla
