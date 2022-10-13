@@ -19,4 +19,3 @@ if __name__ == "__main__":
     exporter = common.ExporterFactory("JiraCloud")
     exporter.initialize_data(config,parameters)
     exporter.extract_data()
-    
