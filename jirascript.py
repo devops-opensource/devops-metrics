@@ -4,6 +4,7 @@ import math
 import csv
 import configparser
 import json
+import pandas as pd
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 class JiraCloud:
@@ -12,6 +13,8 @@ class JiraCloud:
         self.token = jira_token
         self.jira_adress = config["JIRA_CLOUD"]["jira_cloud_url"]
         self.project_key = project_key
+
+        self.df_versions = pd.DataFrame()
 
     def create_session(self):
         headers = {
@@ -63,7 +66,45 @@ class JiraCloud:
         return versions
     
     def transform_versions(self, versions):
-        fields_to_keeps = []
+        
+        fieldnames_mapping = {
+            "name" : "name",
+            "description" : "description",
+            "releaseDate" : "release_date",
+            "startDate" : "start_date"
+        }
+        fields_to_keeps = ["name", "description", "release_date", "start_date"]
+        df_versions = pd.json_normalize(versions)
+        df_versions = df_versions.rename(columns = fieldnames_mapping)
+        # df_versions = df_versions[df_versions["released"]==True]
+        if("release_date" in df_versions):
+            df_versions["release_date"] = pd.to_datetime(df_versions["release_date"], utc=True, errors="coerce")
+        else:
+            df_versions["release_date"] = None
+        if("start_date" in df_versions):
+            df_versions["start_date"] = pd.to_datetime(df_versions["start_date"], utc=True, errors="coerce")
+        else:
+            df_versions["start_date"] = None
+        df_versions = self.df_drop_columns(df_versions,fields_to_keeps)
+
+        df_versions["event_type"] = "release_management"
+        df_versions["project_key"] = self.project_key
+        df_versions["control_date"] = df_versions["release_date"]
+
+        return df_versions
+
+    def get_release_management(self):
+        if(self.df_versions.empty):
+            versions = self.extract_versions()
+            transformed_versions = self.transform_versions(versions)
+            self.df_versions = transformed_versions
+        return self.df_versions
+
+    def df_drop_columns(self, dataframe, columns_to_keep):
+        for col in dataframe.columns:
+            if col not in columns_to_keep:
+                dataframe = dataframe.drop(columns=col)
+        return dataframe
 
 def get_status_change_logs(jira_type,project_name,epic_key,config):
     """

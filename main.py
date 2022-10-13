@@ -15,5 +15,5 @@ if __name__ == "__main__":
     for project in project_list:
         jira_exporter = jira_export.JiraCloud(config, jiraToken, project)
 
-        versions = jira_exporter.extract_versions()
+        versions = jira_exporter.get_release_management()
         print(versions)
