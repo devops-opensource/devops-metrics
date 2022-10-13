@@ -36,7 +36,7 @@ class JiraCloud:
             response = session.get(version_query)
         try:
             response.raise_for_status()
-        except requests.exception.HTTPError as e:
+        except requests.exceptions.HTTPError as e:
             return "Error: " + str(e)
 
         response_json = response.json()
@@ -54,6 +54,40 @@ class JiraCloud:
                 print(f"startAt={current_issue}")
                 next_parameters = f"{parameters}&startAT={current_issue}"
                 threads.append(executor.submit(self.execute_project_version_request, next_parameters, is_recursive = False))
+                current_issue += 200
+        for task in as_completed(threads):
+            issues.extend(task.results())
+        
+        return issues
+
+    def execute_jql_request(self, query, fields, parameters, is_recursive=True):
+        jira_url = f"{self.jira_adress}/rest/api/2/search?"
+
+        fields_string = f"&fields={fields}" if fields else None
+        parameter_string = f"&{parameters}" if parameters else None
+        query_string = f"jql={query}"
+
+        with self.create_session() as session:
+            response = session.get(f"{jira_url}{query_string}{fields_string}{parameter_string}")
+        try:
+            response.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            return "Error: " + str(e)
+        
+        response_json = response.json()
+        issues = response_json["issues"]
+        total = response_json["total"]
+        current_issue = 200
+        if not is_recursive:
+            return issues
+
+        with ThreadPoolExecutor(max_workers = 20) as executor:
+            threads = []
+            print(f"Total issues: {total}")
+            while(current_issue < total):
+                print(f"startAt={current_issue}")
+                next_parameters = f"{parameters}&startAT={current_issue}"
+                threads.append(executor.submit(self.execute_jql_request, query, fields, next_parameters, is_recursive = False))
                 current_issue += 200
         for task in as_completed(threads):
             issues.extend(task.results())
@@ -99,6 +133,31 @@ class JiraCloud:
             transformed_versions = self.transform_versions(versions)
             self.df_versions = transformed_versions
         return self.df_versions
+
+    def extract_status_changelogs(self):
+        fields = f"issuetype,status,created,project,parent,fixVerions"
+        parameters = f"expand=changelogs&maxResults=200"
+        query = f"project={self.project_key} AND issuetype in (Story)"
+
+        changelogs = self.execute_jql_request(query, fields, parameters)
+
+        return changelogs
+    
+    def transform_status_changelogs(self, changelogs):
+        fieldnames_mapping = {
+            "key" : "key",
+            "fields.project.key" : "project_key",
+            "fields.parent.key" : "parent_key",
+            "fields.issuetype.name" : "issue_type",
+            "fromString" : "from_status",
+            "toSring" : "to_status",
+            "changelog.histories.created" : "to_date",
+            "name" : "version"
+            }
+        fields_to_keep = ["key", "project_key", "parent_key", "issue_type", "from_status", "to_status",
+        "to_date", "version"]
+        
+        return 
 
     def df_drop_columns(self, dataframe, columns_to_keep):
         for col in dataframe.columns:
