@@ -4,6 +4,66 @@ import math
 import csv
 import configparser
 import json
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
+class JiraCloud:
+    def __init__(self, config, jira_token, project_key):
+        self.email = config["JIRA_CLOUD"]["jira_user_email"]
+        self.token = jira_token
+        self.jira_adress = config["JIRA_CLOUD"]["jira_cloud_url"]
+        self.project_key = project_key
+
+    def create_session(self):
+        headers = {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        } 
+        session = requests.Session()
+        session.auth = (self.email, self.token)
+        session.headers.update(headers)
+        return session
+
+    def execute_project_version_request(self, parameters, is_recursive = True):
+        version_url = f"{self.jira_adress}/rest/api/2/project/{self.project_key}/version?"
+        parameters_string = f"{parameters}" if parameters else ""
+
+        version_query = f"{version_url}{parameters_string}"
+
+        with self.create_session() as session:
+            response = session.get(version_query)
+        try:
+            response.raise_for_status()
+        except requests.exception.HTTPError as e:
+            return "Error: " + str(e)
+
+        response_json = response.json()
+        issues = response_json["values"]
+        total = response_json["total"]
+        current_issue = 200
+
+        if not is_recursive:
+            return issues
+        
+        with ThreadPoolExecutor(max_workers = 20) as executor:
+            threads = []
+            print(f"Total issues: {total}")
+            while(current_issue < total):
+                print(f"startAt={current_issue}")
+                next_parameters = f"{parameters}&startAT={current_issue}"
+                threads.append(executor.submit(self.execute_project_version_request, next_parameters, is_recursive = False))
+                current_issue += 200
+        for task in as_completed(threads):
+            issues.extend(task.results())
+        
+        return issues
+
+    def extract_versions(self):
+        parameters = "maxResults=200"
+        versions = self.execute_project_version_request(parameters)
+        return versions
+    
+    def transform_versions(self, versions):
+        fields_to_keeps = []
 
 def get_status_change_logs(jira_type,project_name,epic_key,config):
     """
@@ -148,56 +208,3 @@ def save_logs_in_json(file_path, log_list):
     with open(file_path,'w',encoding="UTF=8") as file:
         json.dump(log_list,file)
 
-
-def main(argv):
-    """
-    This script gather logs on a Jira server and save then in a csv file, for now
-    """
-    project_name = None
-    output_file = None
-    output_type = None
-    jira_type = "cloud"
-    epic_key=""
-    try:
-        opts, args = getopt.getopt(argv,"e:p:t:o:s",["epickey=","project=","otype=","ofile=","server"])
-    except getopt.GetoptError:
-        print("jirascript.py -p <projectkey> -t <outputtype> -o <outputfile>")
-        sys.exit(2)
-    for opt, arg in opts:
-        if opt in ("-p", "--projectkey"):
-            project_name = arg
-        elif opt in ("-t", "--outputtype"):
-            if arg in ("csv","json"):
-                output_type = arg
-            else:
-                sys.exit(2)
-        elif opt in ("-o", "--ofile"):
-            output_file = arg
-        elif opt in ("-s","--server"):
-            jira_type = "server"
-        elif opt in ("-e", "--epickey"):
-            epic_key = arg
-    config = configparser.ConfigParser()
-    config.read('config.cfg')
-    results = get_status_change_logs(jira_type,project_name,epic_key,config)
-    if(output_type == "csv"):
-        save_logs_in_csv(output_file,results)
-    else:
-        save_logs_in_json(output_file,results)
-
-if __name__ == "__main__":
-    main(sys.argv[1:])
-
-#TODO
-"""
-Un potentiel problème est si l'historique de changement comporte plus de 100 entrées. Si cela devient une
-limitation il faudra alors faire un appel sur GET /rest/api/3/issue/{issueIdOrKey}/changelog
-
-Pour rendre les champs que l'on récupère totalement paramétrables, créer une fonction récursive qui explore
-les champs et les dictionnaires retournés: exemple si le chemin d'un champs est /fields/trucA/trucB alors il faudra
-un premier appel pour récupérer le dict fields, un autre pour récupérer le dict trucA et enfin un appel terminal pour accéder
-champ trucB.
-
-Pour réduire le temps d'exécution on pourrait modifier les requêtes pour ne retourner que les champs nécessaires, cela réduirait
-le payload des réponses
-"""
