@@ -1,5 +1,4 @@
 config.cfg
-__pycache__/*
 *.json
-*.csv
 .venv
+__pycache__

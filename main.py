@@ -1,6 +1,6 @@
 from src.common import common
 import configparser, argparse
-
+import jirascript as jira_exractor
 
 parser = argparse.ArgumentParser()
 parser.add_argument("jira_token")
@@ -14,9 +14,8 @@ if __name__ == "__main__":
     project_list = config.get("JIRA", "jira_project_keys").split(",")
 
     for project in project_list:
-        jira_exporter = jira_exporter.JiraCloud(config, jiraToken, project)
-        status_changes = jira_exporter.extract_status_changelogs()
-        print(status_changes)
+        jira_exporter = jira_exractor.JiraCloud(config, jiraToken, project)
+        status_changes = jira_exporter.get_status_changes()
         # versions = jira_exporter.get_release_management()
         # print(versions)
 
