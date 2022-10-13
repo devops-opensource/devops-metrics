@@ -1,5 +1,6 @@
-import jirascript as jira_export
+from src.common import common
 import configparser, argparse
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument("jira_token")
@@ -10,10 +11,12 @@ if __name__ == "__main__":
     config.read("./config.cfg", encoding ="utf-8")
     jiraToken = args.jira_token
 
-    project_list = config.get("JIRA", "jira_project_keys").split(",")
+    parameters = {
+        "jira_token": args.jira_token,
+        "project_key": "GO-DEVOPS"
+    }
 
-    for project in project_list:
-        jira_exporter = jira_export.JiraCloud(config, jiraToken, project)
-
-        versions = jira_exporter.extract_versions()
-        print(versions)
+    exporter = common.ExporterFactory("JiraCloud")
+    exporter.initialize_data(config,parameters)
+    exporter.extract_data()
+    
