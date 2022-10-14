@@ -203,7 +203,8 @@ class JiraCloud:
                 new_row["from_status"] = new_row["to_status"]
                 new_row["from_date"] = new_row["to_date"]
                 new_row["to_status"] = self.released_status
-                new_row["to_date"] = dates.loc[min_id]["name"]
+                new_row["to_date"] = dates.loc[min_id]["release_date"]
+                new_row["control_date"] = dates.loc[min_id]["name"]
                 df_released = pd.concat([df_released, new_row])
         df_status_changes = pd.concat([df_status_changes, df_released])
         return df_status_changes
@@ -223,7 +224,7 @@ class JiraCloud:
     
 def df_to_csv(df, csv_name):
     with open(csv_name, "w", encoding="UTF-8", newline="") as csv:
-        df.to_csv(csv_name)
+        df.to_csv(csv_name, index=False)
 
 def get_status_change_logs(jira_type,project_name,epic_key,config):
     """
