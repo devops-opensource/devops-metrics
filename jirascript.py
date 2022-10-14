@@ -115,7 +115,7 @@ class JiraCloud:
         fields_to_keeps = ["name", "description", "release_date", "start_date"]
         df_versions = pd.json_normalize(versions)
         df_versions = df_versions.rename(columns = fieldnames_mapping)
-        df_versions = df_versions[df_versions["released"]==True]
+        df_versions = df_versions[df_versions["released"]=="true"]
         if("release_date" in df_versions):
             df_versions["release_date"] = pd.to_datetime(df_versions["release_date"], utc=True, errors="coerce")
         else:
