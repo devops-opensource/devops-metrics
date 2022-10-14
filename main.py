@@ -17,10 +17,11 @@ if __name__ == "__main__":
         "project_key": "GO-DEVOPS"
     }
 
-    for project in project_list:
-        jira_exporter = jira_exractor.JiraCloud(config, jiraToken, project)
-        status_changes = jira_exporter.get_status_changes()
-        versions = jira_exporter.get_release_management()
+    jira_exporter = jira_exractor.JiraCloud(config, jira_token, "CART")
+    status_changes = jira_exporter.get_status_changes()
+    versions = jira_exporter.get_release_management()
+    jira_exractor.df_to_csv(status_changes, "examples/CART_status_changes.csv")
+    jira_exractor.df_to_csv(versions, "examples/CART_versions.csv")
     # exporter = common.ExporterFactory("JiraCloud")
     # exporter.initialize_data(config, exporter_parameters)
     # exporter.extract_data()

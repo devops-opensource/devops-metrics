@@ -220,6 +220,10 @@ class JiraCloud:
             if col not in columns_to_keep:
                 dataframe = dataframe.drop(columns=col)
         return dataframe
+    
+def df_to_csv(df, csv_name):
+    with open(csv_name, "w", encoding="UTF-8", newline="") as csv:
+        df.to_csv(csv_name)
 
 def get_status_change_logs(jira_type,project_name,epic_key,config):
     """
