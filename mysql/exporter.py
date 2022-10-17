@@ -4,7 +4,7 @@ import pandas as pd
 from glob import glob
 
 # User, pw, and db are being imported from dbconfig.py file to mask credentials
-db_data = ("mysql://{user}:{pw}@localhost/{db}".format(user='root', pw='rootpassword', db='metricsDB'))
+db_data = ("mysql://{user}:{pw}@{host}/{db}".format(host='localhost:3306', user='root', pw='rootpassword', db='metricsDB'))
 # Using 'create_engine' from sqlalchemy to make the db connection
 engine = create_engine(db_data).connect()
 # set the variables for the filepaths of where the source files are and where to move them to
