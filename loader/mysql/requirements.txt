@@ -1,5 +1,3 @@
-setuptools
-requests
 pandas
 sqlalchemy
 mysql
