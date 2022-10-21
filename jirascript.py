@@ -91,7 +91,7 @@ class JiraCloud:
             print(f"Total issues: {total}")
             while(current_issue < total):
                 print(f"startAt={current_issue}")
-                next_parameters = f"{parameters}&startAT={current_issue}"
+                next_parameters = f"{parameters}&startAt={current_issue}"
                 threads.append(executor.submit(self.execute_jql_request, query, fields, next_parameters, is_recursive = False))
                 current_issue += 200
         for task in as_completed(threads):
@@ -204,7 +204,7 @@ class JiraCloud:
                 new_row["from_date"] = new_row["to_date"]
                 new_row["to_status"] = self.released_status
                 new_row["to_date"] = dates.loc[min_id]["release_date"]
-                new_row["control_date"] = dates.loc[min_id]["name"]
+                new_row["release_version"] = dates.loc[min_id]["name"]
                 df_released = pd.concat([df_released, new_row])
         df_status_changes = pd.concat([df_status_changes, df_released])
         return df_status_changes
