@@ -1,4 +1,3 @@
 config.cfg
-*.json
 .venv
 __pycache__
