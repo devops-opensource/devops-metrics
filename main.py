@@ -10,7 +10,7 @@ args = parser.parse_args()
 
 if __name__ == "__main__": 
     config = configparser.ConfigParser()
-    config.read("./config.gologic.cfg", encoding ="utf-8")
+    config.read("./config.default.cfg", encoding ="utf-8")
 
     jira_exporter = JiraCloud(config, args.jira_token, "CART")
     csv_loader = CsvLoader(config)
