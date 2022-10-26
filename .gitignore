@@ -1,4 +1,4 @@
 config.cfg
 .venv
-__pycache__
+/__pycache__
 .vscode/launch.json

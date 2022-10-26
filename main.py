@@ -12,10 +12,18 @@ if __name__ == "__main__":
     config = configparser.ConfigParser()
     config.read("./config.default.cfg", encoding ="utf-8")
 
-    jira_exporter = JiraCloud(config, args.jira_token, "CART")
+    try:
+        jira_exporter = JiraCloud(config, args.jira_token, "CART")
+    except Exception as err:
+        print(err)
+        quit("Unable to connect to JIRA project")
+    try:
+        mysql_loader = MySqlLoader(config, args.mysql_password)
+    except Exception as err:
+        print(err)
+        quit("Unable to connect to mysql database")
     csv_loader = CsvLoader(config)
-    mysql_loader = MySqlLoader(config, args.mysql_password)
-    
+
     # Extract and Transform status changes and release
     print("Extract JIRA data then Transform as status_changes and releases")
     status_changes_df = jira_exporter.get_status_changes()
