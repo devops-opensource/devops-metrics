@@ -1,5 +1,5 @@
-from src.exporter import exporter, jira_exporter
-from src.importer import influx_db_loader, loader
+from src.extractor import exporter, jira_exporter
+from src.loader import influx_db_loader, loader
 
 def ExporterFactory(type) -> exporter.Exporter:
     """Factory Method"""

@@ -1,7 +1,7 @@
 import configparser, argparse
-from jiracloud_extractor import JiraCloud
-from csv_loader import CsvLoader
-from mysql_loader import MySqlLoader
+from src.extractor.jiracloud_extractor import JiraCloud
+from src.loader.csv_loader import CsvLoader
+from src.loader.mysql_loader import MySqlLoader
 
 parser = argparse.ArgumentParser()
 parser.add_argument("jira_token")
