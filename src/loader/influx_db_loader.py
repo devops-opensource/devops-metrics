@@ -1,5 +1,5 @@
 from __future__ import annotations
-from src.importer import loader
+from src.loader import loader
 
 import pandas as pd
 

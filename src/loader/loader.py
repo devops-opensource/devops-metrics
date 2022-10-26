@@ -1,5 +1,5 @@
 from __future__ import annotations
-from src.importer import loader
+from src.loader import loader
 from abc import abstractmethod, ABC
 
 import pandas as pd

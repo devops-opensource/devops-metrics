@@ -1,5 +1,5 @@
 from __future__ import annotations
-from src.exporter import exporter
+from src.extractor import exporter
 
 import pandas as pd
 
