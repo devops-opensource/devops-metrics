@@ -1,26 +1,42 @@
-from src import jirascript as jira_importer
-from src import splunkscript as splunk_importer
 import configparser, argparse
+from src.extractor.jiracloud_extractor import JiraCloud
+from src.loader.csv_loader import CsvLoader
+from src.loader.mysql_loader import MySqlLoader
 
-########### Arguments ############
-parser = argparse.ArgumentParser(description="Permet d'envoyer un rapport d'exécution de tests ainsi que ses captures d'écran dans Xray")
-parser.add_argument("exporter", help="Clé du projet JIRA")
-parser.add_argument("importer", help="Clé du plan de test JIRA")
-parser.add_argument("-e","--epicKey", help="Clé du plan de test JIRA")
-parser.add_argument('-d', '--debug', action='store_true',  help="shows output")
+parser = argparse.ArgumentParser()
+parser.add_argument("jira_token")
+parser.add_argument("mysql_password")
 args = parser.parse_args()
 
-if __name__ == "__main__":  # pragma: no cover
+if __name__ == "__main__": 
     config = configparser.ConfigParser()
-    config.read('config.cfg')
+    config.read("./config.default.cfg", encoding ="utf-8")
 
-    isJiraServer = "server" if args.exporter == "jira_server" else ""
-    epicKey = args.epicKey if args.epicKey else ""
+    try:
+        jira_exporter = JiraCloud(config, args.jira_token, "CART")
+    except Exception as err:
+        print(err)
+        quit("Unable to connect to JIRA project")
+    try:
+        mysql_loader = MySqlLoader(config, args.mysql_password)
+    except Exception as err:
+        print(err)
+        quit("Unable to connect to mysql database")
+    csv_loader = CsvLoader(config)
 
-    jira_exporter = jira_importer.JiraExporter(config, isJiraServer ,epicKey)
+    # Extract and Transform status changes and release
+    print("Extract JIRA data then Transform as status_changes and releases")
+    status_changes_df = jira_exporter.get_status_changes()
+    releases_df = jira_exporter.get_release_management()
 
-    changelogs = jira_exporter.get_changelogs()
-    test_execution = jira_exporter.get_test_execution()
-
-    splunk_importer.export_log(changelogs,config)
-    splunk_importer.export_log(test_execution,config)
+    # Load as CSV
+    print("Load status_changes and releases as CSV")
+    csv_loader.loadStatusChangesFromDf(status_changes_df)
+    csv_loader.loadReleasesFromDf(releases_df)
+    
+    # Load as SQL
+    print("Load status_changes and releases as SQL")
+    mysql_loader.loadStatusChangesFromDf(status_changes_df)
+    mysql_loader.loadReleasesFromDf(releases_df)
+    
+    print("Job done !")

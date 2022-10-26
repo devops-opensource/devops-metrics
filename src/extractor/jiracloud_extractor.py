@@ -1,8 +1,6 @@
-import sys,getopt
 import requests
 import math
 import csv
-import configparser
 import json
 import pandas as pd
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -14,12 +12,26 @@ class JiraCloud:
         self.jira_adress = config["JIRA_CLOUD"]["jira_cloud_url"]
         self.project_key = project_key
 
-        self.creation_status = config["JIRA"]["creation_status"]
-        self.released_status = config["JIRA"]["released_status"]
-        self.closed_statuses = config.get("JIRA","closed_statuses").split(",")
+        self.creation_status = config["JIRA_CLOUD"]["jira_creation_status"]
+        self.released_status = config["JIRA_CLOUD"]["jira_released_status"]
+        self.closed_statuses = config.get("JIRA_CLOUD","jira_closed_statuses").split(",")
 
         self.df_versions = pd.DataFrame()
         self.df_status_changes = pd.DataFrame()
+
+    def get_status_changes(self):
+        if(self.df_status_changes.empty):
+            changelogs = self.extract_status_changelogs()
+            status_changes = self.transform_status_changelogs(changelogs)
+            self.df_status_changes = status_changes
+        return self.df_status_changes
+
+    def get_release_management(self):
+        if(self.df_versions.empty):
+            versions = self.extract_versions()
+            transformed_versions = self.transform_versions(versions)
+            self.df_versions = transformed_versions
+        return self.df_versions
 
     def create_session(self):
         headers = {
@@ -54,7 +66,7 @@ class JiraCloud:
         
         with ThreadPoolExecutor(max_workers = 20) as executor:
             threads = []
-            print(f"Total issues: {total}")
+            print(f"Total releases: {total}")
             while(current_issue < total):
                 print(f"startAt={current_issue}")
                 next_parameters = f"{parameters}&startAT={current_issue}"
@@ -117,11 +129,11 @@ class JiraCloud:
         df_versions = df_versions.rename(columns = fieldnames_mapping)
         df_versions = df_versions[df_versions["released"]==True]
         if("release_date" in df_versions):
-            df_versions["release_date"] = pd.to_datetime(df_versions["release_date"], utc=True, errors="coerce")
+            df_versions["release_date"] = pd.to_datetime(df_versions["release_date"], utc=False, errors="coerce")
         else:
             df_versions["release_date"] = None
         if("start_date" in df_versions):
-            df_versions["start_date"] = pd.to_datetime(df_versions["start_date"], utc=True, errors="coerce")
+            df_versions["start_date"] = pd.to_datetime(df_versions["start_date"], utc=False, errors="coerce")
         else:
             df_versions["start_date"] = None
         df_versions = self.df_drop_columns(df_versions,fields_to_keeps)
@@ -131,13 +143,6 @@ class JiraCloud:
         df_versions["control_date"] = df_versions["release_date"]
 
         return df_versions
-
-    def get_release_management(self):
-        if(self.df_versions.empty):
-            versions = self.extract_versions()
-            transformed_versions = self.transform_versions(versions)
-            self.df_versions = transformed_versions
-        return self.df_versions
 
     def extract_status_changelogs(self):
         fields = f"issuetype,status,created,project,parent,fixVersions"
@@ -208,13 +213,6 @@ class JiraCloud:
                 df_released = pd.concat([df_released, new_row])
         df_status_changes = pd.concat([df_status_changes, df_released])
         return df_status_changes
-
-    def get_status_changes(self):
-        if(self.df_status_changes.empty):
-            changelogs = self.extract_status_changelogs()
-            status_changes = self.transform_status_changelogs(changelogs)
-            self.df_status_changes = status_changes
-        return self.df_status_changes
 
     def df_drop_columns(self, dataframe, columns_to_keep):
         for col in dataframe.columns:
