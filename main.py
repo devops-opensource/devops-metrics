@@ -1,5 +1,6 @@
 import configparser, argparse
-import jirascript as jira_exractor
+from jiracloud_extractor import JiraCloud
+from csv_loader import CsvLoader
 from mysql_loader import MySqlLoader
 
 parser = argparse.ArgumentParser()
@@ -10,16 +11,24 @@ args = parser.parse_args()
 if __name__ == "__main__": 
     config = configparser.ConfigParser()
     config.read("./config.gologic.cfg", encoding ="utf-8")
-    jira_token = args.jira_token
-    mysql_password = args.mysql_password
 
-    jira_exporter = jira_exractor.JiraCloud(config, jira_token, "CART")
+    jira_exporter = JiraCloud(config, args.jira_token, "CART")
+    csv_loader = CsvLoader(config)
+    mysql_loader = MySqlLoader(config, args.mysql_password)
+    
+    # Extract and Transform status changes and release
+    print("Extract JIRA data then Transform as status_changes and releases")
     status_changes_df = jira_exporter.get_status_changes()
-    versions_df = jira_exporter.get_release_management()
+    releases_df = jira_exporter.get_release_management()
 
-    jira_exractor.df_to_csv(status_changes_df, "examples/CART_status_changes.csv")
-    jira_exractor.df_to_csv(versions_df, "examples/CART_versions.csv")
-
-    mysql_loader = MySqlLoader(config, mysql_password)
-    mysql_loader.loadReleasesFromDf(versions_df)
+    # Load as CSV
+    print("Load status_changes and releases as CSV")
+    csv_loader.loadStatusChangesFromDf(status_changes_df)
+    csv_loader.loadReleasesFromDf(releases_df)
+    
+    # Load as SQL
+    print("Load status_changes and releases as SQL")
     mysql_loader.loadStatusChangesFromDf(status_changes_df)
+    mysql_loader.loadReleasesFromDf(releases_df)
+    
+    print("Job done !")
