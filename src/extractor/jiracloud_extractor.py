@@ -6,11 +6,11 @@ import pandas as pd
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 class JiraCloud:
-    def __init__(self, config, jira_token, project_key):
+    def __init__(self, config):
         self.email = config["JIRA_CLOUD"]["jira_user_email"]
-        self.token = jira_token
+        self.token = config["JIRA_CLOUD"]["jira_token"]
         self.jira_adress = config["JIRA_CLOUD"]["jira_cloud_url"]
-        self.project_key = project_key
+        self.project_key = config["JIRA_CLOUD"]["jira_project_key"]
 
         self.creation_status = config["JIRA_CLOUD"]["jira_creation_status"]
         self.released_status = config["JIRA_CLOUD"]["jira_released_status"]

@@ -1,0 +1,50 @@
+version: "3.9"
+services:
+  grafana:
+    links:
+      - grafana_db:grafana_db
+    image: grafana/grafana
+#    volumes:
+#      - ./grafana:/var/lib/grafana:rw
+    environment:
+      - GF_DATABASE_HOST=grafana_db:3306
+      - GF_DATABASE_NAME=grafana
+      - GF_DATABASE_USER=grafana
+      - GF_DATABASE_PASSWORD=password
+      - GF_DATABASE_TYPE=mysql
+      - GF_DATABASE_MAX_OPEN_CONN=300
+    ports:
+      - "3000:3000"
+    depends_on: ["grafana_db"]
+  grafana_db:
+    image: mariadb
+    environment:
+      MARIADB_ROOT_PASSWORD: rootpass
+      MARIADB_DATABASE: grafana
+      MARIADB_USER: grafana
+      MARIADB_PASSWORD: password
+    command:
+      [
+        mysqld,
+        --character-set-server=utf8mb4,
+        --collation-server=utf8mb4_unicode_ci,
+        --innodb_monitor_enable=all,
+        --max-connections=1001,
+      ]
+    ports:
+      - 3306:3006
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 10s
+      retries: 10
+  stats_db:
+    image: mariadb
+    environment:
+      MARIADB_ROOT_PASSWORD: rootpassword
+    ports:
+      - 3307:3306
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
