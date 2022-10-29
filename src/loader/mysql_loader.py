@@ -1,6 +1,7 @@
 import pandas as pd
 import sqlalchemy
 
+
 class MySqlLoader:
     def __init__(self, config):
         self._host = config["SQL"]["mysql_hostname"]

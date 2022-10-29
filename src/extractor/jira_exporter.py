@@ -15,15 +15,9 @@ class JiraExporter(exporter.Exporter):
         self._token = parameters["jira_token"]
         self._jira_adress = config["JIRA_CLOUD"]["jira_cloud_url"]
         self._project_key = parameters["project_key"]
-    
-    def extract_data(self):
 
-        
-    
+    def extract_data(self):
         return []
 
     def adapt_data(self):
-        
-        
-        
         return []

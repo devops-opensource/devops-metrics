@@ -1,5 +1,6 @@
 import pandas as pd
 
+
 class CsvLoader:
     def __init__(self, config):
         self._prefix = config["CSV"]["csv_filename_prefix"]

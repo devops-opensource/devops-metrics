@@ -11,7 +11,6 @@ class Exporter(ABC):
     @abstractmethod
     def initialize_data(self):
         pass
-        
 
     @abstractmethod
     def extract_data(self):
@@ -20,4 +19,3 @@ class Exporter(ABC):
     @abstractmethod
     def adapt_data(self):
         pass
-
