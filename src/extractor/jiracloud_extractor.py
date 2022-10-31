@@ -127,13 +127,13 @@ class JiraCloud:
         fields_to_keeps = ["name", "description", "release_date", "start_date"]
         df_versions = pd.json_normalize(versions)
         df_versions = df_versions.rename(columns=fieldnames_mapping)
-        df_versions = df_versions[df_versions["released"] is True]
+        df_versions = df_versions[df_versions["released"] == True]
         if ("release_date" in df_versions):
             df_versions["release_date"] = pd.to_datetime(df_versions["release_date"], utc=True, errors="coerce").dt.tz_convert(None)
         else:
             df_versions["release_date"] = None
         if ("start_date" in df_versions):
-            df_versions["start_date"] = pd.to_datetime(df_versions["start_date"], utc=False, errors="coerce")
+            df_versions["start_date"] = pd.to_datetime(df_versions["start_date"], utc=True, errors="coerce").dt.tz_convert(None)
         else:
             df_versions["start_date"] = None
         df_versions = self.df_drop_columns(df_versions, fields_to_keeps)
@@ -177,8 +177,8 @@ class JiraCloud:
         df_versions = df_versions.groupby("key", as_index=False).agg({"name": ",".join})
         df_status_changes = df_status_changes.merge(df_versions)
 
-        df_status_changes["changelog.histories.created"] = pd.to_datetime(df_status_changes["changelog.histories.created"]).dt.tz_convert(None)
-        df_status_changes["fields.created"] = pd.to_datetime(df_status_changes["fields.created"]).dt.tz_convert(None)
+        df_status_changes["changelog.histories.created"] = pd.to_datetime(df_status_changes["changelog.histories.created"], utc=True, errors="coerce").dt.tz_convert(None)
+        df_status_changes["fields.created"] = pd.to_datetime(df_status_changes["fields.created"], utc=True, errors="coerce").dt.tz_convert(None)
         df_status_changes["from_date"] = df_status_changes.sort_values(["changelog.histories.created"]).groupby("key")["changelog.histories.created"].shift()
         df_status_changes["from_date"] = df_status_changes["from_date"].fillna(df_status_changes["fields.created"])
         df_status_changes.loc[df_status_changes.sort_values(["changelog.histories.created"]).groupby("key")["fromString"].head(1).index, "fromString"] = self.creation_status
