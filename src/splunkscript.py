@@ -1,5 +1,6 @@
 from splunk_http_event_collector import http_event_collector
 
+
 def export_log(logs, config):
     splunk_url = config["SPLUNK"]["splunk_url"]
     splunk_key = config["SPLUNK"]["splunk_key"]
@@ -11,6 +12,6 @@ def export_log(logs, config):
     payload.update({"sourcetype": "metric"})
 
     for log in logs:
-        payload.update({"event":log})
+        payload.update({"event": log})
         logsevent.batchEvent(payload)
     logsevent.flushBatch()

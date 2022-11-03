@@ -1,8 +1,8 @@
 from __future__ import annotations
 from src.loader import loader
 from abc import abstractmethod, ABC
-
 import pandas as pd
+
 
 class Loader(ABC):
     """

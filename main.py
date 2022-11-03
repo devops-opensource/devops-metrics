@@ -1,24 +1,24 @@
-import configparser, argparse
+import configparser
+import argparse
 from src.extractor.jiracloud_extractor import JiraCloud
 from src.loader.csv_loader import CsvLoader
 from src.loader.mysql_loader import MySqlLoader
 
 parser = argparse.ArgumentParser()
-parser.add_argument("jira_token")
-parser.add_argument("mysql_password")
+parser.add_argument("config_file")
 args = parser.parse_args()
 
 if __name__ == "__main__": 
     config = configparser.ConfigParser()
-    config.read("./config.default.cfg", encoding ="utf-8")
+    config.read(args.config_file, encoding="utf-8")
 
     try:
-        jira_exporter = JiraCloud(config, args.jira_token, "CART")
+        jira_exporter = JiraCloud(config)
     except Exception as err:
         print(err)
         quit("Unable to connect to JIRA project")
     try:
-        mysql_loader = MySqlLoader(config, args.mysql_password)
+        mysql_loader = MySqlLoader(config)
     except Exception as err:
         print(err)
         quit("Unable to connect to mysql database")
@@ -33,10 +33,10 @@ if __name__ == "__main__":
     print("Load status_changes and releases as CSV")
     csv_loader.loadStatusChangesFromDf(status_changes_df)
     csv_loader.loadReleasesFromDf(releases_df)
-    
+
     # Load as SQL
     print("Load status_changes and releases as SQL")
     mysql_loader.loadStatusChangesFromDf(status_changes_df)
     mysql_loader.loadReleasesFromDf(releases_df)
-    
+
     print("Job done !")

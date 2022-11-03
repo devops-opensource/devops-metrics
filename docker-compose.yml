@@ -1,0 +1,24 @@
+# DB: Use root/example as user/password credentials
+version: "3"
+
+services:
+  grafana:
+    image: grafana/grafana-enterprise
+    ports:
+      - 3000:3000
+    user: '104'
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: metricsDB 
+    ports:
+      - 3306:3306

@@ -1,13 +1,14 @@
 import pandas as pd
 import sqlalchemy
 
+
 class MySqlLoader:
-    def __init__(self, config, password):
+    def __init__(self, config):
         self._host = config["SQL"]["mysql_hostname"]
         self._engine = config["SQL"]["mysql_engine"]
         self._database = config["SQL"]["mysql_database"]
         self._username = config["SQL"]["mysql_username"]
-        self._password = password
+        self._password = config["SQL"]["mysql_password"]
 
         # User, pw, and db are being imported from dbconfig.py file to mask credentials
         db_data = ("{engine}://{user}:{pw}@{host}/{db}".format(host=self._host, engine=self._engine, user=self._username, pw=self._password, db=self._database))
