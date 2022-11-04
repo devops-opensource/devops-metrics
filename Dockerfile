@@ -1,4 +1,4 @@
-FROM python:3.10-slim
+FROM python:3.9
 LABEL authors="devops-opensource"
 
 ARG APP_NAME=devops-metrics
@@ -19,8 +19,7 @@ RUN apt-get update && \
         file        \
         gcc         \
         git         \
-        libwww-perl  \
-        python-mysqldb && \
+        libwww-perl && \
     apt-get autoremove -y && \
     apt-get clean
 
