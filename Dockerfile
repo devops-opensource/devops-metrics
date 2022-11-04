@@ -20,7 +20,7 @@ RUN apt-get update && \
         gcc         \
         git         \
         libwww-perl  \
-        libmysqlclient-dev && \
+        python-mysqldb && \
     apt-get autoremove -y && \
     apt-get clean
 
