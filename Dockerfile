@@ -1,5 +1,5 @@
-FROM python:3
-LABEL authors="Dorian Vandamme, Sébastien Bernard"
+FROM python:3.10-slim
+LABEL authors="devops-opensource"
 
 ARG APP_NAME=devops-metrics
 ENV APP_NAME=${APP_NAME}
@@ -33,7 +33,8 @@ ENV PATH $PATH:${HOME}/${APP_NAME}/bin
 
 WORKDIR ${HOME}/${APP_NAME}
 
-RUN pip install -r requirements/dev_requirements.txt && pip install _submodules/splunk
+RUN pip install -r requirements/dev_requirements.txt
+RUN pip install _submodules/splunk --upgrade
 
 # Drop root and change ownership of the application folder to the user
 RUN chown -R ${USER_ID}:${GROUP_ID} ${HOME}
