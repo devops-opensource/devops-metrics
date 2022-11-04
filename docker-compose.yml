@@ -13,7 +13,6 @@ services:
     restart: always
     ports:
       - 8080:8080
-
   db:
     image: mariadb
     restart: always
@@ -22,3 +21,11 @@ services:
       MYSQL_DATABASE: metricsDB 
     ports:
       - 3306:3306
+  devops-metrics:
+    container_name: devops_metrics
+    image: sebbdevops/devops-metrics:latest
+    volumes:
+        - ./config.local.cfg:/usr/share/devops-metrics/config.local.cfg
+    command: python3 /app/devops-metrics/main.py /usr/share/devops-metrics/config.local.cfg
+    
+  
