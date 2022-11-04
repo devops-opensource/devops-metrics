@@ -14,4 +14,3 @@ class CsvLoader:
         csv_name = self._prefix + "_status_changes.csv"
         with open(csv_name, "w", encoding="UTF-8", newline=""):
             df.to_csv(csv_name, index=False)
-
