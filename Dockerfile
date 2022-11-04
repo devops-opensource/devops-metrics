@@ -1,5 +1,5 @@
 FROM python:3
-LABEL authors="Dorian Vandamme, Sébastien Bernard"
+LABEL authors="devops-opensource"
 
 ARG APP_NAME=devops-metrics
 ENV APP_NAME=${APP_NAME}
