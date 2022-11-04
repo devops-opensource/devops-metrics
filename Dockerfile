@@ -19,7 +19,8 @@ RUN apt-get update && \
         file        \
         gcc         \
         git         \
-        libwww-perl && \
+        libwww-perl  \
+        libmysqlclient-dev && \
     apt-get autoremove -y && \
     apt-get clean
 
