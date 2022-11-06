@@ -1,4 +1,5 @@
 FROM python:3.10
+
 LABEL authors="devops-opensource"
 
 ARG APP_NAME=devops-metrics
