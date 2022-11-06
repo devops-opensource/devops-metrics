@@ -7,13 +7,18 @@ services:
     ports:
       - 3000:3000
     user: '104'
+    networks:
+      infra:
 
   adminer:
     image: adminer
     restart: always
     ports:
       - 8080:8080
+    networks:
+      infra:
   db:
+    container_name: db
     image: mariadb
     restart: always
     environment:
@@ -21,11 +26,21 @@ services:
       MYSQL_DATABASE: metricsDB 
     ports:
       - 3306:3306
+    networks:
+      infra:
   devops-metrics:
     container_name: devops_metrics
     image: sebbdevops/devops-metrics:latest
+    networks:
+      infra:
+    depends_on:
+      - "db"
     volumes:
-        - ./config.local.cfg:/usr/share/devops-metrics/config.local.cfg
-    command: python3 /app/devops-metrics/main.py /usr/share/devops-metrics/config.local.cfg
-    
+        - ./config.local.cfg:/app/config.local.cfg
+        - ./docker-compose-utilities/:/app/docker-compose-utilities/
+    command: ["/app/docker-compose-utilities/wait-for-it.sh","--","python3","/app/devops-metrics/main.py","/app/config.local.cfg"]
+networks:
+  infra:
+
+
   
