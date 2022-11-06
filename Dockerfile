@@ -1,5 +1,4 @@
-FROM python:3.10-slim
-
+FROM python:3.10
 LABEL authors="devops-opensource"
 
 ARG APP_NAME=devops-metrics
@@ -21,7 +20,8 @@ RUN apt-get update && \
         gcc         \
         git         \
         libwww-perl  \
-        mysql-client-core-8.0 && \
+        default-mysql-client \
+        libmariadb-dev-compat && \
     apt-get autoremove -y && \
     apt-get clean
 
