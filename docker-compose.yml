@@ -30,7 +30,7 @@ services:
       - "db"
     volumes:
         - ./config.local.cfg://config.local.cfg
-        - ./docker-compose-utilities/://docker-compose-utilities/
-    command: ["//docker-compose-utilities/wait-for-it.sh","--","python3","//devops-metrics/main.py","//config.local.cfg"]
+        - ./docker-compose-utilities/:/docker-compose-utilities/
+    command: sh -c "sleep 10 && python3 ~/devops-metrics/main.py /config.local.cfg"
 
   
