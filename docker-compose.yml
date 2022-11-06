@@ -17,7 +17,6 @@ services:
       - 8080:8080
     networks:
       infra:
-
   db:
     container_name: db
     image: mariadb
@@ -29,7 +28,6 @@ services:
       - 3306:3306
     networks:
       infra:
-
   devops-metrics:
     container_name: devops_metrics
     image: sebbdevops/devops-metrics:latest
@@ -43,5 +41,6 @@ services:
     command: ["/app/docker-compose-utilities/wait-for-it.sh","--","python3","/app/devops-metrics/main.py","/app/config.local.cfg"]
 networks:
   infra:
+
 
   
