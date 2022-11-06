@@ -9,7 +9,7 @@ host="$1"
 # in order to proper execute other commands after this parameter further on
 shift
 
-until mysql --host=db:3306 --user=root --password=example; do
+until mariadb --host 127.0.0.1 --port 3306 --user root --password example metricsDB; do
   >&2 echo "MariaDB is unavailable - waiting..."
   sleep 1
 done
