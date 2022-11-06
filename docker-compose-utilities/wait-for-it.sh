@@ -10,6 +10,7 @@ host="$1"
 shift
 
 until mariadb --host=localhost --port=3306 --user=root --password=example metricsDB; do
+
   >&2 echo "MariaDB is unavailable - waiting..."
   sleep 1
 done
