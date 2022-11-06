@@ -22,7 +22,7 @@ RUN apt-get update && \
         git         \
         libwww-perl  \
         mariadb-client \
-        libmariadb-dev-compat && \
+        mysql-client && \
     apt-get autoremove -y && \
     apt-get clean
 
