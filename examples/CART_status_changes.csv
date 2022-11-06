@@ -1,202 +1,202 @@
 from_status,to_status,key,to_date,issue_type,project_key,parent_key,version,from_date,event_type,release_version,control_date
-Open,Resolved,CART-987,2022-01-04 07:27:02.766000-08:00,Story,CART,CART-418,2.2 Community Release,2021-11-15 22:03:36.418000-08:00,status_change,,2022-01-04 07:27:02.766000-08:00
-Open,To Do,CART-983,2022-09-28 09:01:53.573000-07:00,Story,CART,CART-991,2.4 Community Release,2021-09-28 09:24:52.691000-07:00,status_change,,2022-09-28 09:01:53.573000-07:00
-In Progress,Resolved,CART-981,2021-09-24 20:04:24.145000-07:00,Story,CART,CART-418,2.0 Community Release,2021-09-23 10:53:43.513000-07:00,status_change,,2021-09-24 20:04:24.145000-07:00
-Open,In Progress,CART-981,2021-09-23 10:53:43.513000-07:00,Story,CART,CART-418,2.0 Community Release,2021-09-22 18:52:51.388000-07:00,status_change,,2021-09-23 10:53:43.513000-07:00
-In Progress,Resolved,CART-976,2021-08-31 13:21:52.460000-07:00,Story,CART,CART-647,2.2 Community Release,2021-08-24 07:16:06.972000-07:00,status_change,,2021-08-31 13:21:52.460000-07:00
-Open,In Progress,CART-976,2021-08-24 07:16:06.972000-07:00,Story,CART,CART-647,2.2 Community Release,2021-08-16 09:24:03-07:00,status_change,,2021-08-24 07:16:06.972000-07:00
-In Progress,Resolved,CART-975,2022-01-13 06:43:25.312000-08:00,Story,CART,CART-418,2.2 Community Release,2021-10-29 11:26:50.500000-07:00,status_change,,2022-01-13 06:43:25.312000-08:00
-Open,In Progress,CART-975,2021-10-29 11:26:50.500000-07:00,Story,CART,CART-418,2.2 Community Release,2021-08-06 10:21:39-07:00,status_change,,2021-10-29 11:26:50.500000-07:00
-In Progress,Resolved,CART-974,2021-09-21 13:28:50.303000-07:00,Story,CART,CART-647,2.2 Community Release,2021-08-26 10:33:11.047000-07:00,status_change,,2021-09-21 13:28:50.303000-07:00
-In Review,In Progress,CART-974,2021-08-26 10:33:11.047000-07:00,Story,CART,CART-647,2.2 Community Release,2021-08-12 11:27:14-07:00,status_change,,2021-08-26 10:33:11.047000-07:00
-In Progress,In Review,CART-974,2021-08-12 11:27:14-07:00,Story,CART,CART-647,2.2 Community Release,2021-08-03 12:17:03-07:00,status_change,,2021-08-12 11:27:14-07:00
-In Review,In Progress,CART-974,2021-08-03 12:17:03-07:00,Story,CART,CART-647,2.2 Community Release,2021-07-22 09:50:19-07:00,status_change,,2021-08-03 12:17:03-07:00
-In Progress,In Review,CART-974,2021-07-22 09:50:19-07:00,Story,CART,CART-647,2.2 Community Release,2021-07-09 10:44:59-07:00,status_change,,2021-07-22 09:50:19-07:00
-Open,In Progress,CART-974,2021-07-09 10:44:59-07:00,Story,CART,CART-647,2.2 Community Release,2021-07-06 12:22:07-07:00,status_change,,2021-07-09 10:44:59-07:00
-In Progress,In Review,CART-972,2021-12-27 09:21:47.986000-08:00,Story,CART,CART-418,2.4 Community Release,2021-11-01 12:16:11.246000-07:00,status_change,,2021-12-27 09:21:47.986000-08:00
-Open,In Progress,CART-972,2021-11-01 12:16:11.246000-07:00,Story,CART,CART-418,2.4 Community Release,2021-06-25 12:11:09-07:00,status_change,,2021-11-01 12:16:11.246000-07:00
-In Review,Resolved,CART-970,2021-07-09 09:40:17-07:00,Story,CART,CART-622,Network Stack improvement,2021-05-26 13:53:44-07:00,status_change,,2021-07-09 09:40:17-07:00
-Open,In Review,CART-970,2021-05-26 13:53:44-07:00,Story,CART,CART-622,Network Stack improvement,2021-05-26 13:35:59-07:00,status_change,,2021-05-26 13:53:44-07:00
-Open,Resolved,CART-966,2022-06-24 11:43:34.744000-07:00,Story,CART,CART-415,2.4 Community Release,2021-05-05 09:28:59-07:00,status_change,,2022-06-24 11:43:34.744000-07:00
-In Review,Resolved,CART-964,2021-04-28 10:01:45-07:00,Story,CART,CART-418,2.0 Community Release,2021-04-26 10:28:32-07:00,status_change,,2021-04-28 10:01:45-07:00
-Open,In Review,CART-964,2021-04-26 10:28:32-07:00,Story,CART,CART-418,2.0 Community Release,2021-04-13 05:50:15-07:00,status_change,,2021-04-26 10:28:32-07:00
-In Review,Resolved,CART-963,2021-07-19 19:57:52-07:00,Story,CART,CART-415,2.0 Community Release,2021-04-26 10:32:57-07:00,status_change,,2021-07-19 19:57:52-07:00
-Open,In Review,CART-963,2021-04-26 10:32:57-07:00,Story,CART,CART-415,2.0 Community Release,2021-04-02 09:47:00-07:00,status_change,,2021-04-26 10:32:57-07:00
-In Review,Resolved,CART-959,2021-03-22 10:11:00-07:00,Story,CART,CART-415,2.0 Community Release,2021-03-19 09:16:28-07:00,status_change,,2021-03-22 10:11:00-07:00
-Open,In Review,CART-959,2021-03-19 09:16:28-07:00,Story,CART,CART-415,2.0 Community Release,2021-03-18 23:49:47-07:00,status_change,,2021-03-19 09:16:28-07:00
-In Progress,Resolved,CART-952,2021-09-13 10:11:40.026000-07:00,Story,CART,CART-647,2.2 Community Release,2021-08-03 11:13:10-07:00,status_change,,2021-09-13 10:11:40.026000-07:00
-Blocked,In Progress,CART-952,2021-08-03 11:13:10-07:00,Story,CART,CART-647,2.2 Community Release,2021-07-27 13:51:58-07:00,status_change,,2021-08-03 11:13:10-07:00
-In Progress,Blocked,CART-952,2021-07-27 13:51:58-07:00,Story,CART,CART-647,2.2 Community Release,2021-02-23 13:01:43-08:00,status_change,,2021-07-27 13:51:58-07:00
-To Do,In Progress,CART-952,2021-02-23 13:01:43-08:00,Story,CART,CART-647,2.2 Community Release,2021-02-19 07:40:25-08:00,status_change,,2021-02-23 13:01:43-08:00
-Open,To Do,CART-952,2021-02-19 07:40:25-08:00,Story,CART,CART-647,2.2 Community Release,2021-02-18 09:08:16-08:00,status_change,,2021-02-19 07:40:25-08:00
-In Progress,Resolved,CART-951,2021-03-19 11:35:56-07:00,Story,CART,CART-415,2.0 Community Release,2021-02-17 13:36:54-08:00,status_change,,2021-03-19 11:35:56-07:00
-Open,In Progress,CART-951,2021-02-17 13:36:54-08:00,Story,CART,CART-415,2.0 Community Release,2021-02-17 06:20:56-08:00,status_change,,2021-02-17 13:36:54-08:00
-In Progress,Resolved,CART-944,2021-02-26 00:12:53-08:00,Story,CART,CART-415,2.0 Community Release,2021-02-16 06:44:01-08:00,status_change,,2021-02-26 00:12:53-08:00
-Open,In Progress,CART-944,2021-02-16 06:44:01-08:00,Story,CART,CART-415,2.0 Community Release,2021-01-27 13:34:06-08:00,status_change,,2021-02-16 06:44:01-08:00
-Blocked,Resolved,CART-942,2021-11-01 12:17:36.993000-07:00,Story,CART,CART-647,2.2 Community Release,2021-08-02 10:25:56-07:00,status_change,,2021-11-01 12:17:36.993000-07:00
-In Progress,Blocked,CART-942,2021-08-02 10:25:56-07:00,Story,CART,CART-647,2.2 Community Release,2021-07-13 13:51:56-07:00,status_change,,2021-08-02 10:25:56-07:00
-Blocked,In Progress,CART-942,2021-07-13 13:51:56-07:00,Story,CART,CART-647,2.2 Community Release,2021-01-15 12:23:01-08:00,status_change,,2021-07-13 13:51:56-07:00
-Open,Blocked,CART-942,2021-01-15 12:23:01-08:00,Story,CART,CART-647,2.2 Community Release,2021-01-15 12:11:31-08:00,status_change,,2021-01-15 12:23:01-08:00
-In Review,Resolved,CART-936,2021-01-26 13:39:26-08:00,Story,CART,,1.2 Community Release,2021-01-22 11:12:51-08:00,status_change,,2021-01-26 13:39:26-08:00
-In Progress,In Review,CART-936,2021-01-22 11:12:51-08:00,Story,CART,,1.2 Community Release,2021-01-07 09:46:34-08:00,status_change,,2021-01-22 11:12:51-08:00
-Open,In Progress,CART-936,2021-01-07 09:46:34-08:00,Story,CART,,1.2 Community Release,2021-01-04 19:50:49-08:00,status_change,,2021-01-07 09:46:34-08:00
-In Progress,Resolved,CART-933,2021-02-19 08:28:21-08:00,Story,CART,CART-415,2.0 Community Release,2021-01-28 10:47:57-08:00,status_change,,2021-02-19 08:28:21-08:00
-In Progress,In Progress,CART-933,2021-01-28 10:47:57-08:00,Story,CART,CART-415,2.0 Community Release,2021-01-28 10:25:06-08:00,status_change,,2021-01-28 10:47:57-08:00
-To Do,In Progress,CART-933,2021-01-28 10:25:06-08:00,Story,CART,CART-415,2.0 Community Release,2021-01-28 10:10:35-08:00,status_change,,2021-01-28 10:25:06-08:00
-Reopened,To Do,CART-933,2021-01-28 10:10:35-08:00,Story,CART,CART-415,2.0 Community Release,2021-01-28 10:07:24-08:00,status_change,,2021-01-28 10:10:35-08:00
-Resolved,Reopened,CART-933,2021-01-28 10:07:24-08:00,Story,CART,CART-415,2.0 Community Release,2021-01-26 09:28:27-08:00,status_change,,2021-01-28 10:07:24-08:00
-To Do,Resolved,CART-933,2021-01-26 09:28:27-08:00,Story,CART,CART-415,2.0 Community Release,2021-01-26 09:22:15-08:00,status_change,,2021-01-26 09:28:27-08:00
-In Progress,To Do,CART-933,2021-01-26 09:22:15-08:00,Story,CART,CART-415,2.0 Community Release,2021-01-22 11:25:01-08:00,status_change,,2021-01-26 09:22:15-08:00
-To Do,In Progress,CART-933,2021-01-22 11:25:01-08:00,Story,CART,CART-415,2.0 Community Release,2021-01-08 10:21:57-08:00,status_change,,2021-01-22 11:25:01-08:00
-Open,To Do,CART-933,2021-01-08 10:21:57-08:00,Story,CART,CART-415,2.0 Community Release,2020-12-16 12:01:04-08:00,status_change,,2021-01-08 10:21:57-08:00
-Open,Resolved,CART-932,2022-01-28 07:32:07.182000-08:00,Story,CART,CART-622,Network Stack improvement,2020-12-16 05:36:32-08:00,status_change,,2022-01-28 07:32:07.182000-08:00
-In Review,Resolved,CART-927,2020-12-10 09:44:21-08:00,Story,CART,CART-415,1.2 Community Release,2020-12-08 13:50:50-08:00,status_change,,2020-12-10 09:44:21-08:00
-Open,In Review,CART-927,2020-12-08 13:50:50-08:00,Story,CART,CART-415,1.2 Community Release,2020-11-30 17:29:24-08:00,status_change,,2020-12-08 13:50:50-08:00
-In Progress,Resolved,CART-924,2020-11-20 11:10:14-08:00,Story,CART,CART-415,1.2 Community Release,2020-11-11 12:00:48-08:00,status_change,,2020-11-20 11:10:14-08:00
-Open,In Progress,CART-924,2020-11-11 12:00:48-08:00,Story,CART,CART-415,1.2 Community Release,2020-11-10 14:56:58-08:00,status_change,,2020-11-11 12:00:48-08:00
-To Do,Resolved,CART-914,2022-01-04 07:29:34.734000-08:00,Story,CART,CART-647,2.2 Community Release,2020-10-06 06:21:00-07:00,status_change,,2022-01-04 07:29:34.734000-08:00
-Open,To Do,CART-914,2020-10-06 06:21:00-07:00,Story,CART,CART-647,2.2 Community Release,2020-09-29 19:49:14-07:00,status_change,,2020-10-06 06:21:00-07:00
-To Do,Resolved,CART-912,2021-02-23 11:03:26-08:00,Story,CART,CART-647,2.0 Community Release,2021-02-23 11:01:20-08:00,status_change,,2021-02-23 11:03:26-08:00
-In Progress,To Do,CART-912,2021-02-23 11:01:20-08:00,Story,CART,CART-647,2.0 Community Release,2021-01-04 10:28:17-08:00,status_change,,2021-02-23 11:01:20-08:00
-To Do,In Progress,CART-912,2021-01-04 10:28:17-08:00,Story,CART,CART-647,2.0 Community Release,2020-12-22 08:59:44-08:00,status_change,,2021-01-04 10:28:17-08:00
-Open,To Do,CART-912,2020-12-22 08:59:44-08:00,Story,CART,CART-647,2.0 Community Release,2020-09-16 10:52:42-07:00,status_change,,2020-12-22 08:59:44-08:00
-In Review,Resolved,CART-906,2021-02-09 06:40:22-08:00,Story,CART,CART-647,1.2 Community Release,2021-01-05 13:33:40-08:00,status_change,,2021-02-09 06:40:22-08:00
-In Progress,In Review,CART-906,2021-01-05 13:33:40-08:00,Story,CART,CART-647,1.2 Community Release,2020-11-20 11:17:59-08:00,status_change,,2021-01-05 13:33:40-08:00
-Open,In Progress,CART-906,2020-11-20 11:17:59-08:00,Story,CART,CART-647,1.2 Community Release,2020-07-08 20:00:32-07:00,status_change,,2020-11-20 11:17:59-08:00
-In Review,Resolved,CART-904,2020-06-02 00:20:46-07:00,Story,CART,DAOS-4716,1.2 Community Release,2020-05-24 20:18:58-07:00,status_change,,2020-06-02 00:20:46-07:00
-In Progress,In Review,CART-904,2020-05-24 20:18:58-07:00,Story,CART,DAOS-4716,1.2 Community Release,2020-05-24 19:21:31-07:00,status_change,,2020-05-24 20:18:58-07:00
-Open,In Progress,CART-904,2020-05-24 19:21:31-07:00,Story,CART,DAOS-4716,1.2 Community Release,2020-05-24 19:21:11-07:00,status_change,,2020-05-24 19:21:31-07:00
-In Review,Resolved,CART-903,2020-06-05 10:54:30-07:00,Story,CART,CART-415,1.2 Community Release,2020-05-20 21:21:24-07:00,status_change,,2020-06-05 10:54:30-07:00
-Open,In Review,CART-903,2020-05-20 21:21:24-07:00,Story,CART,CART-415,1.2 Community Release,2020-05-20 20:05:10-07:00,status_change,,2020-05-20 21:21:24-07:00
-In Review,Resolved,CART-897,2020-05-20 21:21:46-07:00,Story,CART,CART-402,1.2 Community Release,2020-05-18 19:59:42-07:00,status_change,,2020-05-20 21:21:46-07:00
-In Progress,In Review,CART-897,2020-05-18 19:59:42-07:00,Story,CART,CART-402,1.2 Community Release,2020-05-18 19:58:31-07:00,status_change,,2020-05-18 19:59:42-07:00
-Open,In Progress,CART-897,2020-05-18 19:58:31-07:00,Story,CART,CART-402,1.2 Community Release,2020-05-13 14:39:43-07:00,status_change,,2020-05-18 19:58:31-07:00
-In Progress,Blocked,CART-896,2021-10-07 10:25:41.633000-07:00,Story,CART,CART-415,2.4 Community Release,2021-08-10 06:56:10-07:00,status_change,,2021-10-07 10:25:41.633000-07:00
-To Do,In Progress,CART-896,2021-08-10 06:56:10-07:00,Story,CART,CART-415,2.4 Community Release,2021-02-19 07:37:35-08:00,status_change,,2021-08-10 06:56:10-07:00
-In Progress,To Do,CART-896,2021-02-19 07:37:35-08:00,Story,CART,CART-415,2.4 Community Release,2020-11-20 11:33:50-08:00,status_change,,2021-02-19 07:37:35-08:00
-In Progress,In Progress,CART-896,2020-11-20 11:33:50-08:00,Story,CART,CART-415,2.4 Community Release,2020-11-20 11:33:38-08:00,status_change,,2020-11-20 11:33:50-08:00
-To Do,In Progress,CART-896,2020-11-20 11:33:38-08:00,Story,CART,CART-415,2.4 Community Release,2020-10-23 11:40:12-07:00,status_change,,2020-11-20 11:33:38-08:00
-Open,To Do,CART-896,2020-10-23 11:40:12-07:00,Story,CART,CART-415,2.4 Community Release,2020-05-11 10:26:04-07:00,status_change,,2020-10-23 11:40:12-07:00
-In Progress,Resolved,CART-890,2020-05-13 13:40:59-07:00,Story,CART,,1.2 Community Release,2020-04-28 11:57:31-07:00,status_change,,2020-05-13 13:40:59-07:00
-Open,In Progress,CART-890,2020-04-28 11:57:31-07:00,Story,CART,,1.2 Community Release,2020-04-28 10:55:55-07:00,status_change,,2020-04-28 11:57:31-07:00
-In Review,Resolved,CART-886,2020-06-01 07:17:32-07:00,Story,CART,CART-415,MS-160 DAOS PathForward Stabilization,2020-04-30 14:39:13-07:00,status_change,,2020-06-01 07:17:32-07:00
-Reopened,In Review,CART-886,2020-04-30 14:39:13-07:00,Story,CART,CART-415,MS-160 DAOS PathForward Stabilization,2020-04-30 14:38:55-07:00,status_change,,2020-04-30 14:39:13-07:00
-In Review,Reopened,CART-886,2020-04-30 14:38:55-07:00,Story,CART,CART-415,MS-160 DAOS PathForward Stabilization,2020-04-30 14:37:08-07:00,status_change,,2020-04-30 14:38:55-07:00
-Reopened,In Review,CART-886,2020-04-30 14:37:08-07:00,Story,CART,CART-415,MS-160 DAOS PathForward Stabilization,2020-04-30 14:36:47-07:00,status_change,,2020-04-30 14:37:08-07:00
-In Review,Reopened,CART-886,2020-04-30 14:36:47-07:00,Story,CART,CART-415,MS-160 DAOS PathForward Stabilization,2020-04-30 14:36:02-07:00,status_change,,2020-04-30 14:36:47-07:00
-Resolved,In Review,CART-886,2020-04-30 14:36:02-07:00,Story,CART,CART-415,MS-160 DAOS PathForward Stabilization,2020-04-30 06:20:18-07:00,status_change,,2020-04-30 14:36:02-07:00
-In Review,Resolved,CART-886,2020-04-30 06:20:18-07:00,Story,CART,CART-415,MS-160 DAOS PathForward Stabilization,2020-04-23 09:52:01-07:00,status_change,,2020-04-30 06:20:18-07:00
-In Progress,In Review,CART-886,2020-04-23 09:52:01-07:00,Story,CART,CART-415,MS-160 DAOS PathForward Stabilization,2020-04-23 09:46:23-07:00,status_change,,2020-04-23 09:52:01-07:00
-Open,In Progress,CART-886,2020-04-23 09:46:23-07:00,Story,CART,CART-415,MS-160 DAOS PathForward Stabilization,2020-04-23 09:45:58-07:00,status_change,,2020-04-23 09:46:23-07:00
-Blocked,Resolved,CART-874,2021-10-21 08:54:10.081000-07:00,Story,CART,CART-622,2.2 Community Release,2021-06-15 11:14:18-07:00,status_change,,2021-10-21 08:54:10.081000-07:00
-In Progress,Blocked,CART-874,2021-06-15 11:14:18-07:00,Story,CART,CART-622,2.2 Community Release,2020-10-23 11:21:24-07:00,status_change,,2021-06-15 11:14:18-07:00
-Open,In Progress,CART-874,2020-10-23 11:21:24-07:00,Story,CART,CART-622,2.2 Community Release,2020-03-27 13:22:05-07:00,status_change,,2020-10-23 11:21:24-07:00
-In Review,Resolved,CART-872,2020-07-17 09:01:45-07:00,Story,CART,CART-415,1.2 Community Release,2020-03-24 07:13:15-07:00,status_change,,2020-07-17 09:01:45-07:00
-To Do,In Review,CART-872,2020-03-24 07:13:15-07:00,Story,CART,CART-415,1.2 Community Release,2020-03-24 07:05:11-07:00,status_change,,2020-03-24 07:13:15-07:00
-Open,To Do,CART-872,2020-03-24 07:05:11-07:00,Story,CART,CART-415,1.2 Community Release,2020-03-24 07:05:00-07:00,status_change,,2020-03-24 07:05:11-07:00
-Open,Resolved,CART-869,2020-04-16 08:04:24-07:00,Story,CART,CART-417,1.2 Community Release,2020-03-20 09:19:55-07:00,status_change,,2020-04-16 08:04:24-07:00
-Open,Resolved,CART-868,2020-05-13 14:01:39-07:00,Story,CART,CART-415,1.2 Community Release,2018-07-03 12:27:17-07:00,status_change,,2020-05-13 14:01:39-07:00
-Open,Resolved,CART-862,2020-03-26 12:25:02-07:00,Story,CART,CART-858,1.2 Community Release,2020-02-28 13:41:36-08:00,status_change,,2020-03-26 12:25:02-07:00
-In Progress,Resolved,CART-861,2020-08-04 11:10:14-07:00,Story,CART,CART-858,1.2 Community Release,2020-07-21 09:51:45-07:00,status_change,,2020-08-04 11:10:14-07:00
-To Do,In Progress,CART-861,2020-07-21 09:51:45-07:00,Story,CART,CART-858,1.2 Community Release,2020-04-28 12:29:41-07:00,status_change,,2020-07-21 09:51:45-07:00
-Open,To Do,CART-861,2020-04-28 12:29:41-07:00,Story,CART,CART-858,1.2 Community Release,2020-02-28 13:39:35-08:00,status_change,,2020-04-28 12:29:41-07:00
-Open,Resolved,CART-860,2020-04-16 12:40:25-07:00,Story,CART,CART-858,1.2 Community Release,2020-02-28 13:37:36-08:00,status_change,,2020-04-16 12:40:25-07:00
-Open,Resolved,CART-859,2020-03-26 12:24:16-07:00,Story,CART,CART-858,1.2 Community Release,2020-02-28 13:35:52-08:00,status_change,,2020-03-26 12:24:16-07:00
-Open,Resolved,CART-848,2020-02-18 11:32:00-08:00,Story,CART,,1.2 Community Release,2020-02-12 14:57:25-08:00,status_change,,2020-02-18 11:32:00-08:00
-Reopened,Resolved,CART-843,2020-04-14 09:38:38-07:00,Story,CART,,1.0 Community Release,2020-04-02 10:10:47-07:00,status_change,,2020-04-14 09:38:38-07:00
-Resolved,Reopened,CART-843,2020-04-02 10:10:47-07:00,Story,CART,,1.0 Community Release,2020-03-20 12:58:03-07:00,status_change,,2020-04-02 10:10:47-07:00
-In Review,Resolved,CART-843,2020-03-20 12:58:03-07:00,Story,CART,,1.0 Community Release,2020-01-31 09:14:00-08:00,status_change,,2020-03-20 12:58:03-07:00
-Open,In Review,CART-843,2020-01-31 09:14:00-08:00,Story,CART,,1.0 Community Release,2020-01-28 12:33:43-08:00,status_change,,2020-01-31 09:14:00-08:00
-In Review,Resolved,CART-842,2020-09-22 09:08:09-07:00,Story,CART,CART-415,1.2 Community Release,2020-09-11 12:08:28-07:00,status_change,,2020-09-22 09:08:09-07:00
-In Progress,In Review,CART-842,2020-09-11 12:08:28-07:00,Story,CART,CART-415,1.2 Community Release,2020-09-10 08:24:27-07:00,status_change,,2020-09-11 12:08:28-07:00
-To Do,In Progress,CART-842,2020-09-10 08:24:27-07:00,Story,CART,CART-415,1.2 Community Release,2020-05-18 16:03:28-07:00,status_change,,2020-09-10 08:24:27-07:00
-Open,To Do,CART-842,2020-05-18 16:03:28-07:00,Story,CART,CART-415,1.2 Community Release,2020-01-24 07:01:04-08:00,status_change,,2020-05-18 16:03:28-07:00
-In Progress,Resolved,CART-838,2020-01-26 13:27:04-08:00,Story,CART,CART-420,1.0 Community Release,2020-01-22 06:39:15-08:00,status_change,,2020-01-26 13:27:04-08:00
-To Do,In Progress,CART-838,2020-01-22 06:39:15-08:00,Story,CART,CART-420,1.0 Community Release,2020-01-14 08:09:33-08:00,status_change,,2020-01-22 06:39:15-08:00
-Open,To Do,CART-838,2020-01-14 08:09:33-08:00,Story,CART,CART-420,1.0 Community Release,2020-01-14 08:09:27-08:00,status_change,,2020-01-14 08:09:33-08:00
-In Review,Resolved,CART-837,2020-01-14 11:56:14-08:00,Story,CART,,1.0 Community Release,2020-01-13 20:47:25-08:00,status_change,,2020-01-14 11:56:14-08:00
-In Progress,In Review,CART-837,2020-01-13 20:47:25-08:00,Story,CART,,1.0 Community Release,2020-01-13 20:15:28-08:00,status_change,,2020-01-13 20:47:25-08:00
-Open,In Progress,CART-837,2020-01-13 20:15:28-08:00,Story,CART,,1.0 Community Release,2020-01-13 20:15:18-08:00,status_change,,2020-01-13 20:15:28-08:00
-In Review,Resolved,CART-835,2020-01-09 22:01:51-08:00,Story,CART,,1.0 Community Release,2020-01-09 22:01:42-08:00,status_change,,2020-01-09 22:01:51-08:00
-Open,In Review,CART-835,2020-01-09 22:01:42-08:00,Story,CART,,1.0 Community Release,2020-01-09 09:42:20-08:00,status_change,,2020-01-09 22:01:42-08:00
-In Progress,Resolved,CART-834,2020-04-17 08:47:31-07:00,Story,CART,,1.0 Community Release,2020-03-31 09:16:38-07:00,status_change,,2020-04-17 08:47:31-07:00
-Open,In Progress,CART-834,2020-03-31 09:16:38-07:00,Story,CART,,1.0 Community Release,2020-01-08 08:21:21-08:00,status_change,,2020-03-31 09:16:38-07:00
-In Review,Resolved,CART-832,2020-01-22 12:42:54-08:00,Story,CART,DAOS-3649,1.0 Community Release,2020-01-21 21:45:57-08:00,status_change,,2020-01-22 12:42:54-08:00
-In Progress,In Review,CART-832,2020-01-21 21:45:57-08:00,Story,CART,DAOS-3649,1.0 Community Release,2020-01-19 18:56:17-08:00,status_change,,2020-01-21 21:45:57-08:00
-To Do,In Progress,CART-832,2020-01-19 18:56:17-08:00,Story,CART,DAOS-3649,1.0 Community Release,2020-01-09 11:11:43-08:00,status_change,,2020-01-19 18:56:17-08:00
-Open,To Do,CART-832,2020-01-09 11:11:43-08:00,Story,CART,DAOS-3649,1.0 Community Release,2019-12-13 07:35:00-08:00,status_change,,2020-01-09 11:11:43-08:00
-In Progress,Resolved,CART-831,2021-03-19 17:20:55-07:00,Story,CART,CART-647,2.0 Community Release,2021-03-12 06:52:43-08:00,status_change,,2021-03-19 17:20:55-07:00
-In Review,In Progress,CART-831,2021-03-12 06:52:43-08:00,Story,CART,CART-647,2.0 Community Release,2021-02-05 11:23:00-08:00,status_change,,2021-03-12 06:52:43-08:00
-In Progress,In Review,CART-831,2021-02-05 11:23:00-08:00,Story,CART,CART-647,2.0 Community Release,2021-02-02 13:45:10-08:00,status_change,,2021-02-05 11:23:00-08:00
-To Do,In Progress,CART-831,2021-02-02 13:45:10-08:00,Story,CART,CART-647,2.0 Community Release,2020-11-10 13:43:57-08:00,status_change,,2021-02-02 13:45:10-08:00
-To Do,To Do,CART-831,2020-11-10 13:43:57-08:00,Story,CART,CART-647,2.0 Community Release,2020-10-06 12:41:01-07:00,status_change,,2020-11-10 13:43:57-08:00
-Reopened,To Do,CART-831,2020-10-06 12:41:01-07:00,Story,CART,CART-647,2.0 Community Release,2020-10-06 12:40:58-07:00,status_change,,2020-10-06 12:41:01-07:00
-Open,Reopened,CART-831,2020-10-06 12:40:58-07:00,Story,CART,CART-647,2.0 Community Release,2019-12-12 12:13:09-08:00,status_change,,2020-10-06 12:40:58-07:00
-Open,Resolved,CART-828,2020-05-07 09:59:54-07:00,Story,CART,CART-647,1.2 Community Release,2019-12-07 01:25:03-08:00,status_change,,2020-05-07 09:59:54-07:00
-In Review,Resolved,CART-827,2019-12-17 14:02:47-08:00,Story,CART,CART-647,"1.0 Community Release,0.9 Community Release",2019-12-16 13:51:28-08:00,status_change,,2019-12-17 14:02:47-08:00
-To Do,In Review,CART-827,2019-12-16 13:51:28-08:00,Story,CART,CART-647,"1.0 Community Release,0.9 Community Release",2019-12-09 09:28:07-08:00,status_change,,2019-12-16 13:51:28-08:00
-Open,To Do,CART-827,2019-12-09 09:28:07-08:00,Story,CART,CART-647,"1.0 Community Release,0.9 Community Release",2019-12-07 01:24:15-08:00,status_change,,2019-12-09 09:28:07-08:00
-In Progress,Resolved,CART-821,2020-01-08 08:36:49-08:00,Story,CART,DAOS-3292,"1.0 Community Release,0.9 Community Release",2019-12-18 10:20:28-08:00,status_change,,2020-01-08 08:36:49-08:00
-In Progress,In Progress,CART-821,2019-12-18 10:20:28-08:00,Story,CART,DAOS-3292,"1.0 Community Release,0.9 Community Release",2019-12-18 10:20:17-08:00,status_change,,2019-12-18 10:20:28-08:00
-To Do,In Progress,CART-821,2019-12-18 10:20:17-08:00,Story,CART,DAOS-3292,"1.0 Community Release,0.9 Community Release",2019-12-06 13:42:33-08:00,status_change,,2019-12-18 10:20:17-08:00
-Open,To Do,CART-821,2019-12-06 13:42:33-08:00,Story,CART,DAOS-3292,"1.0 Community Release,0.9 Community Release",2019-11-27 08:04:13-08:00,status_change,,2019-12-06 13:42:33-08:00
-To Do,Resolved,CART-817,2019-12-09 09:36:13-08:00,Story,CART,CART-647,"1.0 Community Release,0.9 Community Release",2019-12-09 09:16:59-08:00,status_change,,2019-12-09 09:36:13-08:00
-Open,To Do,CART-817,2019-12-09 09:16:59-08:00,Story,CART,CART-647,"1.0 Community Release,0.9 Community Release",2019-11-13 09:42:41-08:00,status_change,,2019-12-09 09:16:59-08:00
-To Do,Resolved,CART-816,2019-12-09 09:35:28-08:00,Story,CART,CART-647,"1.0 Community Release,0.9 Community Release",2019-12-09 09:16:57-08:00,status_change,,2019-12-09 09:35:28-08:00
-Open,To Do,CART-816,2019-12-09 09:16:57-08:00,Story,CART,CART-647,"1.0 Community Release,0.9 Community Release",2019-11-13 09:41:58-08:00,status_change,,2019-12-09 09:16:57-08:00
-In Review,Resolved,CART-815,2019-11-19 10:32:14-08:00,Story,CART,CART-647,"1.0 Community Release,0.9 Community Release",2019-11-15 18:59:08-08:00,status_change,,2019-11-19 10:32:14-08:00
-In Progress,In Review,CART-815,2019-11-15 18:59:08-08:00,Story,CART,CART-647,"1.0 Community Release,0.9 Community Release",2019-11-15 09:14:38-08:00,status_change,,2019-11-15 18:59:08-08:00
-Open,In Progress,CART-815,2019-11-15 09:14:38-08:00,Story,CART,CART-647,"1.0 Community Release,0.9 Community Release",2019-11-13 09:41:09-08:00,status_change,,2019-11-15 09:14:38-08:00
-In Review,Resolved,CART-814,2019-12-04 07:14:48-08:00,Story,CART,CART-647,"1.0 Community Release,0.9 Community Release",2019-11-21 13:33:04-08:00,status_change,,2019-12-04 07:14:48-08:00
-In Progress,In Review,CART-814,2019-11-21 13:33:04-08:00,Story,CART,CART-647,"1.0 Community Release,0.9 Community Release",2019-11-21 09:54:33-08:00,status_change,,2019-11-21 13:33:04-08:00
-Open,In Progress,CART-814,2019-11-21 09:54:33-08:00,Story,CART,CART-647,"1.0 Community Release,0.9 Community Release",2019-11-13 09:40:27-08:00,status_change,,2019-11-21 09:54:33-08:00
-In Progress,Resolved,CART-813,2019-12-09 09:34:22-08:00,Story,CART,CART-647,"1.0 Community Release,0.9 Community Release",2019-12-03 09:25:28-08:00,status_change,,2019-12-09 09:34:22-08:00
-Open,In Progress,CART-813,2019-12-03 09:25:28-08:00,Story,CART,CART-647,"1.0 Community Release,0.9 Community Release",2019-11-13 09:39:14-08:00,status_change,,2019-12-03 09:25:28-08:00
-In Review,Resolved,CART-812,2019-11-15 18:58:41-08:00,Story,CART,CART-647,"1.0 Community Release,0.9 Community Release",2019-11-13 09:44:14-08:00,status_change,,2019-11-15 18:58:41-08:00
-In Progress,In Review,CART-812,2019-11-13 09:44:14-08:00,Story,CART,CART-647,"1.0 Community Release,0.9 Community Release",2019-11-13 09:44:08-08:00,status_change,,2019-11-13 09:44:14-08:00
-Open,In Progress,CART-812,2019-11-13 09:44:08-08:00,Story,CART,CART-647,"1.0 Community Release,0.9 Community Release",2019-11-13 09:35:34-08:00,status_change,,2019-11-13 09:44:08-08:00
-In Review,Resolved,CART-805,2019-12-18 10:17:20-08:00,Story,CART,CART-415,"1.0 Community Release,0.9 Community Release",2019-12-17 16:14:17-08:00,status_change,,2019-12-18 10:17:20-08:00
-To Do,In Review,CART-805,2019-12-17 16:14:17-08:00,Story,CART,CART-415,"1.0 Community Release,0.9 Community Release",2019-12-06 13:42:30-08:00,status_change,,2019-12-17 16:14:17-08:00
-Open,To Do,CART-805,2019-12-06 13:42:30-08:00,Story,CART,CART-415,"1.0 Community Release,0.9 Community Release",2019-11-05 19:30:50-08:00,status_change,,2019-12-06 13:42:30-08:00
-Open,Resolved,CART-768,2020-04-03 10:56:41-07:00,Story,CART,CART-417,1.0 Community Release,2019-09-18 10:55:47-07:00,status_change,,2020-04-03 10:56:41-07:00
-Closed,Resolved,CART-282,2019-10-22 13:05:05-07:00,Story,CART,CART-416,CaRT Phase 1 1H'18,2018-04-23 09:56:58-07:00,status_change,,2019-10-22 13:05:05-07:00
-In Review,Closed,CART-282,2018-04-23 09:56:58-07:00,Story,CART,CART-416,CaRT Phase 1 1H'18,2018-04-09 14:37:40-07:00,status_change,,2018-04-23 09:56:58-07:00
-Open,In Review,CART-282,2018-04-09 14:37:40-07:00,Story,CART,CART-416,CaRT Phase 1 1H'18,2017-09-05 02:43:05-07:00,status_change,,2018-04-09 14:37:40-07:00
-Open,Resolved,CART-269,2020-05-14 06:02:04-07:00,Story,CART,CART-418,1.2 Community Release,2017-08-21 06:41:43-07:00,status_change,,2020-05-14 06:02:04-07:00
-Open,Resolved,CART-267,2021-08-26 11:17:55.322000-07:00,Story,CART,CART-415,2.2 Community Release,2017-08-17 09:13:53-07:00,status_change,,2021-08-26 11:17:55.322000-07:00
-Closed,Resolved,CART-255,2019-10-22 13:05:03-07:00,Story,CART,CART-402,CaRT Phase 1 1H'18,2019-05-10 07:29:55-07:00,status_change,,2019-10-22 13:05:03-07:00
-Open,Closed,CART-255,2019-05-10 07:29:55-07:00,Story,CART,CART-402,CaRT Phase 1 1H'18,2019-05-10 07:28:51-07:00,status_change,,2019-05-10 07:29:55-07:00
-Closed,Open,CART-255,2019-05-10 07:28:51-07:00,Story,CART,CART-402,CaRT Phase 1 1H'18,2019-04-08 11:42:05-07:00,status_change,,2019-05-10 07:28:51-07:00
-In Progress,Closed,CART-255,2019-04-08 11:42:05-07:00,Story,CART,CART-402,CaRT Phase 1 1H'18,2019-04-08 11:41:57-07:00,status_change,,2019-04-08 11:42:05-07:00
-In Progress,In Progress,CART-255,2019-04-08 11:41:57-07:00,Story,CART,CART-402,CaRT Phase 1 1H'18,2019-04-01 11:22:25-07:00,status_change,,2019-04-08 11:41:57-07:00
-Open,In Progress,CART-255,2019-04-01 11:22:25-07:00,Story,CART,CART-402,CaRT Phase 1 1H'18,2017-07-28 10:15:50-07:00,status_change,,2019-04-01 11:22:25-07:00
-Closed,Resolved,CART-245,2019-10-22 13:05:03-07:00,Story,CART,CART-415,Cart Phase 2 2H'18,2018-11-26 17:16:52-08:00,status_change,,2019-10-22 13:05:03-07:00
-Open,Closed,CART-245,2018-11-26 17:16:52-08:00,Story,CART,CART-415,Cart Phase 2 2H'18,2017-07-20 23:29:06-07:00,status_change,,2018-11-26 17:16:52-08:00
-Open,Resolved,CART-217,2020-05-13 14:23:19-07:00,Story,CART,CART-415,1.2 Community Release,2017-05-23 05:11:43-07:00,status_change,,2020-05-13 14:23:19-07:00
-Closed,Resolved,CART-141,2019-10-22 13:04:52-07:00,Story,CART,CART-229,Cart Phase 2 2H'18,2018-02-14 11:28:38-08:00,status_change,,2019-10-22 13:04:52-07:00
-Open,Closed,CART-141,2018-02-14 11:28:38-08:00,Story,CART,CART-229,Cart Phase 2 2H'18,2017-01-23 06:27:10-08:00,status_change,,2018-02-14 11:28:38-08:00
-In Progress,Resolved,CART-616,2019-07-11 20:08:06-07:00,Story,CART,CART-621,"1.0 Community Release,0.8 Community Release",2019-07-11 20:07:21-07:00,status_change,,2019-07-11 20:08:06-07:00
-Open,In Progress,CART-616,2019-07-11 20:07:21-07:00,Story,CART,CART-621,"1.0 Community Release,0.8 Community Release",2019-04-29 13:42:18-07:00,status_change,,2019-07-11 20:07:21-07:00
-Open,In Progress,CART-615,2022-01-28 07:17:26.506000-08:00,Story,CART,CART-622,"Network Stack improvement,3.0 Community Release",2021-10-08 12:01:52.998000-07:00,status_change,,2022-01-28 07:17:26.506000-08:00
-Reopened,Open,CART-615,2021-10-08 12:01:52.998000-07:00,Story,CART,CART-622,"Network Stack improvement,3.0 Community Release",2020-03-06 11:46:08-08:00,status_change,,2021-10-08 12:01:52.998000-07:00
-Blocked,Reopened,CART-615,2020-03-06 11:46:08-08:00,Story,CART,CART-622,"Network Stack improvement,3.0 Community Release",2019-09-17 10:46:58-07:00,status_change,,2020-03-06 11:46:08-08:00
-In Progress,Blocked,CART-615,2019-09-17 10:46:58-07:00,Story,CART,CART-622,"Network Stack improvement,3.0 Community Release",2019-06-14 10:22:44-07:00,status_change,,2019-09-17 10:46:58-07:00
-Open,In Progress,CART-615,2019-06-14 10:22:44-07:00,Story,CART,CART-622,"Network Stack improvement,3.0 Community Release",2019-04-29 11:16:26-07:00,status_change,,2019-06-14 10:22:44-07:00
-Blocked,Resolved,CART-614,2020-05-11 20:16:46-07:00,Story,CART,CART-418,1.2 Community Release,2019-12-06 11:56:13-08:00,status_change,,2020-05-11 20:16:46-07:00
-In Progress,Blocked,CART-614,2019-12-06 11:56:13-08:00,Story,CART,CART-418,1.2 Community Release,2019-11-07 10:34:30-08:00,status_change,,2019-12-06 11:56:13-08:00
-Reopened,In Progress,CART-614,2019-11-07 10:34:30-08:00,Story,CART,CART-418,1.2 Community Release,2019-04-30 07:36:11-07:00,status_change,,2019-11-07 10:34:30-08:00
-In Progress,Reopened,CART-614,2019-04-30 07:36:11-07:00,Story,CART,CART-418,1.2 Community Release,2019-04-29 11:13:01-07:00,status_change,,2019-04-30 07:36:11-07:00
-Open,In Progress,CART-614,2019-04-29 11:13:01-07:00,Story,CART,CART-418,1.2 Community Release,2019-04-29 11:12:41-07:00,status_change,,2019-04-29 11:13:01-07:00
-Open,Resolved,CART-608,2020-05-13 14:17:09-07:00,Story,CART,CART-415,1.2 Community Release,2019-04-05 09:43:45-07:00,status_change,,2020-05-13 14:17:09-07:00
-In Review,Resolved,CART-604,2019-12-10 08:00:22-08:00,Story,CART,CART-621,"1.0 Community Release,0.9 Community Release",2019-12-09 21:59:46-08:00,status_change,,2019-12-10 08:00:22-08:00
-Open,In Review,CART-604,2019-12-09 21:59:46-08:00,Story,CART,CART-621,"1.0 Community Release,0.9 Community Release",2019-04-05 09:34:29-07:00,status_change,,2019-12-09 21:59:46-08:00
-Open,Resolved,CART-603,2019-10-08 08:34:32-07:00,Story,CART,CART-621,"1.0 Community Release,0.8 Community Release",2019-10-08 08:34:24-07:00,status_change,,2019-10-08 08:34:32-07:00
-Closed,Open,CART-603,2019-10-08 08:34:24-07:00,Story,CART,CART-621,"1.0 Community Release,0.8 Community Release",2019-06-10 20:21:21-07:00,status_change,,2019-10-08 08:34:24-07:00
-In Progress,Closed,CART-603,2019-06-10 20:21:21-07:00,Story,CART,CART-621,"1.0 Community Release,0.8 Community Release",2019-06-10 20:21:16-07:00,status_change,,2019-06-10 20:21:21-07:00
-In Progress,In Progress,CART-603,2019-06-10 20:21:16-07:00,Story,CART,CART-621,"1.0 Community Release,0.8 Community Release",2019-05-20 11:22:13-07:00,status_change,,2019-06-10 20:21:16-07:00
-To Do,In Progress,CART-603,2019-05-20 11:22:13-07:00,Story,CART,CART-621,"1.0 Community Release,0.8 Community Release",2019-04-29 17:45:09-07:00,status_change,,2019-05-20 11:22:13-07:00
-Open,To Do,CART-603,2019-04-29 17:45:09-07:00,Story,CART,CART-621,"1.0 Community Release,0.8 Community Release",2019-04-05 09:33:40-07:00,status_change,,2019-04-29 17:45:09-07:00
-In Review,Resolved,CART-574,2020-11-20 11:43:10-08:00,Story,CART,CART-415,1.2 Community Release,2020-07-20 09:45:34-07:00,status_change,,2020-11-20 11:43:10-08:00
-In Progress,In Review,CART-574,2020-07-20 09:45:34-07:00,Story,CART,CART-415,1.2 Community Release,2020-07-17 11:26:25-07:00,status_change,,2020-07-20 09:45:34-07:00
-Open,In Progress,CART-574,2020-07-17 11:26:25-07:00,Story,CART,CART-415,1.2 Community Release,2019-01-29 15:40:28-08:00,status_change,,2020-07-17 11:26:25-07:00
-Closed,Released,CART-603,2019-09-13 00:00:00,Story,CART,CART-621,"1.0 Community Release,0.8 Community Release",2019-06-10 20:21:21-07:00,status_change,0.8 Community Release,2019-09-13 00:00:00
+Open,Resolved,CART-987,2022-01-04 15:27:02.766,Story,CART,CART-418,2.2 Community Release,2021-11-16 06:03:36.418,status_change,,2022-01-04 15:27:02.766
+Open,To Do,CART-983,2022-09-28 16:01:53.573,Story,CART,CART-991,2.4 Community Release,2021-09-28 16:24:52.691,status_change,,2022-09-28 16:01:53.573
+In Progress,Resolved,CART-981,2021-09-25 03:04:24.145,Story,CART,CART-418,2.0 Community Release,2021-09-23 17:53:43.513,status_change,,2021-09-25 03:04:24.145
+Open,In Progress,CART-981,2021-09-23 17:53:43.513,Story,CART,CART-418,2.0 Community Release,2021-09-23 01:52:51.388,status_change,,2021-09-23 17:53:43.513
+In Progress,Resolved,CART-976,2021-08-31 20:21:52.460,Story,CART,CART-647,2.2 Community Release,2021-08-24 14:16:06.972,status_change,,2021-08-31 20:21:52.460
+Open,In Progress,CART-976,2021-08-24 14:16:06.972,Story,CART,CART-647,2.2 Community Release,2021-08-16 16:24:03.000,status_change,,2021-08-24 14:16:06.972
+In Progress,Resolved,CART-975,2022-01-13 14:43:25.312,Story,CART,CART-418,2.2 Community Release,2021-10-29 18:26:50.500,status_change,,2022-01-13 14:43:25.312
+Open,In Progress,CART-975,2021-10-29 18:26:50.500,Story,CART,CART-418,2.2 Community Release,2021-08-06 17:21:39.000,status_change,,2021-10-29 18:26:50.500
+In Progress,Resolved,CART-974,2021-09-21 20:28:50.303,Story,CART,CART-647,2.2 Community Release,2021-08-26 17:33:11.047,status_change,,2021-09-21 20:28:50.303
+In Review,In Progress,CART-974,2021-08-26 17:33:11.047,Story,CART,CART-647,2.2 Community Release,2021-08-12 18:27:14.000,status_change,,2021-08-26 17:33:11.047
+In Progress,In Review,CART-974,2021-08-12 18:27:14.000,Story,CART,CART-647,2.2 Community Release,2021-08-03 19:17:03.000,status_change,,2021-08-12 18:27:14.000
+In Review,In Progress,CART-974,2021-08-03 19:17:03.000,Story,CART,CART-647,2.2 Community Release,2021-07-22 16:50:19.000,status_change,,2021-08-03 19:17:03.000
+In Progress,In Review,CART-974,2021-07-22 16:50:19.000,Story,CART,CART-647,2.2 Community Release,2021-07-09 17:44:59.000,status_change,,2021-07-22 16:50:19.000
+Open,In Progress,CART-974,2021-07-09 17:44:59.000,Story,CART,CART-647,2.2 Community Release,2021-07-06 19:22:07.000,status_change,,2021-07-09 17:44:59.000
+In Progress,In Review,CART-972,2021-12-27 17:21:47.986,Story,CART,CART-418,2.4 Community Release,2021-11-01 19:16:11.246,status_change,,2021-12-27 17:21:47.986
+Open,In Progress,CART-972,2021-11-01 19:16:11.246,Story,CART,CART-418,2.4 Community Release,2021-06-25 19:11:09.000,status_change,,2021-11-01 19:16:11.246
+In Review,Resolved,CART-970,2021-07-09 16:40:17.000,Story,CART,CART-622,Network Stack improvement,2021-05-26 20:53:44.000,status_change,,2021-07-09 16:40:17.000
+Open,In Review,CART-970,2021-05-26 20:53:44.000,Story,CART,CART-622,Network Stack improvement,2021-05-26 20:35:59.000,status_change,,2021-05-26 20:53:44.000
+Open,Resolved,CART-966,2022-06-24 18:43:34.744,Story,CART,CART-415,2.4 Community Release,2021-05-05 16:28:59.000,status_change,,2022-06-24 18:43:34.744
+In Review,Resolved,CART-964,2021-04-28 17:01:45.000,Story,CART,CART-418,2.0 Community Release,2021-04-26 17:28:32.000,status_change,,2021-04-28 17:01:45.000
+Open,In Review,CART-964,2021-04-26 17:28:32.000,Story,CART,CART-418,2.0 Community Release,2021-04-13 12:50:15.000,status_change,,2021-04-26 17:28:32.000
+In Review,Resolved,CART-963,2021-07-20 02:57:52.000,Story,CART,CART-415,2.0 Community Release,2021-04-26 17:32:57.000,status_change,,2021-07-20 02:57:52.000
+Open,In Review,CART-963,2021-04-26 17:32:57.000,Story,CART,CART-415,2.0 Community Release,2021-04-02 16:47:00.000,status_change,,2021-04-26 17:32:57.000
+In Review,Resolved,CART-959,2021-03-22 17:11:00.000,Story,CART,CART-415,2.0 Community Release,2021-03-19 16:16:28.000,status_change,,2021-03-22 17:11:00.000
+Open,In Review,CART-959,2021-03-19 16:16:28.000,Story,CART,CART-415,2.0 Community Release,2021-03-19 06:49:47.000,status_change,,2021-03-19 16:16:28.000
+In Progress,Resolved,CART-952,2021-09-13 17:11:40.026,Story,CART,CART-647,2.2 Community Release,2021-08-03 18:13:10.000,status_change,,2021-09-13 17:11:40.026
+Blocked,In Progress,CART-952,2021-08-03 18:13:10.000,Story,CART,CART-647,2.2 Community Release,2021-07-27 20:51:58.000,status_change,,2021-08-03 18:13:10.000
+In Progress,Blocked,CART-952,2021-07-27 20:51:58.000,Story,CART,CART-647,2.2 Community Release,2021-02-23 21:01:43.000,status_change,,2021-07-27 20:51:58.000
+To Do,In Progress,CART-952,2021-02-23 21:01:43.000,Story,CART,CART-647,2.2 Community Release,2021-02-19 15:40:25.000,status_change,,2021-02-23 21:01:43.000
+Open,To Do,CART-952,2021-02-19 15:40:25.000,Story,CART,CART-647,2.2 Community Release,2021-02-18 17:08:16.000,status_change,,2021-02-19 15:40:25.000
+In Progress,Resolved,CART-951,2021-03-19 18:35:56.000,Story,CART,CART-415,2.0 Community Release,2021-02-17 21:36:54.000,status_change,,2021-03-19 18:35:56.000
+Open,In Progress,CART-951,2021-02-17 21:36:54.000,Story,CART,CART-415,2.0 Community Release,2021-02-17 14:20:56.000,status_change,,2021-02-17 21:36:54.000
+In Progress,Resolved,CART-944,2021-02-26 08:12:53.000,Story,CART,CART-415,2.0 Community Release,2021-02-16 14:44:01.000,status_change,,2021-02-26 08:12:53.000
+Open,In Progress,CART-944,2021-02-16 14:44:01.000,Story,CART,CART-415,2.0 Community Release,2021-01-27 21:34:06.000,status_change,,2021-02-16 14:44:01.000
+Blocked,Resolved,CART-942,2021-11-01 19:17:36.993,Story,CART,CART-647,2.2 Community Release,2021-08-02 17:25:56.000,status_change,,2021-11-01 19:17:36.993
+In Progress,Blocked,CART-942,2021-08-02 17:25:56.000,Story,CART,CART-647,2.2 Community Release,2021-07-13 20:51:56.000,status_change,,2021-08-02 17:25:56.000
+Blocked,In Progress,CART-942,2021-07-13 20:51:56.000,Story,CART,CART-647,2.2 Community Release,2021-01-15 20:23:01.000,status_change,,2021-07-13 20:51:56.000
+Open,Blocked,CART-942,2021-01-15 20:23:01.000,Story,CART,CART-647,2.2 Community Release,2021-01-15 20:11:31.000,status_change,,2021-01-15 20:23:01.000
+In Review,Resolved,CART-936,2021-01-26 21:39:26.000,Story,CART,,1.2 Community Release,2021-01-22 19:12:51.000,status_change,,2021-01-26 21:39:26.000
+In Progress,In Review,CART-936,2021-01-22 19:12:51.000,Story,CART,,1.2 Community Release,2021-01-07 17:46:34.000,status_change,,2021-01-22 19:12:51.000
+Open,In Progress,CART-936,2021-01-07 17:46:34.000,Story,CART,,1.2 Community Release,2021-01-05 03:50:49.000,status_change,,2021-01-07 17:46:34.000
+In Progress,Resolved,CART-933,2021-02-19 16:28:21.000,Story,CART,CART-415,2.0 Community Release,2021-01-28 18:47:57.000,status_change,,2021-02-19 16:28:21.000
+In Progress,In Progress,CART-933,2021-01-28 18:47:57.000,Story,CART,CART-415,2.0 Community Release,2021-01-28 18:25:06.000,status_change,,2021-01-28 18:47:57.000
+To Do,In Progress,CART-933,2021-01-28 18:25:06.000,Story,CART,CART-415,2.0 Community Release,2021-01-28 18:10:35.000,status_change,,2021-01-28 18:25:06.000
+Reopened,To Do,CART-933,2021-01-28 18:10:35.000,Story,CART,CART-415,2.0 Community Release,2021-01-28 18:07:24.000,status_change,,2021-01-28 18:10:35.000
+Resolved,Reopened,CART-933,2021-01-28 18:07:24.000,Story,CART,CART-415,2.0 Community Release,2021-01-26 17:28:27.000,status_change,,2021-01-28 18:07:24.000
+To Do,Resolved,CART-933,2021-01-26 17:28:27.000,Story,CART,CART-415,2.0 Community Release,2021-01-26 17:22:15.000,status_change,,2021-01-26 17:28:27.000
+In Progress,To Do,CART-933,2021-01-26 17:22:15.000,Story,CART,CART-415,2.0 Community Release,2021-01-22 19:25:01.000,status_change,,2021-01-26 17:22:15.000
+To Do,In Progress,CART-933,2021-01-22 19:25:01.000,Story,CART,CART-415,2.0 Community Release,2021-01-08 18:21:57.000,status_change,,2021-01-22 19:25:01.000
+Open,To Do,CART-933,2021-01-08 18:21:57.000,Story,CART,CART-415,2.0 Community Release,2020-12-16 20:01:04.000,status_change,,2021-01-08 18:21:57.000
+Open,Resolved,CART-932,2022-01-28 15:32:07.182,Story,CART,CART-622,Network Stack improvement,2020-12-16 13:36:32.000,status_change,,2022-01-28 15:32:07.182
+In Review,Resolved,CART-927,2020-12-10 17:44:21.000,Story,CART,CART-415,1.2 Community Release,2020-12-08 21:50:50.000,status_change,,2020-12-10 17:44:21.000
+Open,In Review,CART-927,2020-12-08 21:50:50.000,Story,CART,CART-415,1.2 Community Release,2020-12-01 01:29:24.000,status_change,,2020-12-08 21:50:50.000
+In Progress,Resolved,CART-924,2020-11-20 19:10:14.000,Story,CART,CART-415,1.2 Community Release,2020-11-11 20:00:48.000,status_change,,2020-11-20 19:10:14.000
+Open,In Progress,CART-924,2020-11-11 20:00:48.000,Story,CART,CART-415,1.2 Community Release,2020-11-10 22:56:58.000,status_change,,2020-11-11 20:00:48.000
+To Do,Resolved,CART-914,2022-01-04 15:29:34.734,Story,CART,CART-647,2.2 Community Release,2020-10-06 13:21:00.000,status_change,,2022-01-04 15:29:34.734
+Open,To Do,CART-914,2020-10-06 13:21:00.000,Story,CART,CART-647,2.2 Community Release,2020-09-30 02:49:14.000,status_change,,2020-10-06 13:21:00.000
+To Do,Resolved,CART-912,2021-02-23 19:03:26.000,Story,CART,CART-647,2.0 Community Release,2021-02-23 19:01:20.000,status_change,,2021-02-23 19:03:26.000
+In Progress,To Do,CART-912,2021-02-23 19:01:20.000,Story,CART,CART-647,2.0 Community Release,2021-01-04 18:28:17.000,status_change,,2021-02-23 19:01:20.000
+To Do,In Progress,CART-912,2021-01-04 18:28:17.000,Story,CART,CART-647,2.0 Community Release,2020-12-22 16:59:44.000,status_change,,2021-01-04 18:28:17.000
+Open,To Do,CART-912,2020-12-22 16:59:44.000,Story,CART,CART-647,2.0 Community Release,2020-09-16 17:52:42.000,status_change,,2020-12-22 16:59:44.000
+In Review,Resolved,CART-906,2021-02-09 14:40:22.000,Story,CART,CART-647,1.2 Community Release,2021-01-05 21:33:40.000,status_change,,2021-02-09 14:40:22.000
+In Progress,In Review,CART-906,2021-01-05 21:33:40.000,Story,CART,CART-647,1.2 Community Release,2020-11-20 19:17:59.000,status_change,,2021-01-05 21:33:40.000
+Open,In Progress,CART-906,2020-11-20 19:17:59.000,Story,CART,CART-647,1.2 Community Release,2020-07-09 03:00:32.000,status_change,,2020-11-20 19:17:59.000
+In Review,Resolved,CART-904,2020-06-02 07:20:46.000,Story,CART,DAOS-4716,1.2 Community Release,2020-05-25 03:18:58.000,status_change,,2020-06-02 07:20:46.000
+In Progress,In Review,CART-904,2020-05-25 03:18:58.000,Story,CART,DAOS-4716,1.2 Community Release,2020-05-25 02:21:31.000,status_change,,2020-05-25 03:18:58.000
+Open,In Progress,CART-904,2020-05-25 02:21:31.000,Story,CART,DAOS-4716,1.2 Community Release,2020-05-25 02:21:11.000,status_change,,2020-05-25 02:21:31.000
+In Review,Resolved,CART-903,2020-06-05 17:54:30.000,Story,CART,CART-415,1.2 Community Release,2020-05-21 04:21:24.000,status_change,,2020-06-05 17:54:30.000
+Open,In Review,CART-903,2020-05-21 04:21:24.000,Story,CART,CART-415,1.2 Community Release,2020-05-21 03:05:10.000,status_change,,2020-05-21 04:21:24.000
+In Review,Resolved,CART-897,2020-05-21 04:21:46.000,Story,CART,CART-402,1.2 Community Release,2020-05-19 02:59:42.000,status_change,,2020-05-21 04:21:46.000
+In Progress,In Review,CART-897,2020-05-19 02:59:42.000,Story,CART,CART-402,1.2 Community Release,2020-05-19 02:58:31.000,status_change,,2020-05-19 02:59:42.000
+Open,In Progress,CART-897,2020-05-19 02:58:31.000,Story,CART,CART-402,1.2 Community Release,2020-05-13 21:39:43.000,status_change,,2020-05-19 02:58:31.000
+In Progress,Blocked,CART-896,2021-10-07 17:25:41.633,Story,CART,CART-415,2.4 Community Release,2021-08-10 13:56:10.000,status_change,,2021-10-07 17:25:41.633
+To Do,In Progress,CART-896,2021-08-10 13:56:10.000,Story,CART,CART-415,2.4 Community Release,2021-02-19 15:37:35.000,status_change,,2021-08-10 13:56:10.000
+In Progress,To Do,CART-896,2021-02-19 15:37:35.000,Story,CART,CART-415,2.4 Community Release,2020-11-20 19:33:50.000,status_change,,2021-02-19 15:37:35.000
+In Progress,In Progress,CART-896,2020-11-20 19:33:50.000,Story,CART,CART-415,2.4 Community Release,2020-11-20 19:33:38.000,status_change,,2020-11-20 19:33:50.000
+To Do,In Progress,CART-896,2020-11-20 19:33:38.000,Story,CART,CART-415,2.4 Community Release,2020-10-23 18:40:12.000,status_change,,2020-11-20 19:33:38.000
+Open,To Do,CART-896,2020-10-23 18:40:12.000,Story,CART,CART-415,2.4 Community Release,2020-05-11 17:26:04.000,status_change,,2020-10-23 18:40:12.000
+In Progress,Resolved,CART-890,2020-05-13 20:40:59.000,Story,CART,,1.2 Community Release,2020-04-28 18:57:31.000,status_change,,2020-05-13 20:40:59.000
+Open,In Progress,CART-890,2020-04-28 18:57:31.000,Story,CART,,1.2 Community Release,2020-04-28 17:55:55.000,status_change,,2020-04-28 18:57:31.000
+In Review,Resolved,CART-886,2020-06-01 14:17:32.000,Story,CART,CART-415,MS-160 DAOS PathForward Stabilization,2020-04-30 21:39:13.000,status_change,,2020-06-01 14:17:32.000
+Reopened,In Review,CART-886,2020-04-30 21:39:13.000,Story,CART,CART-415,MS-160 DAOS PathForward Stabilization,2020-04-30 21:38:55.000,status_change,,2020-04-30 21:39:13.000
+In Review,Reopened,CART-886,2020-04-30 21:38:55.000,Story,CART,CART-415,MS-160 DAOS PathForward Stabilization,2020-04-30 21:37:08.000,status_change,,2020-04-30 21:38:55.000
+Reopened,In Review,CART-886,2020-04-30 21:37:08.000,Story,CART,CART-415,MS-160 DAOS PathForward Stabilization,2020-04-30 21:36:47.000,status_change,,2020-04-30 21:37:08.000
+In Review,Reopened,CART-886,2020-04-30 21:36:47.000,Story,CART,CART-415,MS-160 DAOS PathForward Stabilization,2020-04-30 21:36:02.000,status_change,,2020-04-30 21:36:47.000
+Resolved,In Review,CART-886,2020-04-30 21:36:02.000,Story,CART,CART-415,MS-160 DAOS PathForward Stabilization,2020-04-30 13:20:18.000,status_change,,2020-04-30 21:36:02.000
+In Review,Resolved,CART-886,2020-04-30 13:20:18.000,Story,CART,CART-415,MS-160 DAOS PathForward Stabilization,2020-04-23 16:52:01.000,status_change,,2020-04-30 13:20:18.000
+In Progress,In Review,CART-886,2020-04-23 16:52:01.000,Story,CART,CART-415,MS-160 DAOS PathForward Stabilization,2020-04-23 16:46:23.000,status_change,,2020-04-23 16:52:01.000
+Open,In Progress,CART-886,2020-04-23 16:46:23.000,Story,CART,CART-415,MS-160 DAOS PathForward Stabilization,2020-04-23 16:45:58.000,status_change,,2020-04-23 16:46:23.000
+Blocked,Resolved,CART-874,2021-10-21 15:54:10.081,Story,CART,CART-622,2.2 Community Release,2021-06-15 18:14:18.000,status_change,,2021-10-21 15:54:10.081
+In Progress,Blocked,CART-874,2021-06-15 18:14:18.000,Story,CART,CART-622,2.2 Community Release,2020-10-23 18:21:24.000,status_change,,2021-06-15 18:14:18.000
+Open,In Progress,CART-874,2020-10-23 18:21:24.000,Story,CART,CART-622,2.2 Community Release,2020-03-27 20:22:05.000,status_change,,2020-10-23 18:21:24.000
+In Review,Resolved,CART-872,2020-07-17 16:01:45.000,Story,CART,CART-415,1.2 Community Release,2020-03-24 14:13:15.000,status_change,,2020-07-17 16:01:45.000
+To Do,In Review,CART-872,2020-03-24 14:13:15.000,Story,CART,CART-415,1.2 Community Release,2020-03-24 14:05:11.000,status_change,,2020-03-24 14:13:15.000
+Open,To Do,CART-872,2020-03-24 14:05:11.000,Story,CART,CART-415,1.2 Community Release,2020-03-24 14:05:00.000,status_change,,2020-03-24 14:05:11.000
+Open,Resolved,CART-869,2020-04-16 15:04:24.000,Story,CART,CART-417,1.2 Community Release,2020-03-20 16:19:55.000,status_change,,2020-04-16 15:04:24.000
+Open,Resolved,CART-868,2020-05-13 21:01:39.000,Story,CART,CART-415,1.2 Community Release,2018-07-03 19:27:17.000,status_change,,2020-05-13 21:01:39.000
+Open,Resolved,CART-862,2020-03-26 19:25:02.000,Story,CART,CART-858,1.2 Community Release,2020-02-28 21:41:36.000,status_change,,2020-03-26 19:25:02.000
+In Progress,Resolved,CART-861,2020-08-04 18:10:14.000,Story,CART,CART-858,1.2 Community Release,2020-07-21 16:51:45.000,status_change,,2020-08-04 18:10:14.000
+To Do,In Progress,CART-861,2020-07-21 16:51:45.000,Story,CART,CART-858,1.2 Community Release,2020-04-28 19:29:41.000,status_change,,2020-07-21 16:51:45.000
+Open,To Do,CART-861,2020-04-28 19:29:41.000,Story,CART,CART-858,1.2 Community Release,2020-02-28 21:39:35.000,status_change,,2020-04-28 19:29:41.000
+Open,Resolved,CART-860,2020-04-16 19:40:25.000,Story,CART,CART-858,1.2 Community Release,2020-02-28 21:37:36.000,status_change,,2020-04-16 19:40:25.000
+Open,Resolved,CART-859,2020-03-26 19:24:16.000,Story,CART,CART-858,1.2 Community Release,2020-02-28 21:35:52.000,status_change,,2020-03-26 19:24:16.000
+Open,Resolved,CART-848,2020-02-18 19:32:00.000,Story,CART,,1.2 Community Release,2020-02-12 22:57:25.000,status_change,,2020-02-18 19:32:00.000
+Reopened,Resolved,CART-843,2020-04-14 16:38:38.000,Story,CART,,1.0 Community Release,2020-04-02 17:10:47.000,status_change,,2020-04-14 16:38:38.000
+Resolved,Reopened,CART-843,2020-04-02 17:10:47.000,Story,CART,,1.0 Community Release,2020-03-20 19:58:03.000,status_change,,2020-04-02 17:10:47.000
+In Review,Resolved,CART-843,2020-03-20 19:58:03.000,Story,CART,,1.0 Community Release,2020-01-31 17:14:00.000,status_change,,2020-03-20 19:58:03.000
+Open,In Review,CART-843,2020-01-31 17:14:00.000,Story,CART,,1.0 Community Release,2020-01-28 20:33:43.000,status_change,,2020-01-31 17:14:00.000
+In Review,Resolved,CART-842,2020-09-22 16:08:09.000,Story,CART,CART-415,1.2 Community Release,2020-09-11 19:08:28.000,status_change,,2020-09-22 16:08:09.000
+In Progress,In Review,CART-842,2020-09-11 19:08:28.000,Story,CART,CART-415,1.2 Community Release,2020-09-10 15:24:27.000,status_change,,2020-09-11 19:08:28.000
+To Do,In Progress,CART-842,2020-09-10 15:24:27.000,Story,CART,CART-415,1.2 Community Release,2020-05-18 23:03:28.000,status_change,,2020-09-10 15:24:27.000
+Open,To Do,CART-842,2020-05-18 23:03:28.000,Story,CART,CART-415,1.2 Community Release,2020-01-24 15:01:04.000,status_change,,2020-05-18 23:03:28.000
+In Progress,Resolved,CART-838,2020-01-26 21:27:04.000,Story,CART,CART-420,1.0 Community Release,2020-01-22 14:39:15.000,status_change,,2020-01-26 21:27:04.000
+To Do,In Progress,CART-838,2020-01-22 14:39:15.000,Story,CART,CART-420,1.0 Community Release,2020-01-14 16:09:33.000,status_change,,2020-01-22 14:39:15.000
+Open,To Do,CART-838,2020-01-14 16:09:33.000,Story,CART,CART-420,1.0 Community Release,2020-01-14 16:09:27.000,status_change,,2020-01-14 16:09:33.000
+In Review,Resolved,CART-837,2020-01-14 19:56:14.000,Story,CART,,1.0 Community Release,2020-01-14 04:47:25.000,status_change,,2020-01-14 19:56:14.000
+In Progress,In Review,CART-837,2020-01-14 04:47:25.000,Story,CART,,1.0 Community Release,2020-01-14 04:15:28.000,status_change,,2020-01-14 04:47:25.000
+Open,In Progress,CART-837,2020-01-14 04:15:28.000,Story,CART,,1.0 Community Release,2020-01-14 04:15:18.000,status_change,,2020-01-14 04:15:28.000
+In Review,Resolved,CART-835,2020-01-10 06:01:51.000,Story,CART,,1.0 Community Release,2020-01-10 06:01:42.000,status_change,,2020-01-10 06:01:51.000
+Open,In Review,CART-835,2020-01-10 06:01:42.000,Story,CART,,1.0 Community Release,2020-01-09 17:42:20.000,status_change,,2020-01-10 06:01:42.000
+In Progress,Resolved,CART-834,2020-04-17 15:47:31.000,Story,CART,,1.0 Community Release,2020-03-31 16:16:38.000,status_change,,2020-04-17 15:47:31.000
+Open,In Progress,CART-834,2020-03-31 16:16:38.000,Story,CART,,1.0 Community Release,2020-01-08 16:21:21.000,status_change,,2020-03-31 16:16:38.000
+In Review,Resolved,CART-832,2020-01-22 20:42:54.000,Story,CART,DAOS-3649,1.0 Community Release,2020-01-22 05:45:57.000,status_change,,2020-01-22 20:42:54.000
+In Progress,In Review,CART-832,2020-01-22 05:45:57.000,Story,CART,DAOS-3649,1.0 Community Release,2020-01-20 02:56:17.000,status_change,,2020-01-22 05:45:57.000
+To Do,In Progress,CART-832,2020-01-20 02:56:17.000,Story,CART,DAOS-3649,1.0 Community Release,2020-01-09 19:11:43.000,status_change,,2020-01-20 02:56:17.000
+Open,To Do,CART-832,2020-01-09 19:11:43.000,Story,CART,DAOS-3649,1.0 Community Release,2019-12-13 15:35:00.000,status_change,,2020-01-09 19:11:43.000
+In Progress,Resolved,CART-831,2021-03-20 00:20:55.000,Story,CART,CART-647,2.0 Community Release,2021-03-12 14:52:43.000,status_change,,2021-03-20 00:20:55.000
+In Review,In Progress,CART-831,2021-03-12 14:52:43.000,Story,CART,CART-647,2.0 Community Release,2021-02-05 19:23:00.000,status_change,,2021-03-12 14:52:43.000
+In Progress,In Review,CART-831,2021-02-05 19:23:00.000,Story,CART,CART-647,2.0 Community Release,2021-02-02 21:45:10.000,status_change,,2021-02-05 19:23:00.000
+To Do,In Progress,CART-831,2021-02-02 21:45:10.000,Story,CART,CART-647,2.0 Community Release,2020-11-10 21:43:57.000,status_change,,2021-02-02 21:45:10.000
+To Do,To Do,CART-831,2020-11-10 21:43:57.000,Story,CART,CART-647,2.0 Community Release,2020-10-06 19:41:01.000,status_change,,2020-11-10 21:43:57.000
+Reopened,To Do,CART-831,2020-10-06 19:41:01.000,Story,CART,CART-647,2.0 Community Release,2020-10-06 19:40:58.000,status_change,,2020-10-06 19:41:01.000
+Open,Reopened,CART-831,2020-10-06 19:40:58.000,Story,CART,CART-647,2.0 Community Release,2019-12-12 20:13:09.000,status_change,,2020-10-06 19:40:58.000
+Open,Resolved,CART-828,2020-05-07 16:59:54.000,Story,CART,CART-647,1.2 Community Release,2019-12-07 09:25:03.000,status_change,,2020-05-07 16:59:54.000
+In Review,Resolved,CART-827,2019-12-17 22:02:47.000,Story,CART,CART-647,"1.0 Community Release,0.9 Community Release",2019-12-16 21:51:28.000,status_change,,2019-12-17 22:02:47.000
+To Do,In Review,CART-827,2019-12-16 21:51:28.000,Story,CART,CART-647,"1.0 Community Release,0.9 Community Release",2019-12-09 17:28:07.000,status_change,,2019-12-16 21:51:28.000
+Open,To Do,CART-827,2019-12-09 17:28:07.000,Story,CART,CART-647,"1.0 Community Release,0.9 Community Release",2019-12-07 09:24:15.000,status_change,,2019-12-09 17:28:07.000
+In Progress,Resolved,CART-821,2020-01-08 16:36:49.000,Story,CART,DAOS-3292,"1.0 Community Release,0.9 Community Release",2019-12-18 18:20:28.000,status_change,,2020-01-08 16:36:49.000
+In Progress,In Progress,CART-821,2019-12-18 18:20:28.000,Story,CART,DAOS-3292,"1.0 Community Release,0.9 Community Release",2019-12-18 18:20:17.000,status_change,,2019-12-18 18:20:28.000
+To Do,In Progress,CART-821,2019-12-18 18:20:17.000,Story,CART,DAOS-3292,"1.0 Community Release,0.9 Community Release",2019-12-06 21:42:33.000,status_change,,2019-12-18 18:20:17.000
+Open,To Do,CART-821,2019-12-06 21:42:33.000,Story,CART,DAOS-3292,"1.0 Community Release,0.9 Community Release",2019-11-27 16:04:13.000,status_change,,2019-12-06 21:42:33.000
+To Do,Resolved,CART-817,2019-12-09 17:36:13.000,Story,CART,CART-647,"1.0 Community Release,0.9 Community Release",2019-12-09 17:16:59.000,status_change,,2019-12-09 17:36:13.000
+Open,To Do,CART-817,2019-12-09 17:16:59.000,Story,CART,CART-647,"1.0 Community Release,0.9 Community Release",2019-11-13 17:42:41.000,status_change,,2019-12-09 17:16:59.000
+To Do,Resolved,CART-816,2019-12-09 17:35:28.000,Story,CART,CART-647,"1.0 Community Release,0.9 Community Release",2019-12-09 17:16:57.000,status_change,,2019-12-09 17:35:28.000
+Open,To Do,CART-816,2019-12-09 17:16:57.000,Story,CART,CART-647,"1.0 Community Release,0.9 Community Release",2019-11-13 17:41:58.000,status_change,,2019-12-09 17:16:57.000
+In Review,Resolved,CART-815,2019-11-19 18:32:14.000,Story,CART,CART-647,"1.0 Community Release,0.9 Community Release",2019-11-16 02:59:08.000,status_change,,2019-11-19 18:32:14.000
+In Progress,In Review,CART-815,2019-11-16 02:59:08.000,Story,CART,CART-647,"1.0 Community Release,0.9 Community Release",2019-11-15 17:14:38.000,status_change,,2019-11-16 02:59:08.000
+Open,In Progress,CART-815,2019-11-15 17:14:38.000,Story,CART,CART-647,"1.0 Community Release,0.9 Community Release",2019-11-13 17:41:09.000,status_change,,2019-11-15 17:14:38.000
+In Review,Resolved,CART-814,2019-12-04 15:14:48.000,Story,CART,CART-647,"1.0 Community Release,0.9 Community Release",2019-11-21 21:33:04.000,status_change,,2019-12-04 15:14:48.000
+In Progress,In Review,CART-814,2019-11-21 21:33:04.000,Story,CART,CART-647,"1.0 Community Release,0.9 Community Release",2019-11-21 17:54:33.000,status_change,,2019-11-21 21:33:04.000
+Open,In Progress,CART-814,2019-11-21 17:54:33.000,Story,CART,CART-647,"1.0 Community Release,0.9 Community Release",2019-11-13 17:40:27.000,status_change,,2019-11-21 17:54:33.000
+In Progress,Resolved,CART-813,2019-12-09 17:34:22.000,Story,CART,CART-647,"1.0 Community Release,0.9 Community Release",2019-12-03 17:25:28.000,status_change,,2019-12-09 17:34:22.000
+Open,In Progress,CART-813,2019-12-03 17:25:28.000,Story,CART,CART-647,"1.0 Community Release,0.9 Community Release",2019-11-13 17:39:14.000,status_change,,2019-12-03 17:25:28.000
+In Review,Resolved,CART-812,2019-11-16 02:58:41.000,Story,CART,CART-647,"1.0 Community Release,0.9 Community Release",2019-11-13 17:44:14.000,status_change,,2019-11-16 02:58:41.000
+In Progress,In Review,CART-812,2019-11-13 17:44:14.000,Story,CART,CART-647,"1.0 Community Release,0.9 Community Release",2019-11-13 17:44:08.000,status_change,,2019-11-13 17:44:14.000
+Open,In Progress,CART-812,2019-11-13 17:44:08.000,Story,CART,CART-647,"1.0 Community Release,0.9 Community Release",2019-11-13 17:35:34.000,status_change,,2019-11-13 17:44:08.000
+In Review,Resolved,CART-805,2019-12-18 18:17:20.000,Story,CART,CART-415,"1.0 Community Release,0.9 Community Release",2019-12-18 00:14:17.000,status_change,,2019-12-18 18:17:20.000
+To Do,In Review,CART-805,2019-12-18 00:14:17.000,Story,CART,CART-415,"1.0 Community Release,0.9 Community Release",2019-12-06 21:42:30.000,status_change,,2019-12-18 00:14:17.000
+Open,To Do,CART-805,2019-12-06 21:42:30.000,Story,CART,CART-415,"1.0 Community Release,0.9 Community Release",2019-11-06 03:30:50.000,status_change,,2019-12-06 21:42:30.000
+Open,Resolved,CART-768,2020-04-03 17:56:41.000,Story,CART,CART-417,1.0 Community Release,2019-09-18 17:55:47.000,status_change,,2020-04-03 17:56:41.000
+Closed,Resolved,CART-282,2019-10-22 20:05:05.000,Story,CART,CART-416,CaRT Phase 1 1H'18,2018-04-23 16:56:58.000,status_change,,2019-10-22 20:05:05.000
+In Review,Closed,CART-282,2018-04-23 16:56:58.000,Story,CART,CART-416,CaRT Phase 1 1H'18,2018-04-09 21:37:40.000,status_change,,2018-04-23 16:56:58.000
+Open,In Review,CART-282,2018-04-09 21:37:40.000,Story,CART,CART-416,CaRT Phase 1 1H'18,2017-09-05 09:43:05.000,status_change,,2018-04-09 21:37:40.000
+Open,Resolved,CART-269,2020-05-14 13:02:04.000,Story,CART,CART-418,1.2 Community Release,2017-08-21 13:41:43.000,status_change,,2020-05-14 13:02:04.000
+Open,Resolved,CART-267,2021-08-26 18:17:55.322,Story,CART,CART-415,2.2 Community Release,2017-08-17 16:13:53.000,status_change,,2021-08-26 18:17:55.322
+Closed,Resolved,CART-255,2019-10-22 20:05:03.000,Story,CART,CART-402,CaRT Phase 1 1H'18,2019-05-10 14:29:55.000,status_change,,2019-10-22 20:05:03.000
+Open,Closed,CART-255,2019-05-10 14:29:55.000,Story,CART,CART-402,CaRT Phase 1 1H'18,2019-05-10 14:28:51.000,status_change,,2019-05-10 14:29:55.000
+Closed,Open,CART-255,2019-05-10 14:28:51.000,Story,CART,CART-402,CaRT Phase 1 1H'18,2019-04-08 18:42:05.000,status_change,,2019-05-10 14:28:51.000
+In Progress,Closed,CART-255,2019-04-08 18:42:05.000,Story,CART,CART-402,CaRT Phase 1 1H'18,2019-04-08 18:41:57.000,status_change,,2019-04-08 18:42:05.000
+In Progress,In Progress,CART-255,2019-04-08 18:41:57.000,Story,CART,CART-402,CaRT Phase 1 1H'18,2019-04-01 18:22:25.000,status_change,,2019-04-08 18:41:57.000
+Open,In Progress,CART-255,2019-04-01 18:22:25.000,Story,CART,CART-402,CaRT Phase 1 1H'18,2017-07-28 17:15:50.000,status_change,,2019-04-01 18:22:25.000
+Closed,Resolved,CART-245,2019-10-22 20:05:03.000,Story,CART,CART-415,Cart Phase 2 2H'18,2018-11-27 01:16:52.000,status_change,,2019-10-22 20:05:03.000
+Open,Closed,CART-245,2018-11-27 01:16:52.000,Story,CART,CART-415,Cart Phase 2 2H'18,2017-07-21 06:29:06.000,status_change,,2018-11-27 01:16:52.000
+Open,Resolved,CART-217,2020-05-13 21:23:19.000,Story,CART,CART-415,1.2 Community Release,2017-05-23 12:11:43.000,status_change,,2020-05-13 21:23:19.000
+Closed,Resolved,CART-141,2019-10-22 20:04:52.000,Story,CART,CART-229,Cart Phase 2 2H'18,2018-02-14 19:28:38.000,status_change,,2019-10-22 20:04:52.000
+Open,Closed,CART-141,2018-02-14 19:28:38.000,Story,CART,CART-229,Cart Phase 2 2H'18,2017-01-23 14:27:10.000,status_change,,2018-02-14 19:28:38.000
+In Progress,Resolved,CART-616,2019-07-12 03:08:06.000,Story,CART,CART-621,"1.0 Community Release,0.8 Community Release",2019-07-12 03:07:21.000,status_change,,2019-07-12 03:08:06.000
+Open,In Progress,CART-616,2019-07-12 03:07:21.000,Story,CART,CART-621,"1.0 Community Release,0.8 Community Release",2019-04-29 20:42:18.000,status_change,,2019-07-12 03:07:21.000
+Open,In Progress,CART-615,2022-01-28 15:17:26.506,Story,CART,CART-622,"Network Stack improvement,3.0 Community Release",2021-10-08 19:01:52.998,status_change,,2022-01-28 15:17:26.506
+Reopened,Open,CART-615,2021-10-08 19:01:52.998,Story,CART,CART-622,"Network Stack improvement,3.0 Community Release",2020-03-06 19:46:08.000,status_change,,2021-10-08 19:01:52.998
+Blocked,Reopened,CART-615,2020-03-06 19:46:08.000,Story,CART,CART-622,"Network Stack improvement,3.0 Community Release",2019-09-17 17:46:58.000,status_change,,2020-03-06 19:46:08.000
+In Progress,Blocked,CART-615,2019-09-17 17:46:58.000,Story,CART,CART-622,"Network Stack improvement,3.0 Community Release",2019-06-14 17:22:44.000,status_change,,2019-09-17 17:46:58.000
+Open,In Progress,CART-615,2019-06-14 17:22:44.000,Story,CART,CART-622,"Network Stack improvement,3.0 Community Release",2019-04-29 18:16:26.000,status_change,,2019-06-14 17:22:44.000
+Blocked,Resolved,CART-614,2020-05-12 03:16:46.000,Story,CART,CART-418,1.2 Community Release,2019-12-06 19:56:13.000,status_change,,2020-05-12 03:16:46.000
+In Progress,Blocked,CART-614,2019-12-06 19:56:13.000,Story,CART,CART-418,1.2 Community Release,2019-11-07 18:34:30.000,status_change,,2019-12-06 19:56:13.000
+Reopened,In Progress,CART-614,2019-11-07 18:34:30.000,Story,CART,CART-418,1.2 Community Release,2019-04-30 14:36:11.000,status_change,,2019-11-07 18:34:30.000
+In Progress,Reopened,CART-614,2019-04-30 14:36:11.000,Story,CART,CART-418,1.2 Community Release,2019-04-29 18:13:01.000,status_change,,2019-04-30 14:36:11.000
+Open,In Progress,CART-614,2019-04-29 18:13:01.000,Story,CART,CART-418,1.2 Community Release,2019-04-29 18:12:41.000,status_change,,2019-04-29 18:13:01.000
+Open,Resolved,CART-608,2020-05-13 21:17:09.000,Story,CART,CART-415,1.2 Community Release,2019-04-05 16:43:45.000,status_change,,2020-05-13 21:17:09.000
+In Review,Resolved,CART-604,2019-12-10 16:00:22.000,Story,CART,CART-621,"1.0 Community Release,0.9 Community Release",2019-12-10 05:59:46.000,status_change,,2019-12-10 16:00:22.000
+Open,In Review,CART-604,2019-12-10 05:59:46.000,Story,CART,CART-621,"1.0 Community Release,0.9 Community Release",2019-04-05 16:34:29.000,status_change,,2019-12-10 05:59:46.000
+Open,Resolved,CART-603,2019-10-08 15:34:32.000,Story,CART,CART-621,"1.0 Community Release,0.8 Community Release",2019-10-08 15:34:24.000,status_change,,2019-10-08 15:34:32.000
+Closed,Open,CART-603,2019-10-08 15:34:24.000,Story,CART,CART-621,"1.0 Community Release,0.8 Community Release",2019-06-11 03:21:21.000,status_change,,2019-10-08 15:34:24.000
+In Progress,Closed,CART-603,2019-06-11 03:21:21.000,Story,CART,CART-621,"1.0 Community Release,0.8 Community Release",2019-06-11 03:21:16.000,status_change,,2019-06-11 03:21:21.000
+In Progress,In Progress,CART-603,2019-06-11 03:21:16.000,Story,CART,CART-621,"1.0 Community Release,0.8 Community Release",2019-05-20 18:22:13.000,status_change,,2019-06-11 03:21:16.000
+To Do,In Progress,CART-603,2019-05-20 18:22:13.000,Story,CART,CART-621,"1.0 Community Release,0.8 Community Release",2019-04-30 00:45:09.000,status_change,,2019-05-20 18:22:13.000
+Open,To Do,CART-603,2019-04-30 00:45:09.000,Story,CART,CART-621,"1.0 Community Release,0.8 Community Release",2019-04-05 16:33:40.000,status_change,,2019-04-30 00:45:09.000
+In Review,Resolved,CART-574,2020-11-20 19:43:10.000,Story,CART,CART-415,1.2 Community Release,2020-07-20 16:45:34.000,status_change,,2020-11-20 19:43:10.000
+In Progress,In Review,CART-574,2020-07-20 16:45:34.000,Story,CART,CART-415,1.2 Community Release,2020-07-17 18:26:25.000,status_change,,2020-07-20 16:45:34.000
+Open,In Progress,CART-574,2020-07-17 18:26:25.000,Story,CART,CART-415,1.2 Community Release,2019-01-29 23:40:28.000,status_change,,2020-07-17 18:26:25.000
+Closed,Released,CART-603,2019-09-13 00:00:00.000,Story,CART,CART-621,"1.0 Community Release,0.8 Community Release",2019-06-11 03:21:21.000,status_change,0.8 Community Release,2019-09-13 00:00:00.000

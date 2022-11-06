@@ -20,7 +20,7 @@ RUN apt-get update && \
         gcc         \
         git         \
         libwww-perl  \
-        libmysqlclient-dev && \
+        mysql-client-core-8.0 && \
     apt-get autoremove -y && \
     apt-get clean
 
