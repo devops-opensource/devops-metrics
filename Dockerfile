@@ -21,6 +21,7 @@ RUN apt-get update && \
         gcc         \
         git         \
         default-mysql-client \
+        python-mysqldb \ 
         libmariadb-dev-compat && \
     apt-get autoremove -y && \
     apt-get clean
