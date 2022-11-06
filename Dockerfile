@@ -20,6 +20,7 @@ RUN apt-get update && \
         file        \
         gcc         \
         git         \
+        libwww-perl  \
         default-mysql-client \
         python-mysqldb \ 
         libmariadb-dev-compat && \
