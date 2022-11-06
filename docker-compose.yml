@@ -31,7 +31,7 @@ services:
       infra:
 
   devops-metrics:
-    container_name: devops_metrics  
+    container_name: devops_metrics
     image: sebbdevops/devops-metrics:latest
     networks:
       infra:
