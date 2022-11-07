@@ -7,7 +7,7 @@ We are working on a new extractor(GitHub) and we will provide at the same time a
 
 ## Data models
 ### Release management
-This type of data is intended to calculate the frequency of release. 
+This type of data is intended to calculate the **frequency of release**. 
 ```json 
 {
   name: string
@@ -26,7 +26,7 @@ There is two status created by the tool:
 - A status when the item is created in the backlog
 - A status when the item is published( Trigger is publication of a version)
 
-Those data can be used to measure lead time, cycle time and metrics around value streams.
+Those data can be used to measure **lead time**, **cycle time** and metrics around **value streams**.
 
 ```json 
 {
