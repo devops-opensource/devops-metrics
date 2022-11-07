@@ -5,6 +5,7 @@ import sqlalchemy
 class MySqlLoader:
     def __init__(self, config):
         self._host = config["SQL"]["mysql_hostname"]
+        self._port = config["SQL"]["mysql_port"]
         self._engine = config["SQL"]["mysql_engine"]
         self._database = config["SQL"]["mysql_database"]
         self._username = config["SQL"]["mysql_username"]
