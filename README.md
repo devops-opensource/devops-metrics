@@ -1,8 +1,7 @@
 # DevOps-Metrics
-This project aim at providing maximum flexibility for aggregating data from multiple source in a single target to calculate 
-metrics related to DevOps. The vision of this project is to break silos between those systems and enable cross-platform metrics to get an overview of the whole development process.
+This project aim at providing maximum flexibility for **aggregating data from multiple source in a single target to calculate metrics related to DevOps**. The vision of this project is to **break silos between those systems** and enable cross-platform metrics to get an overview of the whole development process.
 
-The repository contains actually extractor from jira on-premise and jira cloud. The actual targets are mysql and also Splunk. 
+The repository contains actually extractor from Jira on-premise and Jira cloud. The actual targets are MySql and also Splunk. 
 
 We are working on a new extractor(GitHub) and we will provide at the same time a flexible architecture that will allow the community to create new extractors and targets.
 
@@ -13,11 +12,11 @@ This type of data is intended to calculate the frequency of release.
 {
   name: string
   release_date: string
-	description: string 
-	start_date: timestamp
-	event_type: string 
-	project_key: string
-	control_date: timestamp 
+  description: string 
+  start_date: timestamp
+  event_type: string 
+  project_key: string
+  control_date: timestamp 
 }
 ```
 
@@ -35,14 +34,14 @@ Those data can be used to measure lead time, cycle time and metrics around value
   to_status: string
   key: string
   to_date: timestamp
-	issue_type: string
-	project_key: string
-	parent_key: string 
-	version: string
-	from_date: timestamp
-	event_type: string
-	release_version: string
-	control_date: timestamp
+  issue_type: string
+  project_key: string
+  parent_key: string 
+  version: string
+  from_date: timestamp
+  event_type: string
+  release_version: string
+  control_date: timestamp
 }
 ```
 # Contributing (Coming soon)
