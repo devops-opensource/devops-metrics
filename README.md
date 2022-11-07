@@ -1,7 +1,7 @@
 # DevOps-Metrics
 This project aim at providing maximum flexibility for **aggregating data from multiple source in a single target to calculate metrics related to DevOps**. The vision of this project is to **break silos between those systems** and enable cross-platform metrics to get an overview of the whole development process.
 
-The repository contains actually extractor from Jira on-premise and Jira cloud. The actual targets are MySql and also Splunk. 
+The repository contains actually extractor from Jira on-premise and Jira cloud. The actual targets are MySql, Splunk and ELK. 
 
 We are working on a new extractor(GitHub) and we will provide at the same time a flexible architecture that will allow the community to create new extractors and targets.
 
@@ -96,7 +96,7 @@ To finalize the connection, you need to enter the connection information as foll
 
 The second part consist to import a dashboard that give your a sneakpeek of what you can measure with the data. Start by
 opening the import menu as following: 
-![import](/docs/images/demo-4-grafana-import-menu.png)
+![import](/docs/images/demo-4-grafana-import.png)
 
 Choose upload json and import the following file 'dashboards/grafana-sql.json' as below:
 ![dashboard](/docs/images/demo-5-granafa-dashboard.png)
