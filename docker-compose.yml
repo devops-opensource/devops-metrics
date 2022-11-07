@@ -29,7 +29,7 @@ services:
     depends_on:
       - "db"
     volumes:
-        - ./config.local.cfg://config.local.cfg
+        - ./config.local.cfg:/config.local.cfg
         - ./docker-compose-utilities/:/docker-compose-utilities/
     command: sh -c "sleep 10 && python3 ~/devops-metrics/main.py /config.local.cfg"
 
