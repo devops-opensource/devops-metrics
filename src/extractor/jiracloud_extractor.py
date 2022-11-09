@@ -15,7 +15,7 @@ class JiraCloud:
 
         self.creation_status = config["JIRA_CLOUD"]["jira_creation_status"]
         self.released_status = config["JIRA_CLOUD"]["jira_released_status"]
-        self.closed_statuses = config.get("JIRA_CLOUD", "jira_closed_statuses").split(",")
+        self.closed_statuses = config["JIRA_CLOUD"]["jira_closed_statuses"].split(",")
 
         self.df_versions = pd.DataFrame()
         self.df_status_changes = pd.DataFrame()
