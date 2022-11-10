@@ -3,6 +3,7 @@
     {
       "name": "DS_MYSQL",
       "label": "MySQL",
+      "uid": "MySQL",
       "description": "",
       "type": "datasource",
       "pluginId": "mysql",
@@ -88,7 +89,7 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "${DS_MYSQL}"
+        "uid": "MySQL"
       },
       "description": "Average time required to delivered from Open to Released",
       "fieldConfig": {
@@ -149,7 +150,7 @@
           "dataset": "metricsDB",
           "datasource": {
             "type": "mysql",
-            "uid": "${DS_MYSQL}"
+            "uid": "MySQL"
           },
           "editorMode": "code",
           "filters": [],
@@ -362,7 +363,7 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "${DS_MYSQL}"
+        "uid": "MySQL"
       },
       "description": "Average time required to delivered from In Progress to Published",
       "fieldConfig": {
@@ -424,7 +425,7 @@
           "dataset": "metricsDB",
           "datasource": {
             "type": "mysql",
-            "uid": "${DS_MYSQL}"
+            "uid": "MySQL"
           },
           "editorMode": "code",
           "filters": [],
@@ -605,7 +606,7 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "${DS_MYSQL}"
+        "uid": "MySQL"
       },
       "description": "Time between release deployments",
       "fieldConfig": {
@@ -674,7 +675,7 @@
           "dataset": "metricsDB",
           "datasource": {
             "type": "mysql",
-            "uid": "${DS_MYSQL}"
+            "uid": "MySQL"
           },
           "editorMode": "code",
           "filters": [],
@@ -816,7 +817,7 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "${DS_MYSQL}"
+        "uid": "MySQL"
       },
       "description": "Average time required to deliver from Open to Published",
       "fieldConfig": {
@@ -877,7 +878,7 @@
           "dataset": "metricsDB",
           "datasource": {
             "type": "mysql",
-            "uid": "${DS_MYSQL}"
+            "uid": "MySQL"
           },
           "editorMode": "code",
           "filters": [],
@@ -1055,7 +1056,7 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "${DS_MYSQL}"
+        "uid": "MySQL"
       },
       "description": "Average time required to deliver from In Progress to Released",
       "fieldConfig": {
@@ -1116,7 +1117,7 @@
           "dataset": "metricsDB",
           "datasource": {
             "type": "mysql",
-            "uid": "${DS_MYSQL}"
+            "uid": "MySQL"
           },
           "editorMode": "code",
           "filters": [],
@@ -1283,7 +1284,7 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "${DS_MYSQL}"
+        "uid": "MySQL"
       },
       "description": "Time between release deployments",
       "fieldConfig": {
@@ -1353,7 +1354,7 @@
           "dataset": "metricsDB",
           "datasource": {
             "type": "mysql",
-            "uid": "${DS_MYSQL}"
+            "uid": "MySQL"
           },
           "editorMode": "code",
           "filters": [],
@@ -1448,7 +1449,7 @@
         "current": {},
         "datasource": {
           "type": "mysql",
-          "uid": "${DS_MYSQL}"
+          "uid": "MySQL"
         },
         "definition": "SELECT version FROM metricsDB.status_changes WHERE version NOT LIKE '%,%' AND version NOT LIKE '%''%'",
         "hide": 0,
@@ -1471,7 +1472,7 @@
         "current": {},
         "datasource": {
           "type": "mysql",
-          "uid": "${DS_MYSQL}"
+          "uid": "MySQL"
         },
         "definition": "SELECT  YEAR(release_date) FROM   metricsDB.releases",
         "hide": 0,
