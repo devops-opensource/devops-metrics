@@ -78,30 +78,12 @@ Run the following command and wait for about 15 seconds:
 ```bash
 docker-compose up -d 
 ```
-## Configure grafana
+## Sign in to Grafana
 Then, in a browser window, open the following url localhost:3000 and use the following credentials:
 - username: admin 
 - password: admin
 
-The first step is to link our database as a data source in grafana. To do so open the menu in the screenshot below:
-![data-source](/docs/images/demo-1-grafana-data-source.png)
-
-Then you need to choose mysql as type: 
-
-![data-source](/docs/images/demo-2-grafana-type.png)
-
-To finalize the connection, you need to enter the connection information as following and click on the **Save & Test** button below: 
-![data-source](/docs/images/demo-3-grafana-connection.png)
-* The password is: example
-
-The second part consist to import a dashboard that give your a sneakpeek of what you can measure with the data. Start by
-opening the import menu as following: 
-![import](/docs/images/demo-4-grafana-import-menu.png)
-
-Choose upload json and import the following file 'dashboards/grafana-sql.json' as below:
-![dashboard](/docs/images/demo-5-granafa-dashboard.png)
-
-**Make sure to choose the datasource created previously before saving**
+You will be redirected to the DevOps Metrics dashboard.
 
 The dashboard has two parts. The first part contains global metrics based on a mean of the different version contained in the data. The second part contains the detail for each different version of the dataset.
 ![complete](/docs/images/demo-6-grafana-complete.png)

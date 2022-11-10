@@ -4,9 +4,16 @@ version: "3"
 services:
   grafana:
     image: grafana/grafana-enterprise
+    environment:
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: metricsDB 
     ports:
       - 3000:3000
     user: '104'
+    volumes:
+        - ./grafana/datasources:/etc/grafana/provisioning/datasources
+        - ./grafana/dashboards:/etc/grafana/provisioning/dashboards
 
   adminer:
     image: adminer
