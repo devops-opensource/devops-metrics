@@ -1,7 +1,8 @@
 from __future__ import annotations
-from src.loader import loader
 
 import pandas as pd
+
+from src.loader import loader
 
 
 class InfluxDBLoader(loader.Loader):
@@ -18,8 +19,4 @@ class InfluxDBLoader(loader.Loader):
 
     def load_data(self):
         print("Data Loader")
-        return []
-
-    def adapt_data(self):
-
         return []

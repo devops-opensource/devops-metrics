@@ -31,6 +31,6 @@ services:
     volumes:
         - ./config.local.cfg:/config.local.cfg
         - ./docker-compose-utilities/:/docker-compose-utilities/
-    command: sh -c "sleep 10 && python3 ~/devops-metrics/main.py /config.local.cfg"
+    command: sh -c "sleep 10 && python3 ~/devops-metrics/main.py /config.local.cfg MYSQL"
 
   

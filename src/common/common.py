@@ -1,5 +1,5 @@
 from src.extractor import exporter, jira_exporter
-from src.loader import influx_db_loader, loader
+from src.loader import mysql_loader, csv_loader,loader
 
 
 def ExporterFactory(type) -> exporter.Exporter:
@@ -10,9 +10,10 @@ def ExporterFactory(type) -> exporter.Exporter:
     return localizers[type]()
 
 
-def ImporterFactory(type) -> loader.Loader:
+def LoaderFactory(type) -> loader.Loader:
     """Factory Method"""
     localizers = {
-        "InfluxDB": influx_db_loader.InfluxDBLoader
+        "MYSQL": mysql_loader.MySqlLoader,
+        "CSV": csv_loader.CsvLoader
     }
     return localizers[type]()
