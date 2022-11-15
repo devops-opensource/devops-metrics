@@ -11,13 +11,9 @@ class Loader(ABC):
     implementation of this method.
     """
     @abstractmethod
-    def initialize_data(self):
+    def initialize_data(self,config):
         pass
 
     @abstractmethod
-    def load_data(self):
-        pass
-
-    @abstractmethod
-    def adapt_data(self):
+    def load_data(self,df_dict):
         pass
