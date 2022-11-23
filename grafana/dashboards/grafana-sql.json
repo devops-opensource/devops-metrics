@@ -12,10 +12,22 @@
   "__elements": {},
   "__requires": [
     {
+      "type": "panel",
+      "id": "barchart",
+      "name": "Bar chart",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "gauge",
+      "name": "Gauge",
+      "version": ""
+    },
+    {
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "9.2.0"
+      "version": "9.2.4"
     },
     {
       "type": "datasource",
@@ -25,8 +37,8 @@
     },
     {
       "type": "panel",
-      "id": "stat",
-      "name": "Stat",
+      "id": "piechart",
+      "name": "Pie chart",
       "version": ""
     }
   ],
@@ -56,7 +68,20 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": null,
-  "links": [],
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "info",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": true,
+      "title": "DORA Def.",
+      "tooltip": "DevOps Metrics definition",
+      "type": "link",
+      "url": "https://cloud.google.com/blog/products/devops-sre/using-the-four-keys-to-measure-your-devops-performance?hl=en"
+    }
+  ],
   "liveNow": false,
   "panels": [
     {
@@ -88,7 +113,7 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "${DS_MYSQL}"
+        "uid": "qrUESQS4k"
       },
       "description": "Average time required to delivered from Open to Released",
       "fieldConfig": {
@@ -97,20 +122,26 @@
             "mode": "thresholds"
           },
           "mappings": [],
+          "max": 300,
+          "min": -5,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "blue",
                 "value": null
               },
               {
+                "color": "green",
+                "value": 1
+              },
+              {
                 "color": "#EAB839",
-                "value": 20
+                "value": 7
               },
               {
                 "color": "red",
-                "value": 40
+                "value": 183
               }
             ]
           },
@@ -125,11 +156,7 @@
         "y": 1
       },
       "id": 7,
-      "maxPerRow": 4,
       "options": {
-        "colorMode": "background",
-        "graphMode": "none",
-        "justifyMode": "center",
         "orientation": "vertical",
         "reduceOptions": {
           "calcs": [
@@ -138,10 +165,10 @@
           "fields": "/^Cycle Time \\(max\\)$/",
           "values": false
         },
-        "text": {},
-        "textMode": "auto"
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
       },
-      "pluginVersion": "9.2.0",
+      "pluginVersion": "9.2.4",
       "repeatDirection": "h",
       "targets": [
         {
@@ -149,7 +176,7 @@
           "dataset": "metricsDB",
           "datasource": {
             "type": "mysql",
-            "uid": "${DS_MYSQL}"
+            "uid": "qrUESQS4k"
           },
           "editorMode": "code",
           "filters": [],
@@ -192,7 +219,7 @@
           }
         }
       ],
-      "title": "Average Cycle time (Open -> Released)",
+      "title": "Average Cycle Time (Open -> Released)",
       "transformations": [
         {
           "id": "filterByValue",
@@ -357,12 +384,12 @@
           }
         }
       ],
-      "type": "stat"
+      "type": "gauge"
     },
     {
       "datasource": {
         "type": "mysql",
-        "uid": "${DS_MYSQL}"
+        "uid": "qrUESQS4k"
       },
       "description": "Average time required to delivered from In Progress to Published",
       "fieldConfig": {
@@ -372,20 +399,26 @@
           },
           "decimals": 1,
           "mappings": [],
+          "max": 300,
+          "min": -5,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "blue",
                 "value": null
               },
               {
+                "color": "green",
+                "value": 1
+              },
+              {
                 "color": "#EAB839",
-                "value": 20
+                "value": 7
               },
               {
                 "color": "red",
-                "value": 40
+                "value": 183
               }
             ]
           },
@@ -400,11 +433,7 @@
         "y": 1
       },
       "id": 34,
-      "maxPerRow": 4,
       "options": {
-        "colorMode": "background",
-        "graphMode": "none",
-        "justifyMode": "center",
         "orientation": "vertical",
         "reduceOptions": {
           "calcs": [
@@ -413,10 +442,10 @@
           "fields": "/^Cycle Time$/",
           "values": false
         },
-        "text": {},
-        "textMode": "auto"
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
       },
-      "pluginVersion": "9.2.0",
+      "pluginVersion": "9.2.4",
       "repeatDirection": "h",
       "targets": [
         {
@@ -424,7 +453,7 @@
           "dataset": "metricsDB",
           "datasource": {
             "type": "mysql",
-            "uid": "${DS_MYSQL}"
+            "uid": "qrUESQS4k"
           },
           "editorMode": "code",
           "filters": [],
@@ -459,7 +488,7 @@
           }
         }
       ],
-      "title": "Average Lead time (In Progress -> Released)",
+      "title": "Average Cycle Time (In Progress -> Released)",
       "transformations": [
         {
           "id": "filterByValue",
@@ -600,12 +629,12 @@
           }
         }
       ],
-      "type": "stat"
+      "type": "gauge"
     },
     {
       "datasource": {
         "type": "mysql",
-        "uid": "${DS_MYSQL}"
+        "uid": "qrUESQS4k"
       },
       "description": "Time between release deployments",
       "fieldConfig": {
@@ -623,21 +652,27 @@
               "type": "value"
             }
           ],
+          "max": 300,
+          "min": -5,
           "noValue": "First version",
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "blue",
                 "value": null
               },
               {
+                "color": "green",
+                "value": 1
+              },
+              {
                 "color": "#EAB839",
-                "value": 5
+                "value": 7
               },
               {
                 "color": "red",
-                "value": 10
+                "value": 183
               }
             ]
           },
@@ -653,9 +688,6 @@
       },
       "id": 49,
       "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -664,9 +696,10 @@
           "fields": "/^Frequence$/",
           "values": false
         },
-        "textMode": "auto"
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
       },
-      "pluginVersion": "9.2.0",
+      "pluginVersion": "9.2.4",
       "repeatDirection": "h",
       "targets": [
         {
@@ -674,7 +707,7 @@
           "dataset": "metricsDB",
           "datasource": {
             "type": "mysql",
-            "uid": "${DS_MYSQL}"
+            "uid": "qrUESQS4k"
           },
           "editorMode": "code",
           "filters": [],
@@ -783,48 +816,36 @@
           }
         }
       ],
-      "type": "stat"
+      "type": "gauge"
     },
     {
-      "collapsed": false,
       "datasource": {
         "type": "mysql",
         "uid": "qrUESQS4k"
       },
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 10
-      },
-      "id": 16,
-      "panels": [],
-      "repeat": "ver",
-      "repeatDirection": "h",
-      "targets": [
-        {
-          "datasource": {
-            "type": "mysql",
-            "uid": "qrUESQS4k"
-          },
-          "refId": "A"
-        }
-      ],
-      "title": "Version : $ver",
-      "type": "row"
-    },
-    {
-      "datasource": {
-        "type": "mysql",
-        "uid": "${DS_MYSQL}"
-      },
-      "description": "Average time required to deliver from Open to Published",
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
           },
-          "decimals": 1,
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 75,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            }
+          },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -834,12 +855,8 @@
                 "value": null
               },
               {
-                "color": "#EAB839",
-                "value": 20
-              },
-              {
                 "color": "red",
-                "value": 40
+                "value": 80
               }
             ]
           },
@@ -848,36 +865,40 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 6,
-        "w": 4,
-        "x": 0,
-        "y": 11
+        "h": 9,
+        "w": 9,
+        "x": 15,
+        "y": 1
       },
-      "id": 10,
+      "id": 187,
       "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "/^Cycle Time$/",
-          "values": false
+        "barRadius": 0,
+        "barWidth": 0.95,
+        "groupWidth": 1,
+        "legend": {
+          "calcs": [],
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true
         },
-        "text": {},
-        "textMode": "auto"
+        "orientation": "horizontal",
+        "showValue": "auto",
+        "stacking": "percent",
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 60,
+        "xTickLabelSpacing": 0
       },
-      "pluginVersion": "9.2.0",
-      "repeatDirection": "v",
+      "pluginVersion": "9.2.4",
       "targets": [
         {
           "columns": [],
           "dataset": "metricsDB",
           "datasource": {
             "type": "mysql",
-            "uid": "${DS_MYSQL}"
+            "uid": "qrUESQS4k"
           },
           "editorMode": "code",
           "filters": [],
@@ -885,7 +906,7 @@
           "global_query_id": "",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT * FROM metricsDB.status_changes WHERE version = $ver",
+          "rawSql": "SELECT * FROM metricsDB.status_changes ORDER BY version",
           "refId": "A",
           "root_selector": "",
           "source": "url",
@@ -921,7 +942,215 @@
           }
         }
       ],
-      "title": "Cycle Time (Open -> Released)",
+      "title": "Mean time by status per version",
+      "transformations": [
+        {
+          "id": "filterByValue",
+          "options": {
+            "filters": [
+              {
+                "config": {
+                  "id": "equal",
+                  "options": {
+                    "value": "status_change"
+                  }
+                },
+                "fieldName": "event_type"
+              }
+            ],
+            "match": "all",
+            "type": "include"
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Difference",
+            "binary": {
+              "left": "to_date",
+              "operator": "-",
+              "reducer": "sum",
+              "right": "from_date"
+            },
+            "mode": "binary",
+            "reduce": {
+              "include": [
+                "to_date (max)",
+                "from_date (min)"
+              ],
+              "reducer": "diff"
+            },
+            "replaceFields": false
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Cycle Time",
+            "binary": {
+              "left": "Difference",
+              "operator": "/",
+              "reducer": "sum",
+              "right": "86400000"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": false
+          }
+        },
+        {
+          "id": "groupingToMatrix",
+          "options": {
+            "columnField": "from_status",
+            "rowField": "version",
+            "valueField": "Cycle Time"
+          }
+        }
+      ],
+      "type": "barchart"
+    },
+    {
+      "collapsed": false,
+      "datasource": {
+        "type": "mysql",
+        "uid": "qrUESQS4k"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 10
+      },
+      "id": 16,
+      "panels": [],
+      "repeat": "version",
+      "repeatDirection": "h",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "qrUESQS4k"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Version: ${version:text} - Release date: ${version:value}",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "qrUESQS4k"
+      },
+      "description": "Average time required to deliver from Open to Published. ()",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
+          "mappings": [],
+          "max": 300,
+          "min": -5,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              },
+              {
+                "color": "#EAB839",
+                "value": 7
+              },
+              {
+                "color": "red",
+                "value": 183
+              }
+            ]
+          },
+          "unit": "d"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 0,
+        "y": 11
+      },
+      "id": 10,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^Cycle Time$/",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "9.2.4",
+      "repeatDirection": "v",
+      "targets": [
+        {
+          "columns": [],
+          "dataset": "metricsDB",
+          "datasource": {
+            "type": "mysql",
+            "uid": "qrUESQS4k"
+          },
+          "editorMode": "code",
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "SELECT * FROM metricsDB.status_changes WHERE version = '${version:text}'",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "*",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "status_changes",
+          "type": "uql",
+          "uql": "parse-json\r\n| jsonata \"*[version='$ver']\"\r\n| order by \"version\" asc",
+          "url": "https://raw.githubusercontent.com/devops-opensource/devops-metrics/main/test_data.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Lead Time (Open -> Released)",
       "transformations": [
         {
           "id": "filterByValue",
@@ -1050,12 +1279,12 @@
           }
         }
       ],
-      "type": "stat"
+      "type": "gauge"
     },
     {
       "datasource": {
         "type": "mysql",
-        "uid": "${DS_MYSQL}"
+        "uid": "qrUESQS4k"
       },
       "description": "Average time required to deliver from In Progress to Released",
       "fieldConfig": {
@@ -1065,20 +1294,26 @@
           },
           "decimals": 1,
           "mappings": [],
+          "max": 300,
+          "min": -5,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "blue",
                 "value": null
               },
               {
+                "color": "green",
+                "value": 1
+              },
+              {
                 "color": "#EAB839",
-                "value": 10
+                "value": 7
               },
               {
                 "color": "red",
-                "value": 30
+                "value": 183
               }
             ]
           },
@@ -1094,9 +1329,6 @@
       },
       "id": 19,
       "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -1105,10 +1337,13 @@
           "fields": "/^Cycle Time$/",
           "values": false
         },
-        "text": {},
-        "textMode": "auto"
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "text": {
+          "valueSize": 35
+        }
       },
-      "pluginVersion": "9.2.0",
+      "pluginVersion": "9.2.4",
       "repeatDirection": "v",
       "targets": [
         {
@@ -1116,7 +1351,7 @@
           "dataset": "metricsDB",
           "datasource": {
             "type": "mysql",
-            "uid": "${DS_MYSQL}"
+            "uid": "qrUESQS4k"
           },
           "editorMode": "code",
           "filters": [],
@@ -1124,7 +1359,7 @@
           "global_query_id": "",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT * FROM metricsDB.status_changes WHERE version = $ver",
+          "rawSql": "SELECT * FROM metricsDB.status_changes WHERE version = '${version:text}'",
           "refId": "A",
           "root_selector": "",
           "source": "url",
@@ -1160,7 +1395,7 @@
           }
         }
       ],
-      "title": "Cycle Time (In Progress -> Released)",
+      "title": "Lead Time (In Progress -> Released)",
       "transformations": [
         {
           "id": "filterByValue",
@@ -1278,12 +1513,12 @@
           }
         }
       ],
-      "type": "stat"
+      "type": "gauge"
     },
     {
       "datasource": {
         "type": "mysql",
-        "uid": "${DS_MYSQL}"
+        "uid": "qrUESQS4k"
       },
       "description": "Time between release deployments",
       "fieldConfig": {
@@ -1301,21 +1536,27 @@
               "type": "value"
             }
           ],
+          "max": 300,
+          "min": -5,
           "noValue": "N/A",
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "blue",
                 "value": null
               },
               {
+                "color": "green",
+                "value": 7
+              },
+              {
                 "color": "#EAB839",
-                "value": 5
+                "value": 30
               },
               {
                 "color": "red",
-                "value": 10
+                "value": 183
               }
             ]
           },
@@ -1331,9 +1572,6 @@
       },
       "id": 97,
       "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -1342,10 +1580,13 @@
           "fields": "/^Frequence$/",
           "values": false
         },
-        "text": {},
-        "textMode": "auto"
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "text": {
+          "valueSize": 35
+        }
       },
-      "pluginVersion": "9.2.0",
+      "pluginVersion": "9.2.4",
       "repeatDirection": "h",
       "targets": [
         {
@@ -1353,14 +1594,14 @@
           "dataset": "metricsDB",
           "datasource": {
             "type": "mysql",
-            "uid": "${DS_MYSQL}"
+            "uid": "qrUESQS4k"
           },
           "editorMode": "code",
           "filters": [],
           "format": "table",
           "global_query_id": "",
           "rawQuery": true,
-          "rawSql": "SELECT *,\r\n       (SELECT release_date FROM metricsDB.releases s2\r\n        WHERE s2.release_date < s.release_date\r\n        ORDER BY s2.release_date DESC LIMIT 1) as previous_release\r\nFROM metricsDB.releases s WHERE name = $ver ORDER BY s.release_date\r\n",
+          "rawSql": "SELECT *,\r\n       (SELECT release_date FROM metricsDB.releases s2\r\n        WHERE s2.release_date < s.release_date\r\n        ORDER BY s2.release_date DESC LIMIT 1) as previous_release\r\nFROM metricsDB.releases s WHERE name = '${version:text}' ORDER BY s.release_date\r\n",
           "refId": "A",
           "root_selector": "",
           "source": "url",
@@ -1435,7 +1676,289 @@
           }
         }
       ],
-      "type": "stat"
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "qrUESQS4k"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "decimals": 1,
+          "mappings": [],
+          "unit": "d"
+        },
+        "overrides": [
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "Cycle Time (mean)",
+                  "Resolved"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": true
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 12,
+        "y": 11
+      },
+      "id": 122,
+      "options": {
+        "displayLabels": [],
+        "legend": {
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true,
+          "values": [
+            "value"
+          ]
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "asc"
+        }
+      },
+      "pluginVersion": "9.2.4",
+      "repeatDirection": "v",
+      "targets": [
+        {
+          "columns": [],
+          "dataset": "metricsDB",
+          "datasource": {
+            "type": "mysql",
+            "uid": "qrUESQS4k"
+          },
+          "editorMode": "code",
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "SELECT * FROM metricsDB.status_changes WHERE version = '${version:text}'",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "*",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "status_changes",
+          "type": "uql",
+          "uql": "parse-json\r\n| jsonata \"*[version='$ver']\"\r\n| order by \"version\" asc",
+          "url": "https://raw.githubusercontent.com/devops-opensource/devops-metrics/main/test_data.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Mean time by status",
+      "transformations": [
+        {
+          "id": "filterByValue",
+          "options": {
+            "filters": [
+              {
+                "config": {
+                  "id": "equal",
+                  "options": {
+                    "value": "status_change"
+                  }
+                },
+                "fieldName": "event_type"
+              }
+            ],
+            "match": "all",
+            "type": "include"
+          }
+        },
+        {
+          "disabled": true,
+          "id": "filterByValue",
+          "options": {
+            "filters": [
+              {
+                "config": {
+                  "id": "equal",
+                  "options": {
+                    "value": "Open"
+                  }
+                },
+                "fieldName": "from_status"
+              },
+              {
+                "config": {
+                  "id": "equal",
+                  "options": {
+                    "value": "Released"
+                  }
+                },
+                "fieldName": "to_status"
+              }
+            ],
+            "match": "any",
+            "type": "include"
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Difference",
+            "binary": {
+              "left": "to_date",
+              "operator": "-",
+              "reducer": "sum",
+              "right": "from_date"
+            },
+            "mode": "binary",
+            "reduce": {
+              "include": [
+                "to_date (max)",
+                "from_date (min)"
+              ],
+              "reducer": "diff"
+            },
+            "replaceFields": false
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Cycle Time",
+            "binary": {
+              "left": "Difference",
+              "operator": "/",
+              "reducer": "sum",
+              "right": "86400000"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": false
+          }
+        },
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "Cycle Time": {
+                "aggregations": [
+                  "mean"
+                ],
+                "operation": "aggregate"
+              },
+              "event_type": {
+                "aggregations": []
+              },
+              "from_date": {
+                "aggregations": [
+                  "min"
+                ]
+              },
+              "from_status": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "key": {
+                "aggregations": []
+              },
+              "to_date": {
+                "aggregations": [
+                  "max"
+                ]
+              },
+              "version": {
+                "aggregations": []
+              }
+            }
+          }
+        },
+        {
+          "disabled": true,
+          "id": "reduce",
+          "options": {
+            "includeTimeField": false,
+            "mode": "reduceFields",
+            "reducers": [
+              "sum"
+            ]
+          }
+        },
+        {
+          "disabled": true,
+          "id": "calculateField",
+          "options": {
+            "mode": "reduceRow",
+            "reduce": {
+              "include": [
+                "Cycle Time"
+              ],
+              "reducer": "mean"
+            },
+            "replaceFields": false
+          }
+        }
+      ],
+      "type": "piechart"
     }
   ],
   "refresh": false,
@@ -1448,17 +1971,17 @@
         "current": {},
         "datasource": {
           "type": "mysql",
-          "uid": "${DS_MYSQL}"
+          "uid": "qrUESQS4k"
         },
-        "definition": "SELECT version FROM metricsDB.status_changes WHERE version NOT LIKE '%,%' AND version NOT LIKE '%''%'",
-        "hide": 0,
+        "definition": "SELECT  YEAR(release_date) FROM   metricsDB.releases",
+        "hide": 2,
         "includeAll": true,
-        "label": "Version",
+        "label": "Release Date",
         "multi": true,
-        "name": "ver",
+        "name": "pub",
         "options": [],
-        "query": "SELECT version FROM metricsDB.status_changes WHERE version NOT LIKE '%,%' AND version NOT LIKE '%''%'",
-        "refresh": 2,
+        "query": "SELECT  YEAR(release_date) FROM   metricsDB.releases",
+        "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
         "sort": 1,
@@ -1471,18 +1994,18 @@
         "current": {},
         "datasource": {
           "type": "mysql",
-          "uid": "${DS_MYSQL}"
+          "uid": "qrUESQS4k"
         },
-        "definition": "SELECT  YEAR(release_date) FROM   metricsDB.releases",
+        "definition": "SELECT CONCAT(name, \"###\", DATE_FORMAT(release_date, '%Y-%m-%d')) as release_date FROM metricsDB.releases WHERE name NOT LIKE '%,%' AND name NOT LIKE '%''%'",
         "hide": 0,
         "includeAll": true,
         "label": "Version",
         "multi": true,
-        "name": "pub",
+        "name": "version",
         "options": [],
-        "query": "SELECT  YEAR(release_date) FROM   metricsDB.releases",
+        "query": "SELECT CONCAT(name, \"###\", DATE_FORMAT(release_date, '%Y-%m-%d')) as release_date FROM metricsDB.releases WHERE name NOT LIKE '%,%' AND name NOT LIKE '%''%'",
         "refresh": 1,
-        "regex": "",
+        "regex": "/(?<text>.*)###(?<value>.*).*/",
         "skipUrlSync": false,
         "sort": 1,
         "tagValuesQuery": "",
@@ -1500,6 +2023,6 @@
   "timezone": "",
   "title": "DevOps Metrics",
   "uid": "zXs6ywSVk",
-  "version": 27,
+  "version": 1,
   "weekStart": ""
 }
