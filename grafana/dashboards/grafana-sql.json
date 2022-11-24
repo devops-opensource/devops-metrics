@@ -27,7 +27,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "9.2.4"
+      "version": "9.2.6"
     },
     {
       "type": "datasource",
@@ -88,7 +88,7 @@
       "collapsed": false,
       "datasource": {
         "type": "mysql",
-        "uid": "qrUESQS4k"
+        "uid": "MySQL"
       },
       "gridPos": {
         "h": 1,
@@ -102,7 +102,7 @@
         {
           "datasource": {
             "type": "mysql",
-            "uid": "qrUESQS4k"
+            "uid": "MySQL"
           },
           "refId": "A"
         }
@@ -113,7 +113,7 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "qrUESQS4k"
+        "uid": "MySQL"
       },
       "description": "Average time required to delivered from Open to Released",
       "fieldConfig": {
@@ -122,7 +122,7 @@
             "mode": "thresholds"
           },
           "mappings": [],
-          "max": 300,
+          "max": 200,
           "min": -5,
           "thresholds": {
             "mode": "absolute",
@@ -168,7 +168,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "9.2.4",
+      "pluginVersion": "9.2.6",
       "repeatDirection": "h",
       "targets": [
         {
@@ -176,7 +176,7 @@
           "dataset": "metricsDB",
           "datasource": {
             "type": "mysql",
-            "uid": "qrUESQS4k"
+            "uid": "MySQL"
           },
           "editorMode": "code",
           "filters": [],
@@ -389,7 +389,7 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "qrUESQS4k"
+        "uid": "MySQL"
       },
       "description": "Average time required to delivered from In Progress to Published",
       "fieldConfig": {
@@ -399,7 +399,7 @@
           },
           "decimals": 1,
           "mappings": [],
-          "max": 300,
+          "max": 200,
           "min": -5,
           "thresholds": {
             "mode": "absolute",
@@ -445,7 +445,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "9.2.4",
+      "pluginVersion": "9.2.6",
       "repeatDirection": "h",
       "targets": [
         {
@@ -453,7 +453,7 @@
           "dataset": "metricsDB",
           "datasource": {
             "type": "mysql",
-            "uid": "qrUESQS4k"
+            "uid": "MySQL"
           },
           "editorMode": "code",
           "filters": [],
@@ -634,7 +634,7 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "qrUESQS4k"
+        "uid": "MySQL"
       },
       "description": "Time between release deployments",
       "fieldConfig": {
@@ -652,7 +652,7 @@
               "type": "value"
             }
           ],
-          "max": 300,
+          "max": 200,
           "min": -5,
           "noValue": "First version",
           "thresholds": {
@@ -699,7 +699,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "9.2.4",
+      "pluginVersion": "9.2.6",
       "repeatDirection": "h",
       "targets": [
         {
@@ -707,7 +707,7 @@
           "dataset": "metricsDB",
           "datasource": {
             "type": "mysql",
-            "uid": "qrUESQS4k"
+            "uid": "MySQL"
           },
           "editorMode": "code",
           "filters": [],
@@ -821,7 +821,7 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "qrUESQS4k"
+        "uid": "MySQL"
       },
       "description": "",
       "fieldConfig": {
@@ -898,7 +898,7 @@
           "dataset": "metricsDB",
           "datasource": {
             "type": "mysql",
-            "uid": "qrUESQS4k"
+            "uid": "MySQL"
           },
           "editorMode": "code",
           "filters": [],
@@ -1015,7 +1015,7 @@
       "collapsed": false,
       "datasource": {
         "type": "mysql",
-        "uid": "qrUESQS4k"
+        "uid": "MySQL"
       },
       "gridPos": {
         "h": 1,
@@ -1031,7 +1031,7 @@
         {
           "datasource": {
             "type": "mysql",
-            "uid": "qrUESQS4k"
+            "uid": "MySQL"
           },
           "refId": "A"
         }
@@ -1042,7 +1042,7 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "qrUESQS4k"
+        "uid": "MySQL"
       },
       "description": "Average time required to deliver from Open to Published. ()",
       "fieldConfig": {
@@ -1052,7 +1052,7 @@
           },
           "decimals": 1,
           "mappings": [],
-          "max": 300,
+          "max": 200,
           "min": -5,
           "thresholds": {
             "mode": "absolute",
@@ -1081,7 +1081,7 @@
       },
       "gridPos": {
         "h": 6,
-        "w": 4,
+        "w": 5,
         "x": 0,
         "y": 11
       },
@@ -1098,7 +1098,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "9.2.4",
+      "pluginVersion": "9.2.6",
       "repeatDirection": "v",
       "targets": [
         {
@@ -1106,7 +1106,7 @@
           "dataset": "metricsDB",
           "datasource": {
             "type": "mysql",
-            "uid": "qrUESQS4k"
+            "uid": "MySQL"
           },
           "editorMode": "code",
           "filters": [],
@@ -1284,7 +1284,7 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "qrUESQS4k"
+        "uid": "MySQL"
       },
       "description": "Average time required to deliver from In Progress to Released",
       "fieldConfig": {
@@ -1294,7 +1294,7 @@
           },
           "decimals": 1,
           "mappings": [],
-          "max": 300,
+          "max": 200,
           "min": -5,
           "thresholds": {
             "mode": "absolute",
@@ -1323,8 +1323,8 @@
       },
       "gridPos": {
         "h": 6,
-        "w": 4,
-        "x": 4,
+        "w": 5,
+        "x": 5,
         "y": 11
       },
       "id": 19,
@@ -1343,7 +1343,7 @@
           "valueSize": 35
         }
       },
-      "pluginVersion": "9.2.4",
+      "pluginVersion": "9.2.6",
       "repeatDirection": "v",
       "targets": [
         {
@@ -1351,7 +1351,7 @@
           "dataset": "metricsDB",
           "datasource": {
             "type": "mysql",
-            "uid": "qrUESQS4k"
+            "uid": "MySQL"
           },
           "editorMode": "code",
           "filters": [],
@@ -1518,7 +1518,7 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "qrUESQS4k"
+        "uid": "MySQL"
       },
       "description": "Time between release deployments",
       "fieldConfig": {
@@ -1536,7 +1536,7 @@
               "type": "value"
             }
           ],
-          "max": 300,
+          "max": 200,
           "min": -5,
           "noValue": "N/A",
           "thresholds": {
@@ -1566,8 +1566,8 @@
       },
       "gridPos": {
         "h": 6,
-        "w": 4,
-        "x": 8,
+        "w": 5,
+        "x": 10,
         "y": 11
       },
       "id": 97,
@@ -1586,7 +1586,7 @@
           "valueSize": 35
         }
       },
-      "pluginVersion": "9.2.4",
+      "pluginVersion": "9.2.6",
       "repeatDirection": "h",
       "targets": [
         {
@@ -1594,7 +1594,7 @@
           "dataset": "metricsDB",
           "datasource": {
             "type": "mysql",
-            "uid": "qrUESQS4k"
+            "uid": "MySQL"
           },
           "editorMode": "code",
           "filters": [],
@@ -1681,7 +1681,7 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "qrUESQS4k"
+        "uid": "MySQL"
       },
       "description": "",
       "fieldConfig": {
@@ -1730,8 +1730,8 @@
       },
       "gridPos": {
         "h": 6,
-        "w": 4,
-        "x": 12,
+        "w": 9,
+        "x": 15,
         "y": 11
       },
       "id": 122,
@@ -1766,7 +1766,7 @@
           "dataset": "metricsDB",
           "datasource": {
             "type": "mysql",
-            "uid": "qrUESQS4k"
+            "uid": "MySQL"
           },
           "editorMode": "code",
           "filters": [],
@@ -1971,7 +1971,7 @@
         "current": {},
         "datasource": {
           "type": "mysql",
-          "uid": "qrUESQS4k"
+          "uid": "MySQL"
         },
         "definition": "SELECT  YEAR(release_date) FROM   metricsDB.releases",
         "hide": 2,
@@ -1994,7 +1994,7 @@
         "current": {},
         "datasource": {
           "type": "mysql",
-          "uid": "qrUESQS4k"
+          "uid": "MySQL"
         },
         "definition": "SELECT CONCAT(name, \"###\", DATE_FORMAT(release_date, '%Y-%m-%d')) as release_date FROM metricsDB.releases WHERE name NOT LIKE '%,%' AND name NOT LIKE '%''%'",
         "hide": 0,
