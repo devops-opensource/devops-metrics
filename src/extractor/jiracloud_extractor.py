@@ -60,8 +60,10 @@ class JiraCloud:
         response_json = response.json()
         issues = response_json["values"]
         total = response_json["total"]
+
         number_of_issue_per_page = response_json["maxResults"]
         current_issue = number_of_issue_per_page
+
 
         if not is_recursive:
             return issues
@@ -74,6 +76,7 @@ class JiraCloud:
                 next_parameters = f"{parameters}&startAt={current_issue}"
                 threads.append(executor.submit(self.execute_project_version_request, next_parameters, is_recursive=False))
                 current_issue += number_of_issue_per_page
+
         for task in as_completed(threads):
             issues.extend(task.results())
         
@@ -96,8 +99,10 @@ class JiraCloud:
         response_json = response.json()
         issues = response_json["issues"]
         total = response_json["total"]
+
         number_of_issue_per_page = response_json["maxResults"]
         current_issue = number_of_issue_per_page
+
 
         if not is_recursive:
             return issues
@@ -110,6 +115,7 @@ class JiraCloud:
                 next_parameters = f"{parameters}&startAt={current_issue}"
                 threads.append(executor.submit(self.execute_jql_request, query, fields, next_parameters, is_recursive=False))
                 current_issue += number_of_issue_per_page
+
         for task in as_completed(threads):
             issues.extend(task.result())
 
