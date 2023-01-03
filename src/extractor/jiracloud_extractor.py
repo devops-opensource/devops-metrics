@@ -60,7 +60,7 @@ class JiraCloud:
         response_json = response.json()
         issues = response_json["values"]
         total = response_json["total"]
-        current_issue = 200
+        current_issue = response_json["maxResults"]
 
         if not is_recursive:
             return issues
@@ -72,7 +72,7 @@ class JiraCloud:
                 print(f"startAt={current_issue}")
                 next_parameters = f"{parameters}&startAT={current_issue}"
                 threads.append(executor.submit(self.execute_project_version_request, next_parameters, is_recursive=False))
-                current_issue += 200
+                current_issue += response_json["maxResults"]
         for task in as_completed(threads):
             issues.extend(task.results())
         
@@ -95,7 +95,8 @@ class JiraCloud:
         response_json = response.json()
         issues = response_json["issues"]
         total = response_json["total"]
-        current_issue = 200
+        current_issue = response_json["maxResults"]
+
         if not is_recursive:
             return issues
 
@@ -106,14 +107,14 @@ class JiraCloud:
                 print(f"startAt={current_issue}")
                 next_parameters = f"{parameters}&startAt={current_issue}"
                 threads.append(executor.submit(self.execute_jql_request, query, fields, next_parameters, is_recursive=False))
-                current_issue += 200
+                current_issue += response_json["maxResults"]
         for task in as_completed(threads):
             issues.extend(task.result())
 
         return issues
 
     def extract_versions(self):
-        parameters = "maxResults=200"
+        parameters = ""
         versions = self.execute_project_version_request(parameters)
         return versions
 
@@ -146,7 +147,7 @@ class JiraCloud:
 
     def extract_status_changelogs(self):
         fields = f"issuetype,status,created,project,parent,fixVersions"
-        parameters = f"expand=changelog&maxResults=200"
+        parameters = f"expand=changelog"
         query = f"project={self.project_key} AND issuetype in (Story)"
 
         changelogs = self.execute_jql_request(query, fields, parameters)
