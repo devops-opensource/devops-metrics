@@ -64,7 +64,6 @@ class JiraCloud:
         number_of_issue_per_page = response_json["maxResults"]
         current_issue = number_of_issue_per_page
 
-
         if not is_recursive:
             return issues
         
@@ -102,7 +101,6 @@ class JiraCloud:
 
         number_of_issue_per_page = response_json["maxResults"]
         current_issue = number_of_issue_per_page
-
 
         if not is_recursive:
             return issues
