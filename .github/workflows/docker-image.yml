@@ -53,8 +53,7 @@ jobs:
           CC_TEST_REPORTER_ID: ${{ secrets.CODE_CLIMATE_COVERAGE_ID }}
         with:
           coverageCommand: coverage report
-
-  ­­"Publish to Docker"
+  "Publish to Docker":
     runs-on: ubuntu-latest
     needs: "Quality gate"
     steps:
