@@ -38,9 +38,10 @@ jobs:
           path: coverage.xml
           retention-days: 5
 
-  "Quality gate":
+  "quality-gate":
     runs-on: ubuntu-latest
     needs: build
+    name: "Quality gate"
     steps:
       - name: Download coverage report
         uses: actions/download-artifact@v3
@@ -53,8 +54,9 @@ jobs:
           CC_TEST_REPORTER_ID: ${{ secrets.CODE_CLIMATE_COVERAGE_ID }}
         with:
           coverageCommand: coverage report
-  "Publish to Docker":
+  "publish":
     runs-on: ubuntu-latest
+    name: "Publish to docker"
     needs: "Quality gate"
     steps:
     - name: Checkout
