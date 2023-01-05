@@ -3,7 +3,7 @@ name: devops-metrics-ci
 on:
   push:
     branches:
-      - "ci/code-coverage-code-climate"
+      - "main"
 
 jobs:
   build:
