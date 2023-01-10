@@ -163,7 +163,7 @@ class JiraCloud:
             "toString": "to_status",
             "changelog.histories.created": "to_date",
             "name": "version"
-            }
+        }
         fields_to_keep = ["key", "project_key", "parent_key", "issue_type", "from_status", "to_status", "to_date", "from_date", "version"]
 
         df_changelogs = pd.json_normalize(changelogs, ["changelog", "histories", "items"], ["key", ["changelog", "histories", "created"]])

@@ -1,11 +1,11 @@
-from src.extractor import exporter, jira_exporter
+from src.extractor import exporter, jiracloud_exporter
 from src.loader import mysql_loader, csv_loader,loader
 
 
 def ExporterFactory(type) -> exporter.Exporter:
     """Factory Method"""
     localizers = {
-        "JiraCloud": jira_exporter.JiraExporter
+        "JiraCloud": jiracloud_exporter.JiracloudExporter
     }
     return localizers[type]()
 
