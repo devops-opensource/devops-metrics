@@ -13,13 +13,6 @@ class JiracloudExporter(exporter.Exporter):
     implementation of this method.
     """
 
-    _email = ""
-    _token = ""
-    _jira_adress = ""
-    _project_keys = ""
-    _versions_mapping = dict()
-    _status_chnages_mapping = dict()
-
     def initialize_data(self, config):
         self._email = config["JIRA_CLOUD"]["jira_user_email"]
         self._token = config["JIRA_CLOUD"]["jira_token"]

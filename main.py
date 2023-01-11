@@ -23,18 +23,17 @@ if __name__ == "__main__":
     loader_name = args.Loader
     loader = common.LoaderFactory(loader_name)
     
-
     try:
         exporter.initialize_data(config)
     except Exception as err:
         print(err)
         quit("Unable to connect to JIRA project")
 
-    # try:
-    #     loader.initialize_data(config)
-    # except Exception as err:
-    #     print(err)
-    #     quit("Unable to connect to mysql database")
+    try:
+        loader.initialize_data(config)
+    except Exception as err:
+        print(err)
+        quit("Unable to connect to mysql database")
 
     # Extract and Transform status changes and release
     print("Extract JIRA data then Transform as status_changes and releases")
@@ -45,10 +44,11 @@ if __name__ == "__main__":
 
     status_changes_transformer = TransformStatusChanges(config, df_release_management)
     df_status_cnhages = status_changes_transformer.transform_status_changes(adapted_data["status_changes"])
-    # df_dict = {}
-    # df_dict["status_changes"] = jira_exporter.get_status_changes()
-    # df_dict["releases"] = jira_exporter.get_release_management()
+    df_dict = {
+        "status_changes" : df_status_cnhages,
+        "releases" : df_release_management
+    }
 
-    # loader.load_data(df_dict)
+    loader.load_data(df_dict)
 
     print("Job done !")
