@@ -1,4 +1,5 @@
 import pandas as pd
+from src.common import common
 
 class TransformStatusChanges:
 
@@ -16,8 +17,8 @@ class TransformStatusChanges:
     def transform_status_changes(self,df_status_changes):
         if(df_status_changes.empty):
             return pd.DataFrame()
-        df_status_changes["to_date"] = pd.to_datetime(df_status_changes["to_date"], utc=True, errors="coerce").dt.tz_convert(None)
-        df_status_changes["creation_date"] = pd.to_datetime(df_status_changes["creation_date"], utc=True, errors="coerce").dt.tz_convert(None)
+        df_status_changes = common.convert_column_to_datetime("to_date", df_status_changes)
+        df_status_changes = common.convert_column_to_datetime("creation_date", df_status_changes)
         df_status_changes["from_date"] = df_status_changes.sort_values(["to_date"]).groupby("key")["to_date"].shift()
         df_status_changes["from_date"] = df_status_changes["from_date"].fillna(df_status_changes["creation_date"])
         df_status_changes.loc[df_status_changes.sort_values(["to_date"]).groupby("key")["from_status"].head(1).index, "from_status"] = self._creation_status

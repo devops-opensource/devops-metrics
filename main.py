@@ -22,7 +22,6 @@ if __name__ == "__main__":
 
     loader_name = args.Loader
     loader = common.LoaderFactory(loader_name)
-    
     try:
         exporter.initialize_data(config)
     except Exception as err:
@@ -45,8 +44,8 @@ if __name__ == "__main__":
     status_changes_transformer = TransformStatusChanges(config, df_release_management)
     df_status_cnhages = status_changes_transformer.transform_status_changes(adapted_data["status_changes"])
     df_dict = {
-        "status_changes" : df_status_cnhages,
-        "releases" : df_release_management
+        "status_changes": df_status_cnhages,
+        "releases": df_release_management
     }
 
     loader.load_data(df_dict)
