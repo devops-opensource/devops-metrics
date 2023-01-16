@@ -1,1 +1,100 @@
 name,released,release_date,description,start_date,project_key,event_type,control_date
+Future Release of CaRT,True,2020-12-03,,,CART,release_management,2020-12-03
+2.2 Community Release,True,2022-06-30,,,CART,release_management,2022-06-30
+2.0 Community Release,True,2021-12-31,,,CART,release_management,2021-12-31
+1.2 Community Release,True,2021-03-31,,2020-05-25,CART,release_management,2021-03-31
+1.0 Community Release,True,2020-06-26,,,CART,release_management,2020-06-26
+0.9 Community Release,True,2020-02-07,,,CART,release_management,2020-02-07
+0.8 Community Release,True,2019-09-13,,,CART,release_management,2019-09-13
+Server Addition,True,2020-09-15,,,CART,release_management,2020-09-15
+0.6 Community Release,True,2019-06-21,,,CART,release_management,2019-06-21
+0.6,True,2019-07-24,,,CART,release_management,2019-07-24
+1.1 Community Release,True,2020-03-27,,,CART,release_management,2020-03-27
+0.5 Community Release,True,2020-02-11,,,CART,release_management,2020-02-11
+0.4 Community Release,True,2020-02-11,,,CART,release_management,2020-02-11
+0.3 Community Release,True,2020-02-11,,,CART,release_management,2020-02-11
+MS-160 DAOS PathForward Stabilization,True,2020-12-31,,,CART,release_management,2020-12-31
+Backlog,True,,,,CART,release_management,
+Unset,True,2021-03-12,,,CART,release_management,2021-03-12
+1.3 Community Release,True,2021-12-30,,,CART,release_management,2021-12-30
+2.1 Community Release,True,2022-06-30,,2021-12-16,CART,release_management,2022-06-30
+2.0.2 Community Release,True,2022-03-25,,2022-01-06,CART,release_management,2022-03-25
+2.0.1 Community Release,True,2022-01-31,,2022-01-03,CART,release_management,2022-01-31
+0.6 Community Release,True,2019-07-09,,2019-04-01,DAOS,release_management,2019-07-09
+0.7 Community Release,True,2019-09-29,,2019-07-10,DAOS,release_management,2019-09-29
+0.8 Community Release,True,2019-10-30,,2019-08-17,DAOS,release_management,2019-10-30
+0.9 Community Release,True,2020-02-05,,2019-11-01,DAOS,release_management,2020-02-05
+1.0 Community Release,True,2020-06-11,DAOS 1.0 Release,2019-10-09,DAOS,release_management,2020-06-11
+1.2 Community Release,True,2021-03-30,DAOS Roadmap 1.2 release,2020-05-25,DAOS,release_management,2021-03-30
+2.0 Community Release,True,2021-12-22,,2021-05-01,DAOS,release_management,2021-12-22
+HPE Demo,True,,,,DAOS,release_management,
+Security phase 4,True,,,,DAOS,release_management,
+Security phase 3,True,,Move to DAOS interfaces,,DAOS,release_management,
+Security phase 2,True,,Integrate into DAOS main tree and cleanup existing prototype,,DAOS,release_management,
+Security phase 1,True,,Finish initial prototype items,,DAOS,release_management,
+DIO7 NVME- VOS,True,,DIO7 NVME- VOS,,DAOS,release_management,
+DIO9 Initial Mgmt Service,True,,,,DAOS,release_management,
+DAOS ESSIO Stablization,True,,,,DAOS,release_management,
+MPI-IO DAOS Driver,True,,,,DAOS,release_management,
+Checksum Scrubbing,True,2021-09-24,,2020-04-01,DAOS,release_management,2021-09-24
+Catastrophic Recovery (Design),True,2021-06-25,,,DAOS,release_management,2021-06-25
+Porting of Applications 1-3,True,2021-12-31,,,DAOS,release_management,2021-12-31
+System Integration and Statistics,True,2021-09-27,,,DAOS,release_management,2021-09-27
+Network Stack Imprmnts,True,2021-03-26,,,DAOS,release_management,2021-03-26
+Optimized Object Placement (Design),True,2021-03-26,,,DAOS,release_management,2021-03-26
+Control Plane,True,2020-06-29,,2018-06-15,DAOS,release_management,2020-06-29
+POSIX File in Container (Implementation),True,2020-03-26,,,DAOS,release_management,2020-03-26
+Security Framework,True,2020-03-26,,,DAOS,release_management,2020-03-26
+E2E Checksums (Implementation),True,2020-03-26,,,DAOS,release_management,2020-03-26
+POSIX File in Container (Design),True,2019-09-26,,,DAOS,release_management,2019-09-26
+Erasure Code (Design),True,2019-09-27,,,DAOS,release_management,2019-09-27
+Initial Lustre/DAOS Integration,True,2019-09-26,,,DAOS,release_management,2019-09-26
+Online Server Addition (Design) ,True,2019-09-26,,,DAOS,release_management,2019-09-26
+E2E Checksums (Design),True,2019-06-27,,,DAOS,release_management,2019-06-27
+Unscheduled,True,2022-05-02,,,DAOS,release_management,2022-05-02
+DI MS7.0,True,2020-03-27,Performance Tuning and Hardening,,DAOS,release_management,2020-03-27
+DI MS6,True,2020-03-27,ETE Data Integrity MS6 (Internal): Performance Tuning and Hardening,,DAOS,release_management,2020-03-27
+DI MS5,True,2020-03-27,ETE Data Integrity MS5 (Internal): VOS Aggregation,,DAOS,release_management,2020-03-27
+DI MS4,True,2020-03-27,ETE Data Integrity MS4 (Internal): Error Handling,,DAOS,release_management,2020-03-27
+DI MS3,True,2020-03-27,ETE Data Integrity MS3 (Internal): Unaligned Chunks,,DAOS,release_management,2020-03-27
+DI MS2,True,2020-03-27,ETE Data Integrity MS2 (Internal): Client Computes Checksum,,DAOS,release_management,2020-03-27
+DI MS1.5,True,2020-03-27,ETE Data Integrity MS1.5 (Internal): API Change,,DAOS,release_management,2020-03-27
+0.6 Community Release,True,2019-07-09,,2019-04-01,DAOS,release_management,2019-07-09
+0.7 Community Release,True,2019-09-29,,2019-07-10,DAOS,release_management,2019-09-29
+0.8 Community Release,True,2019-10-30,,2019-08-17,DAOS,release_management,2019-10-30
+0.9 Community Release,True,2020-02-05,,2019-11-01,DAOS,release_management,2020-02-05
+1.0 Community Release,True,2020-06-11,DAOS 1.0 Release,2019-10-09,DAOS,release_management,2020-06-11
+1.2 Community Release,True,2021-03-30,DAOS Roadmap 1.2 release,2020-05-25,DAOS,release_management,2021-03-30
+2.0 Community Release,True,2021-12-22,,2021-05-01,DAOS,release_management,2021-12-22
+HPE Demo,True,,,,DAOS,release_management,
+Security phase 4,True,,,,DAOS,release_management,
+Security phase 3,True,,Move to DAOS interfaces,,DAOS,release_management,
+Security phase 2,True,,Integrate into DAOS main tree and cleanup existing prototype,,DAOS,release_management,
+Security phase 1,True,,Finish initial prototype items,,DAOS,release_management,
+DIO7 NVME- VOS,True,,DIO7 NVME- VOS,,DAOS,release_management,
+DIO9 Initial Mgmt Service,True,,,,DAOS,release_management,
+DAOS ESSIO Stablization,True,,,,DAOS,release_management,
+MPI-IO DAOS Driver,True,,,,DAOS,release_management,
+Checksum Scrubbing,True,2021-09-24,,2020-04-01,DAOS,release_management,2021-09-24
+Catastrophic Recovery (Design),True,2021-06-25,,,DAOS,release_management,2021-06-25
+Porting of Applications 1-3,True,2021-12-31,,,DAOS,release_management,2021-12-31
+System Integration and Statistics,True,2021-09-27,,,DAOS,release_management,2021-09-27
+Network Stack Imprmnts,True,2021-03-26,,,DAOS,release_management,2021-03-26
+Optimized Object Placement (Design),True,2021-03-26,,,DAOS,release_management,2021-03-26
+Control Plane,True,2020-06-29,,2018-06-15,DAOS,release_management,2020-06-29
+POSIX File in Container (Implementation),True,2020-03-26,,,DAOS,release_management,2020-03-26
+Security Framework,True,2020-03-26,,,DAOS,release_management,2020-03-26
+E2E Checksums (Implementation),True,2020-03-26,,,DAOS,release_management,2020-03-26
+POSIX File in Container (Design),True,2019-09-26,,,DAOS,release_management,2019-09-26
+Erasure Code (Design),True,2019-09-27,,,DAOS,release_management,2019-09-27
+Initial Lustre/DAOS Integration,True,2019-09-26,,,DAOS,release_management,2019-09-26
+Online Server Addition (Design) ,True,2019-09-26,,,DAOS,release_management,2019-09-26
+E2E Checksums (Design),True,2019-06-27,,,DAOS,release_management,2019-06-27
+Unscheduled,True,2022-05-02,,,DAOS,release_management,2022-05-02
+DI MS7.0,True,2020-03-27,Performance Tuning and Hardening,,DAOS,release_management,2020-03-27
+DI MS6,True,2020-03-27,ETE Data Integrity MS6 (Internal): Performance Tuning and Hardening,,DAOS,release_management,2020-03-27
+DI MS5,True,2020-03-27,ETE Data Integrity MS5 (Internal): VOS Aggregation,,DAOS,release_management,2020-03-27
+DI MS4,True,2020-03-27,ETE Data Integrity MS4 (Internal): Error Handling,,DAOS,release_management,2020-03-27
+DI MS3,True,2020-03-27,ETE Data Integrity MS3 (Internal): Unaligned Chunks,,DAOS,release_management,2020-03-27
+DI MS2,True,2020-03-27,ETE Data Integrity MS2 (Internal): Client Computes Checksum,,DAOS,release_management,2020-03-27
+DI MS1.5,True,2020-03-27,ETE Data Integrity MS1.5 (Internal): API Change,,DAOS,release_management,2020-03-27

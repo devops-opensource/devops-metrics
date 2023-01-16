@@ -20,8 +20,8 @@ def LoaderFactory(type) -> loader.Loader:
     return localizers[type]()
 
 def convert_column_to_datetime(column, df):
-        if (column in df):
-            df[column] = pd.to_datetime(df[column], utc=True, errors="coerce").dt.tz_convert(None)
-        else:
-            df[column] = None
-        return df
+    if (column in df):
+        df[column] = pd.to_datetime(df[column], utc=True, errors="coerce").dt.tz_convert(None)
+    else:
+        df[column] = None
+    return df

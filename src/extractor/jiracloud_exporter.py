@@ -19,7 +19,7 @@ class JiracloudExporter(exporter.Exporter):
         self._jira_adress = config["JIRA_CLOUD"]["jira_cloud_url"]
         self._project_keys = config["JIRA_CLOUD"]["jira_project_keys"]
 
-        with open("src\extractor\mappings.json") as json_file:
+        with open("src/extractor/mappings.json") as json_file:
             mapping = json.load(json_file)
             self._versions_mapping = mapping["versions"]
             self._status_chnages_mapping = mapping["status_changes"]
@@ -28,8 +28,8 @@ class JiracloudExporter(exporter.Exporter):
         project_version_dict = self.extract_project_versions()
         status_changes_dict = self.extract_status_changelogs()
         data_dict = {
-            "versions" : project_version_dict,
-            "status_changes" : status_changes_dict
+            "versions": project_version_dict,
+            "status_changes": status_changes_dict
         }
         return data_dict
 
@@ -74,20 +74,20 @@ class JiracloudExporter(exporter.Exporter):
 
         if not is_recursive:
             return issues
-        
+
         with ThreadPoolExecutor(max_workers=20) as executor:
             threads = []
             print(f"Total releases: {total}")
             while (current_issue < total):
                 print(f"startAt={current_issue}")
                 next_parameters = f"{parameters}&startAT={current_issue}"
-                threads.append(executor.submit(self.execute_project_version_request,project_key, next_parameters, is_recursive=False))
+                threads.append(executor.submit(self.execute_project_version_request, project_key, next_parameters, is_recursive=False))
                 current_issue += max_results
         for task in as_completed(threads):
             issues.extend(task.result())
-        
+
         return issues
-    
+
     def extract_project_versions(self):
         project_version_dict = dict()
         project_key_list = self._project_keys.split(",")
@@ -108,7 +108,7 @@ class JiracloudExporter(exporter.Exporter):
             response.raise_for_status()
         except requests.exceptions.HTTPError as e:
             return "Error: " + str(e)
-        
+
         response_json = response.json()
         issues = response_json["issues"]
         total = response_json["total"]
@@ -147,7 +147,7 @@ class JiracloudExporter(exporter.Exporter):
                 continue
             df_versions = self.df_drop_and_rename_columns(df_versions, self._versions_mapping)
             df_versions["project_key"] = project_key
-            df_all_projects_versions  = pd.concat([df_all_projects_versions, df_versions])
+            df_all_projects_versions = pd.concat([df_all_projects_versions, df_versions])
         return df_all_projects_versions
 
     def adapt_status_changes(self, status_changes):
@@ -165,10 +165,9 @@ class JiracloudExporter(exporter.Exporter):
         df_status_changes = self.df_drop_and_rename_columns(df_status_changes, self._status_chnages_mapping)
         return df_status_changes
 
-    
     def df_drop_and_rename_columns(self, dataframe, columns_mapping):
         for col in dataframe.columns:
             if col not in columns_mapping:
                 dataframe = dataframe.drop(columns=col)
-        dataframe = dataframe.rename(columns = columns_mapping)
+        dataframe = dataframe.rename(columns=columns_mapping)
         return dataframe
