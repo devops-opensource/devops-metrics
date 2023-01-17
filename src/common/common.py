@@ -1,5 +1,5 @@
 from src.extractor import exporter, jiracloud_exporter
-from src.loader import mysql_loader, csv_loader,loader
+from src.loader import mysql_loader, csv_loader, loader
 import pandas as pd
 
 
@@ -19,9 +19,11 @@ def LoaderFactory(type) -> loader.Loader:
     }
     return localizers[type]()
 
+
 def convert_column_to_datetime(column, df):
     if (column in df):
-        df[column] = pd.to_datetime(df[column], utc=True, errors="coerce").dt.tz_convert(None)
+        df[column] = pd.to_datetime(
+            df[column], utc=True, errors="coerce").dt.tz_convert(None)
     else:
         df[column] = None
     return df
