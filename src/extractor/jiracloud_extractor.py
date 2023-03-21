@@ -3,6 +3,7 @@ import math
 import csv
 import json
 import pandas as pd
+from contextlib import closing
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 
@@ -50,7 +51,7 @@ class JiraCloud:
 
         version_query = f"{version_url}{parameters_string}"
 
-        with self.create_session() as session:
+        with closing(self.create_session()) as session:
             response = session.get(version_query)
         try:
             response.raise_for_status()
@@ -85,7 +86,7 @@ class JiraCloud:
         parameter_string = f"&{parameters}" if parameters else None
         query_string = f"jql={query}"
 
-        with self.create_session() as session:
+        with closing(self.create_session()) as session:
             response = session.get(f"{jira_url}{query_string}{fields_string}{parameter_string}")
         try:
             response.raise_for_status()
