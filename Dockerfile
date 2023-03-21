@@ -43,4 +43,4 @@ RUN pip install _submodules/splunk --upgrade
 RUN chown -R ${USER_ID}:${GROUP_ID} ${HOME}
 USER ${USER_ID}
 
-ENTRYPOINT ["bash","entrypoint"]
+ENTRYPOINT ["entrypoint"]
