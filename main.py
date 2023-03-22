@@ -4,8 +4,9 @@ from src.extractor.jiracloud_exporter import JiracloudExporter
 from src.loader.csv_loader import CsvLoader
 from src.loader.mysql_loader import MySqlLoader
 from src.common import common
-from src.transformer.transform_release_management\
-    import TransformReleaseManagement
+from src.transformer.transform_release_management import (
+    TransformReleaseManagement,
+)
 from src.transformer.transform_status_change import TransformStatusChanges
 
 parser = argparse.ArgumentParser()
@@ -41,15 +42,18 @@ if __name__ == "__main__":
     adapted_data = exporter.adapt_data(raw_data)
     release_transformer = TransformReleaseManagement()
     df_release_management = release_transformer.transform_release_management(
-        adapted_data["versions"])
+        adapted_data["versions"]
+    )
 
     status_changes_transformer = TransformStatusChanges(
-        config, df_release_management)
+        config, df_release_management
+    )
     df_status_cnhages = status_changes_transformer.transform_status_changes(
-        adapted_data["status_changes"])
+        adapted_data["status_changes"]
+    )
     df_dict = {
         "status_changes": df_status_cnhages,
-        "releases": df_release_management
+        "releases": df_release_management,
     }
 
     loader.load_data(df_dict)

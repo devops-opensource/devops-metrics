@@ -8,6 +8,7 @@ class Exporter(ABC):
     object of a Product class. The Creator's subclasses usually provide the
     implementation of this method.
     """
+
     @abstractmethod
     def initialize_data(self):
         pass

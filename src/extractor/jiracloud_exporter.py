@@ -29,7 +29,7 @@ class JiracloudExporter(exporter.Exporter):
         status_changes_dict = self.extract_status_changelogs()
         data_dict = {
             "versions": project_version_dict,
-            "status_changes": status_changes_dict
+            "status_changes": status_changes_dict,
         }
         return data_dict
 
@@ -39,24 +39,30 @@ class JiracloudExporter(exporter.Exporter):
             match key:
                 case "versions":
                     adapted_dict["versions"] = self.adapt_versions(
-                        data_dict["versions"])
+                        data_dict["versions"]
+                    )
                 case "status_changes":
                     adapted_dict["status_changes"] = self.adapt_status_changes(
-                        data_dict["status_changes"])
+                        data_dict["status_changes"]
+                    )
         return adapted_dict
 
     def create_session(self):
         headers = {
             "Accept": "application/json",
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
         }
         session = requests.Session()
         session.auth = (self._email, self._token)
         session.headers.update(headers)
         return session
 
-    def execute_project_version_request(self, project_key, parameters, is_recursive=True):
-        version_url = f"{self._jira_adress}/rest/api/2/project/{project_key}/version?"
+    def execute_project_version_request(
+        self, project_key, parameters, is_recursive=True
+    ):
+        version_url = (
+            f"{self._jira_adress}/rest/api/2/project/{project_key}/version?"
+        )
         parameters_string = f"{parameters}" if parameters else ""
 
         version_query = f"{version_url}{parameters_string}"
@@ -80,11 +86,17 @@ class JiracloudExporter(exporter.Exporter):
         with ThreadPoolExecutor(max_workers=20) as executor:
             threads = []
             print(f"Total releases: {total}")
-            while (current_issue < total):
+            while current_issue < total:
                 print(f"startAt={current_issue}")
                 next_parameters = f"{parameters}&startAT={current_issue}"
-                threads.append(executor.submit(
-                    self.execute_project_version_request, project_key, next_parameters, is_recursive=False))
+                threads.append(
+                    executor.submit(
+                        self.execute_project_version_request,
+                        project_key,
+                        next_parameters,
+                        is_recursive=False,
+                    )
+                )
                 current_issue += max_results
         for task in as_completed(threads):
             issues.extend(task.result())
@@ -95,11 +107,14 @@ class JiracloudExporter(exporter.Exporter):
         project_version_dict = dict()
         project_key_list = self._project_keys.split(",")
         for project_key in project_key_list:
-            project_version_dict[project_key] = self.execute_project_version_request(
-                project_key, "")
+            project_version_dict[
+                project_key
+            ] = self.execute_project_version_request(project_key, "")
         return project_version_dict
 
-    def execute_jql_request(self, query, fields, parameters, is_recursive=True):
+    def execute_jql_request(
+        self, query, fields, parameters, is_recursive=True
+    ):
         jira_url = f"{self._jira_adress}/rest/api/2/search?"
 
         fields_string = f"&fields={fields}" if fields else None
@@ -108,7 +123,8 @@ class JiracloudExporter(exporter.Exporter):
 
         with self.create_session() as session:
             response = session.get(
-                f"{jira_url}{query_string}{fields_string}{parameter_string}")
+                f"{jira_url}{query_string}{fields_string}{parameter_string}"
+            )
         try:
             response.raise_for_status()
         except requests.exceptions.HTTPError as e:
@@ -125,11 +141,18 @@ class JiracloudExporter(exporter.Exporter):
         with ThreadPoolExecutor(max_workers=20) as executor:
             threads = []
             print(f"Total issues: {total}")
-            while (current_issue < total):
+            while current_issue < total:
                 print(f"startAt={current_issue}")
                 next_parameters = f"{parameters}&startAt={current_issue}"
-                threads.append(executor.submit(
-                    self.execute_jql_request, query, fields, next_parameters, is_recursive=False))
+                threads.append(
+                    executor.submit(
+                        self.execute_jql_request,
+                        query,
+                        fields,
+                        next_parameters,
+                        is_recursive=False,
+                    )
+                )
                 current_issue += max_results
         for task in as_completed(threads):
             issues.extend(task.result())
@@ -149,32 +172,40 @@ class JiracloudExporter(exporter.Exporter):
         df_all_projects_versions = pd.DataFrame()
         for project_key in versions_dict:
             df_versions = pd.json_normalize(versions_dict[project_key])
-            if (df_versions.empty):
+            if df_versions.empty:
                 continue
             df_versions = self.df_drop_and_rename_columns(
-                df_versions, self._versions_mapping)
+                df_versions, self._versions_mapping
+            )
             df_versions["project_key"] = project_key
             df_all_projects_versions = pd.concat(
-                [df_all_projects_versions, df_versions])
+                [df_all_projects_versions, df_versions]
+            )
         return df_all_projects_versions
 
     def adapt_status_changes(self, status_changes):
-        df_changelogs = pd.json_normalize(status_changes, ["changelog", "histories", "items"], [
-                                          "key", ["changelog", "histories", "created"]])
+        df_changelogs = pd.json_normalize(
+            status_changes,
+            ["changelog", "histories", "items"],
+            ["key", ["changelog", "histories", "created"]],
+        )
         df_changelogs = df_changelogs[df_changelogs["field"] == "status"]
         df_fields = pd.json_normalize(status_changes)
         df_status_changes = df_changelogs.merge(df_fields)
 
         df_versions = pd.json_normalize(
-            status_changes, ["fields", "fixVersions"], ["key"])
+            status_changes, ["fields", "fixVersions"], ["key"]
+        )
         df_versions = df_versions[["key", "name"]]
         df_versions = df_versions.fillna("no_version")
-        df_versions = df_versions.groupby(
-            "key", as_index=False).agg({"name": ",".join})
+        df_versions = df_versions.groupby("key", as_index=False).agg(
+            {"name": ",".join}
+        )
         df_status_changes = df_status_changes.merge(df_versions)
 
         df_status_changes = self.df_drop_and_rename_columns(
-            df_status_changes, self._status_chnages_mapping)
+            df_status_changes, self._status_chnages_mapping
+        )
         return df_status_changes
 
     def df_drop_and_rename_columns(self, dataframe, columns_mapping):
