@@ -4,6 +4,7 @@ import requests
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import pandas as pd
 import json
+from contextlib import closing
 
 
 class JiracloudExporter(exporter.Exporter):
@@ -67,7 +68,7 @@ class JiracloudExporter(exporter.Exporter):
 
         version_query = f"{version_url}{parameters_string}"
 
-        with self.create_session() as session:
+        with closing(self.create_session()) as session:
             response = session.get(version_query)
         try:
             response.raise_for_status()
@@ -77,8 +78,8 @@ class JiracloudExporter(exporter.Exporter):
         response_json = response.json()
         issues = response_json["values"]
         total = response_json["total"]
-        max_results = response_json["maxResults"]
-        current_issue = max_results
+        number_of_issue_per_page = response_json["maxResults"]
+        current_issue = number_of_issue_per_page
 
         if not is_recursive:
             return issues
@@ -88,7 +89,7 @@ class JiracloudExporter(exporter.Exporter):
             print(f"Total releases: {total}")
             while current_issue < total:
                 print(f"startAt={current_issue}")
-                next_parameters = f"{parameters}&startAT={current_issue}"
+                next_parameters = f"{parameters}&startAt={current_issue}"
                 threads.append(
                     executor.submit(
                         self.execute_project_version_request,
@@ -97,7 +98,7 @@ class JiracloudExporter(exporter.Exporter):
                         is_recursive=False,
                     )
                 )
-                current_issue += max_results
+                current_issue += number_of_issue_per_page
         for task in as_completed(threads):
             issues.extend(task.result())
 
@@ -121,7 +122,7 @@ class JiracloudExporter(exporter.Exporter):
         parameter_string = f"&{parameters}" if parameters else None
         query_string = f"jql={query}"
 
-        with self.create_session() as session:
+        with closing(self.create_session()) as session:
             response = session.get(
                 f"{jira_url}{query_string}{fields_string}{parameter_string}"
             )
@@ -133,8 +134,8 @@ class JiracloudExporter(exporter.Exporter):
         response_json = response.json()
         issues = response_json["issues"]
         total = response_json["total"]
-        max_results = response_json["maxResults"]
-        current_issue = max_results
+        number_of_issue_per_page = response_json["maxResults"]
+        current_issue = number_of_issue_per_page
         if not is_recursive:
             return issues
 
@@ -153,7 +154,7 @@ class JiracloudExporter(exporter.Exporter):
                         is_recursive=False,
                     )
                 )
-                current_issue += max_results
+                current_issue += number_of_issue_per_page
         for task in as_completed(threads):
             issues.extend(task.result())
 
