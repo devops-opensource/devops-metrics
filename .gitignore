@@ -6,3 +6,4 @@ __pycache__/
 .env
 *.py[cod]
 *$py.class
+my_config.local.cfg
