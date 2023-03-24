@@ -17,9 +17,9 @@ class SplunkLoader(loader.Loader):
         for df in df_dict.values():
             logs = df.to_json(orient="records")
             payload.update({"event": logs})
-            logsevent.batchEvent(payload) 
+            logsevent.batchEvent(payload)
         logsevent.flushBatch()
-        
+      
     def load_data_with_last_update(self, df_dict):
         # TODO: Add call to splunk API to get the last update time
         return self.load_data(df_dict)
