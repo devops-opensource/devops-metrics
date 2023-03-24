@@ -38,13 +38,13 @@ class JiracloudExporter(exporter.Exporter):
         adapted_dict = dict()
         for key in data_dict:
             if key is "versions":
-                    adapted_dict["versions"] = self.adapt_versions(
-                        data_dict["versions"]
-                    )
+                adapted_dict["versions"] = self.adapt_versions(
+                    data_dict["versions"]
+                )
             elif key is "status_changes":
-                    adapted_dict["status_changes"] = self.adapt_status_changes(
-                        data_dict["status_changes"]
-                    )
+                adapted_dict["status_changes"] = self.adapt_status_changes(
+                    data_dict["status_changes"]
+                )
         return adapted_dict
 
     def create_session(self):
