@@ -2,7 +2,7 @@ import pytest
 from unittest.mock import MagicMock, patch
 from src.loader import loader
 from src.loader.splunk_loader import SplunkLoader
-from src.loader.splunk_http_event_collector import http_event_collector
+from splunk_http_event_collector import http_event_collector
 import pandas as pd
 
 
