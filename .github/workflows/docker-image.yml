@@ -28,7 +28,7 @@ jobs:
 
       - name: Run unit tests and build coverage report
         run: |
-            coverage run -m unittest discover -v tests/unit_test
+            coverage run -m pytest discover -v tests
             coverage xml -o coverage.xml # explicitely exporting coverage file to be read by coverage report command.
       
       - name: 'Upload Artifact'
