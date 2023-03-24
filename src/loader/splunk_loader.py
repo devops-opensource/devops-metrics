@@ -1,4 +1,4 @@
-from src.loader.splunk_http_event_collector import http_event_collector
+from splunk_http_event_collector import http_event_collector
 from src.loader import loader
 
 class SplunkLoader(loader.Loader):
