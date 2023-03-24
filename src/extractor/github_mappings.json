@@ -1,0 +1,32 @@
+{
+    "pulls" : {
+        "number": "number",
+        "title": "title",
+        "state": "state",
+        "created_at": "created",
+        "closed_at": "closed",
+        "merged_at": "merged",
+        "head.ref": "head_name",
+        "base.ref": "base_name"
+    },
+    "commits" : {
+        "number": "number",
+        "repo": "repo",
+        "sha" : "sha",
+        "commit.committer.date": "commit_date",
+        "commit.message": "commit_message"
+    },
+    "reviews": {
+        "number": "number",
+        "repo": "repo",
+        "state": "state",
+        "submitted_at": "submitted_at"
+    },
+    "repo": {
+        "name": "name",
+        "created_at": "creation_date",
+        "active_branches": "active_branches",
+        "contributors": "contributors",
+        "control_date": "control_date"
+    }
+}
