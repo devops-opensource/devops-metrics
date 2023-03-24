@@ -3,8 +3,6 @@ from src.extractor.jiracloud_exporter import  JiracloudExporter
 from src.loader.csv_loader import CsvLoader
 from src.loader.mysql_loader import MySqlLoader
 import pandas as pd
-
-# Import the functions from your provided code
 from src.common import common
 
 
@@ -47,6 +45,6 @@ def test_convert_column_to_datetime(sample_df):
 
 def test_convert_column_to_datetime_nonexistent_column(sample_df):
     result_df = common.convert_column_to_datetime("nonexistent_column", sample_df)
-    
+
     assert "nonexistent_column" in result_df.columns
     assert all(pd.isna(result_df["nonexistent_column"]))
