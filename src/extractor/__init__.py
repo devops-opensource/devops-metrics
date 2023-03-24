@@ -1,2 +1,2 @@
 from . import exporter
-from . import jira_exporter
+from . import jiracloud_exporter

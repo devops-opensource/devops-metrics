@@ -1,0 +1,20 @@
+{
+    "status_changes" : {
+        "key": "key",
+        "fields.project.key": "project_key",
+        "fields.parent.key": "parent_key",
+        "fields.issuetype.name": "issue_type",
+        "fromString": "from_status",
+        "toString": "to_status",
+        "changelog.histories.created": "to_date",
+        "fields.created": "creation_date",
+        "name": "version"
+    },
+    "versions" : {
+        "name": "name",
+        "description": "description",
+        "released" : "released",
+        "releaseDate": "release_date",
+        "startDate": "start_date"
+    }
+}
