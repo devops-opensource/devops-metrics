@@ -42,7 +42,7 @@ class GithubExporter(Exporter):
             json_response = r.json()
             results.extend(json_response)
             if "next" in r.links:  # check if there is another page of organisations
-                url = r.links["next "]["url"]
+                url = r.links["next"]["url"]
             else:
                 another_page = False
         return results
@@ -92,7 +92,7 @@ class GithubExporter(Exporter):
     def extract_data(self):
         all_pulls = self.extract_all_pull_requests(self.github_repo_list)
         pr_keys = self.get_pr_repo_number_list(all_pulls)
-        all_commits = self.extract_all_commits()
+        all_commits = self.extract_all_commits(pr_keys)
         return {"pulls": all_pulls, "commits": all_commits}
     
     def extract_all_pull_requests(self, repo_list):
@@ -117,14 +117,37 @@ class GithubExporter(Exporter):
         response_dict = {"repo": repo, "response": response}
         return response_dict
     
-    def get_pr_repo_number_list(pull_list):
-        df_all_pulls = pd.DataFrame
+    def get_pr_repo_number_list(self, pull_list):
+        df_all_pulls = pd.DataFrame()
         for pr in pull_list:
-            curr_pull = pd.json_normalize(pr["response"])["number"]
+            curr_pull = pd.json_normalize(pr["response"])
             curr_pull["repo"] = pr["repo"]
+            curr_pull = curr_pull[["repo", "number"]]
             df_all_pulls = pd.concat([df_all_pulls, curr_pull])
         all_pulls_list = list(df_all_pulls.itertuples(index=False, name=None))
         return all_pulls_list
+    
+    def extract_all_commits(self, pr_list):
+        all_commits = []
+        with ThreadPoolExecutor(max_workers=20) as executor:
+            threads = []
+            for (repo, number) in pr_list:
+                threads.append(
+                    executor.submit(self.extract_pr_commits, repo, number)
+                )
+            for task in as_completed(threads):
+                response_dict = task.result()
+                if response_dict["response"]:
+                    all_commits.append(response_dict)
+        return all_commits
+    
+    def extract_pr_commits(self, repo, number):
+        params = {"per _page": 100}
+        response = self.execute_paginated_request(
+            f"repos/{self.github_org}/{repo}/pulls/{number}/commits", params
+        )
+        response_dict = {"repo": repo, "number": number, "response": response}
+        return response_dict
 
     def extract_commits_list_from_pr_number(self, number, repo):
         if not self.dict_pr_commits.get((repo, number)):
@@ -174,5 +197,5 @@ class GithubExporter(Exporter):
                     )
         return {"pulls": df_all_pulls, "commits": df_all_commits}
     
-    def adapt_data(self):
+    def adapt_data(self, raw_data):
         return 
