@@ -1,6 +1,5 @@
 from __future__ import annotations
 from src.extractor import exporter
-from src.common import common
 import requests
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import pandas as pd
@@ -24,7 +23,7 @@ class JiracloudExporter(exporter.Exporter):
         with open("src/extractor/mappings.json") as json_file:
             mapping = json.load(json_file)
             self._versions_mapping = mapping["versions"]
-            self._status_chnages_mapping = mapping["status_changes"]
+            self._status_changes_mapping = mapping["status_changes"]
 
     def extract_data(self):
         project_version_dict = self.extract_project_versions()
@@ -38,15 +37,14 @@ class JiracloudExporter(exporter.Exporter):
     def adapt_data(self, data_dict):
         adapted_dict = dict()
         for key in data_dict:
-            match key:
-                case "versions":
-                    adapted_dict["versions"] = self.adapt_versions(
-                        data_dict["versions"]
-                    )
-                case "status_changes":
-                    adapted_dict["status_changes"] = self.adapt_status_changes(
-                        data_dict["status_changes"]
-                    )
+            if key is "versions":
+                adapted_dict["versions"] = self.adapt_versions(
+                    data_dict["versions"]
+                )
+            elif key is "status_changes":
+                adapted_dict["status_changes"] = self.adapt_status_changes(
+                    data_dict["status_changes"]
+                )
         return adapted_dict
 
     def create_session(self):
@@ -176,7 +174,7 @@ class JiracloudExporter(exporter.Exporter):
             df_versions = pd.json_normalize(versions_dict[project_key])
             if df_versions.empty:
                 continue
-            df_versions = common.df_drop_and_rename_columns(
+            df_versions = self.df_drop_and_rename_columns(
                 df_versions, self._versions_mapping
             )
             df_versions["project_key"] = project_key
@@ -205,9 +203,14 @@ class JiracloudExporter(exporter.Exporter):
         )
         df_status_changes = df_status_changes.merge(df_versions)
 
-        df_status_changes = common.df_drop_and_rename_columns(
-            df_status_changes, self._status_chnages_mapping
+        df_status_changes = self.df_drop_and_rename_columns(
+            df_status_changes, self._status_changes_mapping
         )
         return df_status_changes
 
-    
+    def df_drop_and_rename_columns(self, dataframe, columns_mapping):
+        for col in dataframe.columns:
+            if col not in columns_mapping:
+                dataframe = dataframe.drop(columns=col)
+        dataframe = dataframe.rename(columns=columns_mapping)
+        return dataframe

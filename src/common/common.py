@@ -1,8 +1,9 @@
-from src.extractor import exporter, jiracloud_exporter, github_exporter
-from src.loader import mysql_loader, csv_loader, loader
+from src.extractor import exporter, jiracloud_exporter
+from src.loader import mysql_loader, csv_loader, splunk_loader, loader
 import pandas as pd
 from functools import wraps
 import time
+
 
 def execution_time(func):
     @wraps(func)
@@ -17,10 +18,10 @@ def execution_time(func):
     return timeit_wrapper
 
 
+
 def ExporterFactory(type) -> exporter.Exporter:
     """Factory Method"""
-    localizers = {"JiraCloud": jiracloud_exporter.JiracloudExporter,
-                  "GitHub": github_exporter.GithubExporter}
+    localizers = {"JiraCloud": jiracloud_exporter.JiracloudExporter}
     return localizers[type]()
 
 
@@ -29,9 +30,9 @@ def LoaderFactory(type) -> loader.Loader:
     localizers = {
         "MYSQL": mysql_loader.MySqlLoader,
         "CSV": csv_loader.CsvLoader,
+        "SPLUNK": splunk_loader.SplunkLoader
     }
     return localizers[type]()
-
 
 def convert_column_to_datetime(column, df):
     if column in df:
@@ -41,11 +42,3 @@ def convert_column_to_datetime(column, df):
     else:
         df[column] = None
     return df
-
-def df_drop_and_rename_columns(dataframe, columns_mapping):
-        for col in dataframe.columns:
-            if col not in columns_mapping:
-                dataframe = dataframe.drop(columns=col)
-        dataframe = dataframe.rename(columns=columns_mapping)
-        return dataframe
-
