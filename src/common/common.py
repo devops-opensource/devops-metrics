@@ -1,5 +1,6 @@
 from src.extractor import exporter, jiracloud_exporter, github_exporter
 from src.loader import mysql_loader, csv_loader, splunk_loader, loader
+from src.transformer import transformer
 import pandas as pd
 from functools import wraps
 import time
@@ -25,6 +26,11 @@ def ExporterFactory(type) -> exporter.Exporter:
                   "GitHub": github_exporter.GithubExporter}
     return localizers[type]()
 
+def TransformerFactory(type) -> transformer.Transformer:
+    """Factory Method"""
+    localizers = {"JiraCloud": transformer.ProjectManagementTransformer,
+                  "GitHub": transformer.VersionControlTransformer}
+    return localizers[type]()
 
 def LoaderFactory(type) -> loader.Loader:
     """Factory Method"""
