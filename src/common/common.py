@@ -1,4 +1,4 @@
-from src.extractor import exporter, jiracloud_exporter
+from src.extractor import exporter, jiracloud_exporter, github_exporter
 from src.loader import mysql_loader, csv_loader, splunk_loader, loader
 import pandas as pd
 from functools import wraps
@@ -21,7 +21,8 @@ def execution_time(func):
 
 def ExporterFactory(type) -> exporter.Exporter:
     """Factory Method"""
-    localizers = {"JiraCloud": jiracloud_exporter.JiracloudExporter}
+    localizers = {"JiraCloud": jiracloud_exporter.JiracloudExporter,
+                  "GitHub": github_exporter.GithubExporter}
     return localizers[type]()
 
 
@@ -42,3 +43,10 @@ def convert_column_to_datetime(column, df):
     else:
         df[column] = None
     return df
+
+def df_drop_and_rename_columns(dataframe, columns_mapping):
+        for col in dataframe.columns:
+            if col not in columns_mapping:
+                dataframe = dataframe.drop(columns=col)
+        dataframe = dataframe.rename(columns=columns_mapping)
+        return dataframe

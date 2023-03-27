@@ -136,7 +136,7 @@ class GithubExporter(Exporter):
         all_commits = raw_data["commits"]
         df_commits = self.adapt_commits(all_commits)
         all_reviews = raw_data["reviews"]
-        df_reviews = pd.adapt_reviews(all_reviews)
+        df_reviews = self.adapt_reviews(all_reviews)
         return {"df_pulls": df_pulls, "df_commits": df_commits, "df_reviews": df_reviews}
     
     def adapt_pulls(self, all_pulls):
@@ -144,9 +144,29 @@ class GithubExporter(Exporter):
         for pull in all_pulls:
             df_curr_pull = pd.json_normalize(pull["response"])
             df_curr_pull["repo"] = pull["repo"]
-            df_curr_pull = common.df_drop_and_rename_columns(df_curr_pull, self.mappings)
+            df_curr_pull = common.df_drop_and_rename_columns(df_curr_pull, self.mappings["pulls"])
             df_pulls = pd.concat([df_pulls, df_curr_pull])
         return df_pulls
+
+    def adapt_commits(self, all_commits):
+        df_commits = pd.DataFrame()
+        for commit in all_commits:
+            df_curr_commits = pd.json_normalize(commit["response"])
+            df_curr_commits["repo"] = commit["repo"]
+            df_curr_commits["number"] = commit["number"]
+            df_curr_commits = common.df_drop_and_rename_columns(df_curr_commits, self.mappings["commits"])
+            df_commits = pd.concat([df_commits, df_curr_commits])
+        return df_commits
+    
+    def adapt_reviews(self, all_reviews):
+        df_reviews = pd.DataFrame()
+        for review in all_reviews:
+            df_curr_reviews = pd.json_normalize(review["response"])
+            df_curr_reviews["repo"] = review["repo"]
+            df_curr_reviews["number"] = review["number"]
+            df_curr_reviews = common.df_drop_and_rename_columns(df_curr_reviews, self.mappings["reviews"])
+            df_reviews = pd.concat([df_reviews, df_curr_reviews])
+        return df_reviews
 
     # def extract_commits_list_from_pr_number(self, number, repo):
     #     if not self.dict_pr_commits.get((repo, number)):
