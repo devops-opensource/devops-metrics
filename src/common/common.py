@@ -42,7 +42,7 @@ def convert_column_to_datetime(column, df):
         df[column] = None
     return df
 
-def df_drop_and_rename_columns(self, dataframe, columns_mapping):
+def df_drop_and_rename_columns(dataframe, columns_mapping):
         for col in dataframe.columns:
             if col not in columns_mapping:
                 dataframe = dataframe.drop(columns=col)
