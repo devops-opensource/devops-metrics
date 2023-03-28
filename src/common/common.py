@@ -1,6 +1,6 @@
 from src.extractor import exporter, jiracloud_exporter, github_exporter
 from src.loader import mysql_loader, csv_loader, splunk_loader, loader
-from src.transformer import transformer, project_management_transformer
+from src.transformer import transformer, project_management_transformer, version_control_transformer
 import pandas as pd
 from functools import wraps
 import time
@@ -18,8 +18,6 @@ def execution_time(func):
         return result
     return timeit_wrapper
 
-
-
 def ExporterFactory(type) -> exporter.Exporter:
     """Factory Method"""
     localizers = {"JiraCloud": jiracloud_exporter.JiracloudExporter,
@@ -29,7 +27,7 @@ def ExporterFactory(type) -> exporter.Exporter:
 def TransformerFactory(type) -> transformer.Transformer:
     """Factory Method"""
     localizers = {"JiraCloud": project_management_transformer.ProjectManagementTransformer,
-                  "GitHub": transformer.version_control_transformer}
+                  "GitHub": version_control_transformer.VersionControlTransformer}
     return localizers[type]()
 
 def LoaderFactory(type) -> loader.Loader:

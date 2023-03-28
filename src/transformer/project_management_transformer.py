@@ -1,6 +1,6 @@
-from transformer import Transformer
-from transform_release_management import TransformReleaseManagement
-from transform_status_change import TransformStatusChanges
+from src.transformer.transformer import Transformer
+from src.transformer.transform_release_management import TransformReleaseManagement
+from src.transformer.transform_status_change import TransformStatusChanges
 
 class ProjectManagementTransformer(Transformer):
 
