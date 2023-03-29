@@ -38,7 +38,9 @@ class GithubExporter(Exporter):
         results = []
         while another_page:
             with self.create_session() as session:
-                # r = session.get(url, params=parameters, verify=self.certificate_path)
+                # r = session.get(
+                #     url, params=parameters, verify=self.certificate_path
+                # )
                 r = session.get(url, params=parameters, verify=False)
             json_response = r.json()
             results.extend(json_response)
