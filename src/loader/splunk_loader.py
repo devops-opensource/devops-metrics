@@ -1,4 +1,4 @@
-from  _submodules.splunk.splunk_http_event_collector import http_event_collector
+from _submodules.splunk.splunk_http_event_collector import http_event_collector
 from src.loader import loader
 
 
@@ -19,7 +19,7 @@ class SplunkLoader(loader.Loader):
             payload.update({"event": logs})
             logsevent.batchEvent(payload)
         logsevent.flushBatch()
-    
+
     def load_data_with_last_update(self, df_dict):
         # TODO: Add call to splunk API to get the last update time
         return self.load_data(df_dict)

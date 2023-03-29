@@ -1,13 +1,6 @@
 import configparser
 import argparse
-from src.extractor.jiracloud_exporter import JiracloudExporter
-from src.loader.csv_loader import CsvLoader
-from src.loader.mysql_loader import MySqlLoader
 from src.common import common
-from src.transformer.transform_release_management import (
-    TransformReleaseManagement,
-)
-from src.transformer.transform_status_change import TransformStatusChanges
 
 parser = argparse.ArgumentParser()
 parser.add_argument("config_file")
