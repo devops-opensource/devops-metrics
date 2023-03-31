@@ -1,6 +1,7 @@
 {
     "pulls" : {
         "number": "number",
+        "repo": "repo",
         "title": "title",
         "state": "state",
         "created_at": "created",
