@@ -9,7 +9,7 @@ class ProjectManagementTransformer(Transformer):
     def initialize_data(self, config):
         self.config = config
 
-    def transform_data(self, config, adapted_data):
+    def transform_data(self, adapted_data):
         df_release_management = (
             TransformReleaseManagement.transform_release_management(
                 adapted_data["versions"]

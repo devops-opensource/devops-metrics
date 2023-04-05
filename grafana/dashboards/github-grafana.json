@@ -256,7 +256,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 9,
+        "h": 8,
         "w": 5,
         "x": 5,
         "y": 1
@@ -412,8 +412,8 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 9,
-        "w": 5,
+        "h": 8,
+        "w": 4,
         "x": 10,
         "y": 1
       },
@@ -523,33 +523,43 @@
         "type": "mysql",
         "uid": "P211906C1C32DB77E"
       },
-      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
           },
           "custom": {
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
-            "fillOpacity": 80,
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
+            "lineInterpolation": "linear",
             "lineWidth": 1,
+            "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
             },
             "thresholdsStyle": {
               "mode": "off"
             }
           },
           "mappings": [],
+          "noValue": "0",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -563,38 +573,61 @@
               }
             ]
           },
-          "unit": "d"
+          "unit": "none"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "year_number"
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": true,
+                  "tooltip": true,
+                  "viz": true
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "week_number"
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": true,
+                  "tooltip": true,
+                  "viz": true
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
-        "h": 9,
-        "w": 9,
-        "x": 15,
+        "h": 7,
+        "w": 10,
+        "x": 14,
         "y": 1
       },
-      "id": 187,
+      "id": 1035,
       "options": {
-        "barRadius": 0,
-        "barWidth": 0.97,
-        "fullHighlight": false,
-        "groupWidth": 0.7,
         "legend": {
           "calcs": [],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
         },
-        "orientation": "auto",
-        "showValue": "auto",
-        "stacking": "none",
         "tooltip": {
           "mode": "single",
           "sort": "none"
-        },
-        "xField": "repo",
-        "xTickLabelRotation": 0,
-        "xTickLabelSpacing": 0
+        }
       },
       "pluginVersion": "9.4.7",
       "targets": [
@@ -605,9 +638,8 @@
           },
           "editorMode": "code",
           "format": "table",
-          "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT pulls.*, first_commits.first_commit_calc as first_commit_calc\r\nFROM metricsDB.df_pulls pulls\r\nINNER JOIN (\r\n  SELECT repo, number, MIN(commit_date) as first_commit_calc\r\n  FROM metricsDB.df_commits\r\n  GROUP BY repo, number\r\n) first_commits ON pulls.repo= first_commits.repo AND pulls.number = first_commits.number;",
+          "rawSql": "SELECT\r\n  YEAR(pr_events.timestamp) AS year_number,\r\n  WEEK(pr_events.timestamp) AS week_number,\r\n  SUM(IF(pr_events.event_type = 'Creation', 1, 0)) AS created_count,\r\n  SUM(IF(pr_events.event_type = 'Merge', 1, 0)) AS merged_count,\r\n  STR_TO_DATE(CONCAT(CONCAT(YEAR(pr_events.timestamp), WEEK(pr_events.timestamp)),' Monday'), '%x%v %W') AS year_week\r\nFROM\r\n  metricsDB.pr_events pr_events\r\nWHERE\r\n  pr_events.event_type IN ('Creation', 'Merge') AND pr_events.timestamp IS NOT NULL\r\nGROUP BY\r\n  year_number,\r\n  week_number\r\nORDER BY\r\n  year_number,\r\n  week_number;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -628,60 +660,139 @@
           }
         }
       ],
-      "title": "Mean time by status per version",
-      "transformations": [
-        {
-          "id": "filterByValue",
-          "options": {
-            "filters": [
-              {
-                "config": {
-                  "id": "greater",
-                  "options": {
-                    "value": 0
-                  }
+      "title": "Panel Title",
+      "transformations": [],
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "P211906C1C32DB77E"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "fillOpacity": 70,
+            "lineWidth": 0,
+            "spanNulls": true
+          },
+          "decimals": 1,
+          "mappings": [
+            {
+              "options": {
+                "Creation": {
+                  "color": "yellow",
+                  "index": 1
                 },
-                "fieldName": "merged"
+                "First Commit": {
+                  "color": "dark-red",
+                  "index": 0
+                },
+                "Review": {
+                  "color": "blue",
+                  "index": 2
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 24,
+        "x": 0,
+        "y": 10
+      },
+      "id": 822,
+      "options": {
+        "alignValue": "left",
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "mergeValues": true,
+        "rowHeight": 0.9,
+        "showValue": "auto",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.4.7",
+      "repeatDirection": "v",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "P211906C1C32DB77E"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "Select * FROM metricsDB.pr_events",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
               }
             ],
-            "match": "all",
-            "type": "include"
-          }
-        },
-        {
-          "id": "calculateField",
-          "options": {
-            "alias": "TTM",
-            "binary": {
-              "left": "merged",
-              "operator": "-",
-              "reducer": "sum",
-              "right": "first_commit"
-            },
-            "mode": "binary",
-            "reduce": {
-              "reducer": "sum"
-            }
-          }
-        },
-        {
-          "id": "calculateField",
-          "options": {
-            "alias": "TTMDAYS",
-            "binary": {
-              "left": "TTM",
-              "operator": "/",
-              "reducer": "sum",
-              "right": "86400000"
-            },
-            "mode": "binary",
-            "reduce": {
-              "reducer": "sum"
-            }
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
           }
         }
       ],
-      "type": "barchart"
+      "title": "Mean time by status",
+      "transformations": [
+        {
+          "id": "groupingToMatrix",
+          "options": {
+            "columnField": "number",
+            "emptyValue": "null",
+            "rowField": "timestamp",
+            "valueField": "event_type"
+          }
+        },
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "time",
+                "targetField": "timestamp\\number"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "state-timeline"
     },
     {
       "collapsed": false,
@@ -693,7 +804,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 10
+        "y": 21
       },
       "id": 16,
       "panels": [],
@@ -754,7 +865,7 @@
         "h": 9,
         "w": 5,
         "x": 0,
-        "y": 11
+        "y": 22
       },
       "id": 189,
       "options": {
@@ -904,7 +1015,7 @@
         "h": 9,
         "w": 5,
         "x": 5,
-        "y": 11
+        "y": 22
       },
       "id": 400,
       "options": {
@@ -1060,7 +1171,7 @@
         "h": 9,
         "w": 5,
         "x": 10,
-        "y": 11
+        "y": 22
       },
       "id": 611,
       "options": {
@@ -1176,7 +1287,7 @@
           },
           "custom": {
             "fillOpacity": 70,
-            "lineWidth": 0,
+            "lineWidth": 3,
             "spanNulls": false
           },
           "decimals": 1,
@@ -1187,10 +1298,6 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           },
@@ -1202,19 +1309,19 @@
         "h": 6,
         "w": 9,
         "x": 15,
-        "y": 11
+        "y": 22
       },
       "id": 122,
       "options": {
-        "alignValue": "left",
+        "alignValue": "right",
         "legend": {
           "displayMode": "list",
           "placement": "bottom",
-          "showLegend": true
+          "showLegend": false
         },
         "mergeValues": true,
-        "rowHeight": 0.9,
-        "showValue": "auto",
+        "rowHeight": 0.8,
+        "showValue": "always",
         "tooltip": {
           "mode": "single",
           "sort": "none"
@@ -1232,7 +1339,7 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "Select commits.* From metricsDB.df_commits commits\r\nwhere commits.number = $repo ",
+          "rawSql": "Select * From metricsDB.pr_events pr_events\r\nwhere pr_events.number = $repo ",
           "refId": "A",
           "sql": {
             "columns": [
@@ -1260,8 +1367,8 @@
           "options": {
             "columnField": "number",
             "emptyValue": "null",
-            "rowField": "commit_date",
-            "valueField": "commit_message"
+            "rowField": "timestamp",
+            "valueField": "event_type"
           }
         },
         {
@@ -1270,7 +1377,7 @@
             "conversions": [
               {
                 "destinationType": "time",
-                "targetField": "commit_date\\number"
+                "targetField": "timestamp\\number"
               }
             ],
             "fields": {}
@@ -1367,6 +1474,6 @@
   "timezone": "",
   "title": "DevOps Metrics Github",
   "uid": "zXs6ywSVk1",
-  "version": 13,
+  "version": 16,
   "weekStart": ""
 }
