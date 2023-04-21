@@ -39,6 +39,6 @@ services:
         - ./config.local.cfg:/config.local.cfg
         - ./docker-compose-utilities/:/docker-compose-utilities/
     command: sh -c "sleep 10 && python3 ~/devops-metrics/main.py /config.local.cfg JiraCloud MYSQL &&
-              python3 ~/devops-metrics/main.py /config.local.cfg GitHub MYSQL"
+              python3 ~/devops-metrics/main.py /config.local.cfg GitLab MYSQL"
 
   

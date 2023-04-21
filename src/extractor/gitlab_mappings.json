@@ -1,0 +1,33 @@
+{
+    "merge_requests": {
+        "iid": "number",
+        "repo": "repo",
+        "title": "title",
+        "state": "state",
+        "created_at": "created",
+        "closed_at": "closed",
+        "merged_at": "merged",
+        "source_branch": "head_name",
+        "target_branch": "base_name"
+    },
+    "commits": {
+        "iid": "number",
+        "repo": "repo",
+        "id": "sha",
+        "committed_date": "commit_date",
+        "title": "commit_message"
+    },
+    "reviewers": {
+        "iid": "number",
+        "repo": "repo",
+        "state": "state",
+        "created_at": "submitted_at"
+    },
+    "repo": {
+        "name": "name",
+        "created_at": "creation_date",
+        "active_branches": "active_branches",
+        "contributors": "contributors",
+        "control_date": "control_date"
+    }
+}
