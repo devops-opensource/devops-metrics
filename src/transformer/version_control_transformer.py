@@ -2,7 +2,6 @@ from src.transformer.transformer import Transformer
 from src.common import common
 import pandas as pd
 
-
 class VersionControlTransformer(Transformer):
     def initialize_data(self, config):
         self.config = config
