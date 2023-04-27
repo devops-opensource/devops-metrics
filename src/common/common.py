@@ -1,7 +1,7 @@
 from src.extractor import (
     exporter,
-    jiracloud_exporter, 
-    github_exporter, 
+    jiracloud_exporter,
+    github_exporter,
     gitlab_exporter
 )
 from src.loader import mysql_loader, csv_loader, splunk_loader, loader
