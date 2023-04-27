@@ -20,7 +20,7 @@
     "reviewers": {
         "iid": "number",
         "repo": "repo",
-        "state": "state",
+        "body": "state",
         "created_at": "submitted_at"
     },
     "repo": {

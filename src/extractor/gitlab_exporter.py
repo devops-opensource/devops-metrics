@@ -30,7 +30,7 @@ class GitlabExporter(Exporter):
         return session
 
     def execute_paginated_request(
-        self, endpoint, parameters={"per_page": 100}
+        self, endpoint, parameters={}
     ):
         another_page = True
         url = f"{self.gitlab_url}/{endpoint}"
@@ -105,7 +105,7 @@ class GitlabExporter(Exporter):
         return all_commits
 
     def extract_mr_commits(self, project_id, merge_request_iid):
-        params = {"per _page": 100}
+        params = {"per_page": 100}
         response = self.execute_paginated_request(
             f"projects/{project_id}/merge_requests/{merge_request_iid}/commits", params
         )
@@ -127,9 +127,9 @@ class GitlabExporter(Exporter):
         return all_reviews
 
     def extract_mr_reviewers(self, project_id, merge_request_iid):
-        params = {"per _page": 100}
+        params = {}
         response = self.execute_paginated_request(
-            f"projects/{project_id}/merge_requests/{merge_request_iid}/reviewers", params
+            f"projects/{project_id}/merge_requests/{merge_request_iid}/notes", params
         )
         response_dict = {"repo": project_id, "iid": merge_request_iid, "response": response}
         return response_dict
@@ -176,7 +176,7 @@ class GitlabExporter(Exporter):
             df_curr_reviewers = pd.json_normalize(reviewer["response"])
             if 'error' in reviewer["response"]:
                 continue
-            df_curr_reviewers["repo"] = reviewer
+            df_curr_reviewers["repo"] = reviewer["repo"]
             df_curr_reviewers["iid"] = reviewer["iid"]
             df_curr_reviewers = common.df_drop_and_rename_columns(
                 df_curr_reviewers, self.mappings["reviewers"]
