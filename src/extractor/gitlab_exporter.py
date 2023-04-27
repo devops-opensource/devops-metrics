@@ -5,7 +5,7 @@ from src.extractor.exporter import Exporter
 from src.common import common
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-pd.options.mode.chained_assignment = None  # default='warn'
+pd.options.mode.chained_assignment = None
 
 
 class GitlabExporter(Exporter):
@@ -107,7 +107,8 @@ class GitlabExporter(Exporter):
     def extract_mr_commits(self, project_id, merge_request_iid):
         params = {"per_page": 100}
         response = self.execute_paginated_request(
-            f"projects/{project_id}/merge_requests/{merge_request_iid}/commits", params
+            f"projects/{project_id}/merge_requests/{merge_request_iid}/commits", 
+            params
         )
         response_dict = {"repo": project_id,
                          "iid": merge_request_iid, "response": response}
@@ -130,7 +131,8 @@ class GitlabExporter(Exporter):
     def extract_mr_reviewers(self, project_id, merge_request_iid):
         params = {}
         response = self.execute_paginated_request(
-            f"projects/{project_id}/merge_requests/{merge_request_iid}/notes", params
+            f"projects/{project_id}/merge_requests/{merge_request_iid}/notes",
+            params
         )
         response_dict = {"repo": project_id,
                          "iid": merge_request_iid, "response": response}

@@ -2,6 +2,7 @@ from src.transformer.transformer import Transformer
 from src.common import common
 import pandas as pd
 
+
 class VersionControlTransformer(Transformer):
     def initialize_data(self, config):
         self.config = config
@@ -64,5 +65,6 @@ class VersionControlTransformer(Transformer):
             columns={"submitted_at": "timestamp"})
 
         df_events = pd.concat(
-            [df_created_event, df_merged_event, df_first_commit_event, df_review_event])
+            [df_created_event, df_merged_event,
+              df_first_commit_event, df_review_event])
         return df_events
