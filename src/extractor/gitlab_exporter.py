@@ -185,12 +185,14 @@ class GitlabExporter(Exporter):
             df_curr_reviewers["repo"] = reviewer["repo"]
             df_curr_reviewers["iid"] = reviewer["iid"]
 
-            df_curr_reviewers = common.df_drop_and_rename_columns(
-                df_curr_reviewers, self.mappings["reviewers"]
-            )
+
             df_reviewers = pd.concat([df_reviewers, df_curr_reviewers])
-            df_reviewers = df_reviewers[df_reviewers["body"].contains(
-                "approved")]
+
+        df_reviewers = df_reviewers[df_reviewers["body"].str.contains(
+            "approved")]
+        df_reviewers = common.df_drop_and_rename_columns(
+            df_reviewers, self.mappings["reviewers"]
+        )
         return df_reviewers
 
     def save_data(self, dataframes, file_prefix):
