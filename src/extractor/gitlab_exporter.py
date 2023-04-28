@@ -107,7 +107,7 @@ class GitlabExporter(Exporter):
     def extract_mr_commits(self, project_id, merge_request_iid):
         params = {"per_page": 100}
         response = self.execute_paginated_request(
-            f"projects/{project_id}/merge_requests/{merge_request_iid}/commits", 
+            f"projects/{project_id}/merge_requests/{merge_request_iid}/commits",
             params
         )
         response_dict = {"repo": project_id,
@@ -179,12 +179,11 @@ class GitlabExporter(Exporter):
     def adapt_reviewers(self, all_reviewers):
         df_reviewers = pd.DataFrame()
         for reviewer in all_reviewers:
-            df_curr_reviewers = pd.json_normalize(reviewer["response"])
             if 'error' in reviewer["response"]:
                 continue
-            df_curr_reviewers["repo"] = reviewer["repo"]
-            df_curr_reviewers["iid"] = reviewer["iid"]
 
+            df_curr_reviewers = pd.json_normalize(reviewer["response"])
+            df_curr_reviewers.assign(repo=reviewer["repo"], iid=reviewer["iid"])
             df_reviewers = pd.concat([df_reviewers, df_curr_reviewers])
 
         df_reviewers = df_reviewers[df_reviewers["body"].str.contains(
@@ -192,19 +191,6 @@ class GitlabExporter(Exporter):
         df_reviewers = common.df_drop_and_rename_columns(
             df_reviewers, self.mappings["reviewers"]
         )
-        return df_reviewers
-    
-    def adapt_reviewers(self, all_reviewers):
-        # concatenate all responses from gitlab api with the name the repository and the iid of the merge request
-        df_reviewers = pd.concat([
-            pd.json_normalize(reviewer["response"]) \
-            .assign(repo=reviewer["repo"], iid=reviewer["iid"]) \
-            for reviewer in all_reviewers if 'error' not in reviewer["response"]
-        ])
-        # Keep only the approved reviews and clean the data 
-        df_reviewers = df_reviewers[df_reviewers["body"].str.contains("approved")]
-        df_reviewers = common.df_drop_and_rename_columns(df_reviewers, self.mappings["reviewers"])
-        
         return df_reviewers
 
     def save_data(self, dataframes, file_prefix):
