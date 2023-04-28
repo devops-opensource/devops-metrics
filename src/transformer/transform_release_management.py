@@ -3,7 +3,7 @@ from src.common import common
 
 
 class TransformReleaseManagement:
-    def transform_release_management(df_versions):
+    def transform_release_management(self, df_versions):
         if df_versions.empty:
             return pd.DataFrame()
         df_versions_released = df_versions[df_versions["released"]]
