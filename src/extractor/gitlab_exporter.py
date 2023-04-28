@@ -107,7 +107,8 @@ class GitlabExporter(Exporter):
     def extract_mr_commits(self, project_id, merge_request_iid):
         params = {"per_page": 100}
         response = self.execute_paginated_request(
-            f"projects/{project_id}/merge_requests/{merge_request_iid}/commits",
+            f"projects/{project_id}/merge_requests/ \
+            {merge_request_iid}/commits",
             params
         )
         response_dict = {"repo": project_id,
@@ -183,7 +184,8 @@ class GitlabExporter(Exporter):
                 continue
 
             df_curr_reviewers = pd.json_normalize(reviewer["response"])
-            df_curr_reviewers.assign(repo=reviewer["repo"], iid=reviewer["iid"])
+            df_curr_reviewers.assign(repo=reviewer["repo"],
+                                     iid=reviewer["iid"])
             df_reviewers = pd.concat([df_reviewers, df_curr_reviewers])
 
         df_reviewers = df_reviewers[df_reviewers["body"].str.contains(
