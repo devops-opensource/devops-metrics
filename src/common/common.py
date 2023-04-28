@@ -1,4 +1,9 @@
-from src.extractor import exporter, jiracloud_exporter, github_exporter
+from src.extractor import (
+    exporter,
+    jiracloud_exporter,
+    github_exporter,
+    gitlab_exporter
+)
 from src.loader import mysql_loader, csv_loader, splunk_loader, loader
 from src.transformer import (
     transformer,
@@ -31,6 +36,7 @@ def ExporterFactory(type) -> exporter.Exporter:
     localizers = {
         "JiraCloud": jiracloud_exporter.JiracloudExporter,
         "GitHub": github_exporter.GithubExporter,
+        "GitLab": gitlab_exporter.GitlabExporter,
     }
     return localizers[type]()
 
@@ -40,6 +46,7 @@ def TransformerFactory(type) -> transformer.Transformer:
     localizers = {
         "JiraCloud": project_management_transformer.ProjectManagementTransformer,
         "GitHub": version_control_transformer.VersionControlTransformer,
+        "GitLab": version_control_transformer.VersionControlTransformer,
     }
     return localizers[type]()
 

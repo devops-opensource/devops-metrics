@@ -1,27 +1,27 @@
 {
-    "pulls" : {
-        "number": "number",
+    "merge_requests": {
+        "iid": "number",
         "repo": "repo",
         "title": "title",
         "state": "state",
         "created_at": "created",
         "closed_at": "closed",
         "merged_at": "merged",
-        "head.ref": "head_name",
-        "base.ref": "base_name"
+        "source_branch": "head_name",
+        "target_branch": "base_name"
     },
-    "commits" : {
-        "number": "number",
+    "commits": {
+        "iid": "number",
         "repo": "repo",
-        "sha" : "sha",
-        "commit.committer.date": "commit_date",
-        "commit.message": "commit_message"
+        "id": "sha",
+        "committed_date": "commit_date",
+        "title": "commit_message"
     },
-    "reviews": {
-        "number": "number",
+    "reviewers": {
+        "iid": "number",
         "repo": "repo",
-        "state": "state",
-        "submitted_at": "submitted_at"
+        "body": "state",
+        "created_at": "submitted_at"
     },
     "repo": {
         "name": "name",

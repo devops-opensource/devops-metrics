@@ -179,10 +179,13 @@ class GithubExporter(Exporter):
         df_reviews = pd.DataFrame()
         for review in all_reviews:
             df_curr_reviews = pd.json_normalize(review["response"])
-            df_curr_reviews["repo"] = review["repo"]
-            df_curr_reviews["number"] = review["number"]
-            df_curr_reviews = common.df_drop_and_rename_columns(
-                df_curr_reviews, self.mappings["reviews"]
-            )
-            df_reviews = pd.concat([df_reviews, df_curr_reviews])
+            df_curr_reviews.assign(repo=review["repo"],
+                                   iid=review["number"])
+
+        df_curr_reviews = common.df_drop_and_rename_columns(
+            df_curr_reviews,
+            self.mappings["reviews"]
+        )
+        df_reviews = pd.concat([df_reviews, df_curr_reviews])
+
         return df_reviews
