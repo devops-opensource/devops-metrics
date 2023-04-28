@@ -182,7 +182,7 @@ class GithubExporter(Exporter):
             df_curr_reviews = df_curr_reviews.assign(
                 repo=review["repo"],
                 iid=review["number"]
-                )
+            )
             df_reviews = pd.concat([df_reviews, df_curr_reviews])
 
         df_curr_reviews = common.df_drop_and_rename_columns(
