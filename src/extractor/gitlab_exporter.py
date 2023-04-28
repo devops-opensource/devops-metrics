@@ -185,8 +185,10 @@ class GitlabExporter(Exporter):
 
             df_curr_reviewers = pd.json_normalize(reviewer["response"])
             df_curr_reviewers.assign(repo=reviewer["repo"],
+            df_curr_reviewers = df_curr_reviewers.assign(repo=reviewer["repo"],
                                      iid=reviewer["iid"])
             df_reviewers = pd.concat([df_reviewers, df_curr_reviewers])
+
 
         df_reviewers = df_reviewers[df_reviewers["body"].str.contains(
             "approved")]
