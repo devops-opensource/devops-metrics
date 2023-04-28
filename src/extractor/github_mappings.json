@@ -18,7 +18,7 @@
         "commit.message": "commit_message"
     },
     "reviews": {
-        "number": "number",
+        "number": "Tem",
         "repo": "repo",
         "state": "state",
         "submitted_at": "submitted_at"
