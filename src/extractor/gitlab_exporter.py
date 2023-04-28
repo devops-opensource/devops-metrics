@@ -185,7 +185,6 @@ class GitlabExporter(Exporter):
             df_curr_reviewers["repo"] = reviewer["repo"]
             df_curr_reviewers["iid"] = reviewer["iid"]
 
-
             df_reviewers = pd.concat([df_reviewers, df_curr_reviewers])
 
         df_reviewers = df_reviewers[df_reviewers["body"].str.contains(
@@ -193,6 +192,19 @@ class GitlabExporter(Exporter):
         df_reviewers = common.df_drop_and_rename_columns(
             df_reviewers, self.mappings["reviewers"]
         )
+        return df_reviewers
+    
+    def adapt_reviewers(self, all_reviewers):
+        # concatenate all responses from gitlab api with the name the repository and the iid of the merge request
+        df_reviewers = pd.concat([
+            pd.json_normalize(reviewer["response"]) \
+            .assign(repo=reviewer["repo"], iid=reviewer["iid"]) \
+            for reviewer in all_reviewers if 'error' not in reviewer["response"]
+        ])
+        # Keep only the approved reviews and clean the data 
+        df_reviewers = df_reviewers[df_reviewers["body"].str.contains("approved")]
+        df_reviewers = common.df_drop_and_rename_columns(df_reviewers, self.mappings["reviewers"])
+        
         return df_reviewers
 
     def save_data(self, dataframes, file_prefix):
