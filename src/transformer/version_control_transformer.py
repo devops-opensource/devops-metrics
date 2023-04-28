@@ -64,7 +64,8 @@ class VersionControlTransformer(Transformer):
         df_review_event = df_review_event.rename(
             columns={"submitted_at": "timestamp"})
 
-        df_events = pd.concat(
-            [df_created_event, df_merged_event,
-              df_first_commit_event, df_review_event])
+        df_events = pd.concat([
+            df_created_event,df_merged_event,
+            df_first_commit_event,df_review_event
+        ])
         return df_events
