@@ -24,6 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+  "id": 2,
   "links": [
     {
       "asDropdown": false,
@@ -106,7 +107,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 9,
+        "h": 8,
         "w": 5,
         "x": 0,
         "y": 1
@@ -136,7 +137,7 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT pulls.*, first_commits.first_commit_calc as first_commit_calc\r\nFROM metricsDB.df_pulls pulls\r\nINNER JOIN (\r\n  SELECT repo, number, MIN(commit_date) as first_commit_calc\r\n  FROM metricsDB.df_commits\r\n  GROUP BY repo, number\r\n) first_commits ON pulls.repo= first_commits.repo AND pulls.number = first_commits.number;",
+          "rawSql": "SELECT pulls.*, first_commits.first_commit_calc as first_commit_calc,\r\nTIMESTAMPDIFF(SECOND, first_commit_calc, merged) as TTMSQL\r\nFROM metricsDB.df_pulls pulls\r\nINNER JOIN (\r\n  SELECT repo, number, MIN(commit_date) as first_commit_calc\r\n  FROM metricsDB.df_commits\r\n  GROUP BY repo, number\r\n) first_commits ON pulls.repo= first_commits.repo AND pulls.number = first_commits.number;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -611,7 +612,7 @@
         ]
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 10,
         "x": 14,
         "y": 1
@@ -673,169 +674,39 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
           },
           "custom": {
-            "fillOpacity": 70,
-            "lineWidth": 0,
-            "spanNulls": true
-          },
-          "decimals": 1,
-          "mappings": [
-            {
-              "options": {
-                "Creation": {
-                  "color": "yellow",
-                  "index": 1
-                },
-                "First Commit": {
-                  "color": "dark-red",
-                  "index": 0
-                },
-                "Review": {
-                  "color": "blue",
-                  "index": 2
-                }
-              },
-              "type": "value"
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "stepAfter",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
             }
-          ],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "none"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 11,
-        "w": 24,
-        "x": 0,
-        "y": 10
-      },
-      "id": 822,
-      "options": {
-        "alignValue": "left",
-        "legend": {
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": false
-        },
-        "mergeValues": true,
-        "rowHeight": 0.9,
-        "showValue": "auto",
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "9.4.7",
-      "repeatDirection": "v",
-      "targets": [
-        {
-          "datasource": {
-            "type": "mysql",
-            "uid": "P211906C1C32DB77E"
-          },
-          "editorMode": "code",
-          "format": "table",
-          "hide": false,
-          "rawQuery": true,
-          "rawSql": "Select * FROM metricsDB.pr_events",
-          "refId": "A",
-          "sql": {
-            "columns": [
-              {
-                "parameters": [],
-                "type": "function"
-              }
-            ],
-            "groupBy": [
-              {
-                "property": {
-                  "type": "string"
-                },
-                "type": "groupBy"
-              }
-            ],
-            "limit": 50
-          }
-        }
-      ],
-      "title": "Mean time by status",
-      "transformations": [
-        {
-          "id": "groupingToMatrix",
-          "options": {
-            "columnField": "number",
-            "emptyValue": "null",
-            "rowField": "timestamp",
-            "valueField": "event_type"
-          }
-        },
-        {
-          "id": "convertFieldType",
-          "options": {
-            "conversions": [
-              {
-                "destinationType": "time",
-                "targetField": "timestamp\\number"
-              }
-            ],
-            "fields": {}
-          }
-        }
-      ],
-      "type": "state-timeline"
-    },
-    {
-      "collapsed": false,
-      "datasource": {
-        "type": "mysql",
-        "uid": "MySQL"
-      },
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 21
-      },
-      "id": 16,
-      "panels": [],
-      "repeat": "repo",
-      "repeatDirection": "h",
-      "targets": [
-        {
-          "datasource": {
-            "type": "mysql",
-            "uid": "MySQL"
-          },
-          "refId": "A"
-        }
-      ],
-      "title": "$repo",
-      "type": "row"
-    },
-    {
-      "datasource": {
-        "type": "mysql",
-        "uid": "P211906C1C32DB77E"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
           },
           "mappings": [],
-          "max": 200,
-          "min": -5,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -859,13 +730,175 @@
           },
           "unit": "d"
         },
+        "overrides": [
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "AVGTTM"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": true
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 9
+      },
+      "id": 1389,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.4.7",
+      "repeatDirection": "h",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "P211906C1C32DB77E"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "SELECT pulls.*, first_commits.first_commit_calc as first_commit_calc, \r\nAVG(TIMESTAMPDIFF(SECOND, first_commit_calc, pulls.merged)/86400) OVER ( \r\n               ORDER BY merged ASC) AS AVGTTM,\r\n(pulls.merged - first_commit_calc) as TTM\r\nFROM metricsDB.df_pulls pulls\r\nINNER JOIN (\r\n  SELECT repo, number, MIN(commit_date) as first_commit_calc\r\n  FROM metricsDB.df_commits\r\n  GROUP BY repo, number\r\n) first_commits ON pulls.repo= first_commits.repo AND pulls.number = first_commits.number\r\nWHERE pulls.merged IS NOT NULL;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Mean Time to Merge",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "number",
+                "merged",
+                "AVGTTM",
+                "TTM",
+                "first_commit_calc"
+              ]
+            }
+          }
+        }
+      ],
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "datasource": {
+        "type": "mysql",
+        "uid": "MySQL"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 17
+      },
+      "id": 16,
+      "panels": [],
+      "repeat": "pr_number",
+      "repeatDirection": "h",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "MySQL"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Pull Request: ${pr_number:value} - ${pr_number:text}",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "P211906C1C32DB77E"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 200,
+          "min": -5,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue"
+              },
+              {
+                "color": "green",
+                "value": 1
+              },
+              {
+                "color": "#EAB839",
+                "value": 7
+              },
+              {
+                "color": "red",
+                "value": 183
+              }
+            ]
+          },
+          "unit": "d"
+        },
         "overrides": []
       },
       "gridPos": {
         "h": 9,
         "w": 5,
         "x": 0,
-        "y": 22
+        "y": 18
       },
       "id": 189,
       "options": {
@@ -892,7 +925,7 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT pulls.*, first_commits.first_commit_calc as first_commit_calc\r\nFROM metricsDB.df_pulls pulls\r\nINNER JOIN (\r\n  SELECT repo, number, MIN(commit_date) as first_commit_calc\r\n  FROM metricsDB.df_commits\r\n  GROUP BY repo, number\r\n) first_commits ON pulls.repo= first_commits.repo AND pulls.number = first_commits.number\r\nWHERE pulls.number = $repo;",
+          "rawSql": "SELECT pulls.*, first_commits.first_commit_calc as first_commit_calc\r\nFROM metricsDB.df_pulls pulls\r\nINNER JOIN (\r\n  SELECT repo, number, MIN(commit_date) as first_commit_calc\r\n  FROM metricsDB.df_commits\r\n  GROUP BY repo, number\r\n) first_commits ON pulls.repo= first_commits.repo AND pulls.number = first_commits.number\r\nWHERE pulls.number = ${pr_number:value};",
           "refId": "A",
           "sql": {
             "columns": [
@@ -913,7 +946,7 @@
           }
         }
       ],
-      "title": "Mean time to merge",
+      "title": "Time to merge",
       "transformations": [
         {
           "id": "filterByValue",
@@ -990,8 +1023,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "blue",
-                "value": null
+                "color": "blue"
               },
               {
                 "color": "green",
@@ -1015,7 +1047,7 @@
         "h": 9,
         "w": 5,
         "x": 5,
-        "y": 22
+        "y": 18
       },
       "id": 400,
       "options": {
@@ -1042,7 +1074,7 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT pulls.*, first_commits.first_commit_calc as first_commit_calc\r\nFROM metricsDB.df_pulls pulls\r\nINNER JOIN (\r\n  SELECT repo, number, MIN(commit_date) as first_commit_calc\r\n  FROM metricsDB.df_commits\r\n  GROUP BY repo, number\r\n) first_commits ON pulls.repo= first_commits.repo AND pulls.number = first_commits.number\r\nWHERE pulls.number = $repo;",
+          "rawSql": "SELECT pulls.*, first_commits.first_commit_calc as first_commit_calc\r\nFROM metricsDB.df_pulls pulls\r\nINNER JOIN (\r\n  SELECT repo, number, MIN(commit_date) as first_commit_calc\r\n  FROM metricsDB.df_commits\r\n  GROUP BY repo, number\r\n) first_commits ON pulls.repo= first_commits.repo AND pulls.number = first_commits.number\r\nWHERE pulls.number = ${pr_number:value};",
           "refId": "A",
           "sql": {
             "columns": [
@@ -1063,7 +1095,7 @@
           }
         }
       ],
-      "title": "Mean Time to Code",
+      "title": "Time to Code",
       "transformations": [
         {
           "id": "calculateField",
@@ -1123,7 +1155,7 @@
         "type": "mysql",
         "uid": "P211906C1C32DB77E"
       },
-      "description": "Time between release deployments",
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1141,13 +1173,12 @@
           ],
           "max": 200,
           "min": -5,
-          "noValue": "First version",
+          "noValue": "No Review",
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "blue",
-                "value": null
+                "color": "blue"
               },
               {
                 "color": "green",
@@ -1171,7 +1202,7 @@
         "h": 9,
         "w": 5,
         "x": 10,
-        "y": 22
+        "y": 18
       },
       "id": 611,
       "options": {
@@ -1198,7 +1229,7 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT pulls.*, first_reviews.first_review_calc as first_review_calc\r\nFROM metricsDB.df_pulls pulls\r\nINNER JOIN (\r\n  SELECT repo, number, MIN(submitted_at) as first_review_calc\r\n  FROM metricsDB.df_reviews\r\n  WHERE state = \"APPROVED\"\r\n  GROUP BY repo, number\r\n) first_reviews ON pulls.repo= first_reviews.repo AND pulls.number = first_reviews.number\r\nWHERE pulls.number = $repo;\r\n",
+          "rawSql": "SELECT pulls.*, first_reviews.first_review_calc as first_review_calc\r\nFROM metricsDB.df_pulls pulls\r\nINNER JOIN (\r\n  SELECT repo, number, MIN(submitted_at) as first_review_calc\r\n  FROM metricsDB.df_reviews\r\n  WHERE state = \"APPROVED\"\r\n  GROUP BY repo, number\r\n) first_reviews ON pulls.repo= first_reviews.repo AND pulls.number = first_reviews.number\r\nWHERE pulls.number = ${pr_number:value};\r\n",
           "refId": "A",
           "sql": {
             "columns": [
@@ -1219,7 +1250,7 @@
           }
         }
       ],
-      "title": "Mean Pick-up Time",
+      "title": "Pick-up Time",
       "transformations": [
         {
           "id": "filterByValue",
@@ -1279,56 +1310,49 @@
         "type": "mysql",
         "uid": "P211906C1C32DB77E"
       },
-      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
           },
           "custom": {
-            "fillOpacity": 70,
-            "lineWidth": 3,
-            "spanNulls": false
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
           },
-          "decimals": 1,
           "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "none"
+          "unit": "d"
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 6,
-        "w": 9,
+        "h": 9,
+        "w": 8,
         "x": 15,
-        "y": 22
+        "y": 18
       },
-      "id": 122,
+      "id": 1193,
       "options": {
-        "alignValue": "right",
         "legend": {
           "displayMode": "list",
           "placement": "bottom",
-          "showLegend": false
+          "showLegend": true
         },
-        "mergeValues": true,
-        "rowHeight": 0.8,
-        "showValue": "always",
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
         "tooltip": {
           "mode": "single",
           "sort": "none"
         }
       },
-      "pluginVersion": "9.4.7",
-      "repeatDirection": "v",
       "targets": [
         {
           "datasource": {
@@ -1337,9 +1361,8 @@
           },
           "editorMode": "code",
           "format": "table",
-          "hide": false,
           "rawQuery": true,
-          "rawSql": "Select * From metricsDB.pr_events pr_events\r\nwhere pr_events.number = $repo ",
+          "rawSql": "SELECT pulls.*, first_commits.first_commit_calc as first_commit_calc, review.first_review\r\nFROM metricsDB.df_pulls pulls\r\nINNER JOIN (\r\n  SELECT repo, number, MIN(commit_date) as first_commit_calc\r\n  FROM metricsDB.commits\r\n  GROUP BY repo, number\r\n) first_commits ON pulls.repo= first_commits.repo AND pulls.number = first_commits.number\r\nINNER JOIN (\r\n  SELECT repo, number, MIN(submitted_at) as first_review\r\n  FROM metricsDB.reviews\r\n  GROUP BY repo, number\r\n) review ON pulls.repo= review.repo AND pulls.number = review.number\r\nWHERE pulls.number = ${pr_number:value};",
           "refId": "A",
           "sql": {
             "columns": [
@@ -1360,31 +1383,83 @@
           }
         }
       ],
-      "title": "Mean time by status",
+      "title": "Panel Title",
       "transformations": [
         {
-          "id": "groupingToMatrix",
+          "id": "calculateField",
           "options": {
-            "columnField": "number",
-            "emptyValue": "null",
-            "rowField": "timestamp",
-            "valueField": "event_type"
+            "alias": "coding_tmp",
+            "binary": {
+              "left": "created",
+              "operator": "-",
+              "reducer": "sum",
+              "right": "first_commit_calc"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            }
           }
         },
         {
-          "id": "convertFieldType",
+          "id": "calculateField",
           "options": {
-            "conversions": [
-              {
-                "destinationType": "time",
-                "targetField": "timestamp\\number"
-              }
-            ],
-            "fields": {}
+            "alias": "coding_time",
+            "binary": {
+              "left": "coding_tmp",
+              "operator": "/",
+              "reducer": "sum",
+              "right": "86400000"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": false
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "pickup_tmp",
+            "binary": {
+              "left": "first_review",
+              "operator": "-",
+              "reducer": "sum",
+              "right": "created"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            }
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "pickup_time",
+            "binary": {
+              "left": "pickup_tmp",
+              "operator": "/",
+              "reducer": "sum",
+              "right": "86400000"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            }
+          }
+        },
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "pattern": "[A-Za-z]*_time"
+            }
           }
         }
       ],
-      "type": "state-timeline"
+      "type": "piechart"
     }
   ],
   "refresh": "",
@@ -1395,50 +1470,28 @@
   "templating": {
     "list": [
       {
-        "current": {},
+        "current": {
+          "selected": false,
+          "text": "devops-metrics",
+          "value": "devops-metrics"
+        },
         "datasource": {
           "type": "mysql",
-          "uid": "MySQL"
+          "uid": "P211906C1C32DB77E"
         },
-        "definition": "SELECT  YEAR(release_date) FROM   metricsDB.releases",
-        "hide": 2,
-        "includeAll": true,
-        "label": "Release Date",
-        "multi": true,
-        "name": "pub",
+        "definition": "SELECT DISTINCT repo\nFROM metricsDB.pulls",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Repository",
+        "multi": false,
+        "name": "repo",
         "options": [],
-        "query": "SELECT  YEAR(release_date) FROM   metricsDB.releases",
+        "query": "SELECT DISTINCT repo\nFROM metricsDB.pulls",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
-        "sort": 1,
-        "tagValuesQuery": "",
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
-      },
-      {
-        "current": {},
-        "datasource": {
-          "type": "mysql",
-          "uid": "MySQL"
-        },
-        "definition": "SELECT CONCAT(name, \"###\", DATE_FORMAT(release_date, '%Y-%m-%d')) as release_date FROM metricsDB.releases WHERE name NOT LIKE '%,%' AND name NOT LIKE '%''%'",
-        "hide": 0,
-        "includeAll": true,
-        "label": "Version",
-        "multi": true,
-        "name": "version",
-        "options": [],
-        "query": "SELECT CONCAT(name, \"###\", DATE_FORMAT(release_date, '%Y-%m-%d')) as release_date FROM metricsDB.releases WHERE name NOT LIKE '%,%' AND name NOT LIKE '%''%'",
-        "refresh": 1,
-        "regex": "/(?<text>.*)###(?<value>.*).*/",
-        "skipUrlSync": false,
-        "sort": 1,
-        "tagValuesQuery": "",
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
+        "sort": 0,
+        "type": "query"
       },
       {
         "current": {
@@ -1450,16 +1503,16 @@
           "type": "mysql",
           "uid": "P211906C1C32DB77E"
         },
-        "definition": "Select number From metricsDB.df_pulls",
+        "definition": "Select CONCAT(number, \"###\", head_name) as pr_number\nFrom metricsDB.df_pulls\nWHERE merged is not null",
         "hide": 0,
         "includeAll": true,
-        "label": "pull request",
+        "label": "Pull Request",
         "multi": false,
-        "name": "repo",
+        "name": "pr_number",
         "options": [],
-        "query": "Select number From metricsDB.df_pulls",
+        "query": "Select CONCAT(number, \"###\", head_name) as pr_number\nFrom metricsDB.df_pulls\nWHERE merged is not null",
         "refresh": 1,
-        "regex": "",
+        "regex": "/(?<value>.*)###(?<text>.*).*/",
         "skipUrlSync": false,
         "sort": 0,
         "type": "query"
@@ -1474,6 +1527,6 @@
   "timezone": "",
   "title": "DevOps Metrics Github",
   "uid": "zXs6ywSVk1",
-  "version": 16,
+  "version": 34,
   "weekStart": ""
 }
