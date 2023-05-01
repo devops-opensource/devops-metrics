@@ -3,5 +3,6 @@ requests == 2.27.1
 pandas == 1.4.2
 sqlalchemy == 1.4.42
 mysql == 0.0.3
+pymysql
 coverage 
 pytest
