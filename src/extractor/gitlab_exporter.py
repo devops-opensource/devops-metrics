@@ -184,7 +184,7 @@ class GitlabExporter(Exporter):
                 continue
 
             df_curr_reviewers = pd.json_normalize(reviewer["response"])
-            df_curr_reviewers.assign(
+            df_curr_reviewers = df_curr_reviewers.assign(
                 repo=reviewer["repo"],
                 iid=reviewer["iid"]
             )
