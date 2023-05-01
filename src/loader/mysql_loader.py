@@ -15,6 +15,8 @@ class MySqlLoader(loader.Loader):
         # We will add the logic to treat multiple dataframe first        
         db_data = ("{engine}://{user}:{pw}@{host}/{db}".format(host=self._host, engine=self._engine, user=self._username, pw=self._password, db=self._database))
         # Using 'create_engine' from sqlalchemy to make the db connection
+        
+        # Generate a connection to the database with sqlalchemy to a psotgresql database
         self._engine = sqlalchemy.create_engine(db_data).connect()
 
     def load_data(self,df_dict):
