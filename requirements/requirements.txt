@@ -2,4 +2,4 @@ setuptools == 62.1.0
 requests == 2.27.1
 pandas == 1.4.2
 sqlalchemy == 1.4.42
-pymysql
+pymysql == 1.0.3
