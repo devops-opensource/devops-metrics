@@ -24,7 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 2,
+  "id": 1,
   "links": [
     {
       "asDropdown": false,
@@ -70,7 +70,7 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "P211906C1C32DB77E"
+        "uid": "a73f237f-b6a9-4e5a-9525-2357ccd6fabb"
       },
       "description": "",
       "fieldConfig": {
@@ -125,19 +125,19 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "9.4.7",
+      "pluginVersion": "9.5.1",
       "repeatDirection": "h",
       "targets": [
         {
           "datasource": {
             "type": "mysql",
-            "uid": "P211906C1C32DB77E"
+            "uid": "a73f237f-b6a9-4e5a-9525-2357ccd6fabb"
           },
           "editorMode": "code",
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT pulls.*, first_commits.first_commit_calc as first_commit_calc,\r\nTIMESTAMPDIFF(SECOND, first_commit_calc, merged) as TTMSQL\r\nFROM metricsDB.df_pulls pulls\r\nINNER JOIN (\r\n  SELECT repo, number, MIN(commit_date) as first_commit_calc\r\n  FROM metricsDB.df_commits\r\n  GROUP BY repo, number\r\n) first_commits ON pulls.repo= first_commits.repo AND pulls.number = first_commits.number;",
+          "rawSql": "SELECT pulls.*, first_commits.first_commit_calc as first_commit_calc,\r\nTIMESTAMPDIFF(SECOND, first_commit_calc, merged) as TTMSQL\r\nFROM metricsDB.pulls pulls\r\nINNER JOIN (\r\n  SELECT repo, number, MIN(commit_date) as first_commit_calc\r\n  FROM metricsDB.commits\r\n  GROUP BY repo, number\r\n) first_commits ON pulls.repo= first_commits.repo AND pulls.number = first_commits.number\r\nWHERE pulls.repo IN ($repo);",
           "refId": "A",
           "sql": {
             "columns": [
@@ -219,7 +219,7 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "P211906C1C32DB77E"
+        "uid": "a73f237f-b6a9-4e5a-9525-2357ccd6fabb"
       },
       "description": "",
       "fieldConfig": {
@@ -275,7 +275,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "9.4.7",
+      "pluginVersion": "9.5.1",
       "repeatDirection": "h",
       "targets": [
         {
@@ -287,7 +287,7 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT pulls.*, first_commits.first_commit_calc as first_commit_calc\r\nFROM metricsDB.df_pulls pulls\r\nINNER JOIN (\r\n  SELECT repo, number, MIN(commit_date) as first_commit_calc\r\n  FROM metricsDB.df_commits\r\n  GROUP BY repo, number\r\n) first_commits ON pulls.repo= first_commits.repo AND pulls.number = first_commits.number;",
+          "rawSql": "SELECT pulls.*, first_commits.first_commit_calc as first_commit_calc\r\nFROM metricsDB.pulls pulls\r\nINNER JOIN (\r\n  SELECT repo, number, MIN(commit_date) as first_commit_calc\r\n  FROM metricsDB.commits\r\n  GROUP BY repo, number\r\n) first_commits ON pulls.repo= first_commits.repo AND pulls.number = first_commits.number\r\nWHERE pulls.repo IN ($repo);",
           "refId": "A",
           "sql": {
             "columns": [
@@ -366,7 +366,7 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "P211906C1C32DB77E"
+        "uid": "a73f237f-b6a9-4e5a-9525-2357ccd6fabb"
       },
       "description": "Time between release deployments",
       "fieldConfig": {
@@ -431,7 +431,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "9.4.7",
+      "pluginVersion": "9.5.1",
       "repeatDirection": "h",
       "targets": [
         {
@@ -443,7 +443,7 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT pulls.*, first_reviews.first_review_calc as first_review_calc\r\nFROM metricsDB.df_pulls pulls\r\nINNER JOIN (\r\n  SELECT repo, number, MIN(submitted_at) as first_review_calc\r\n  FROM metricsDB.df_reviews\r\n  WHERE state = \"APPROVED\"\r\n  GROUP BY repo, number\r\n) first_reviews ON pulls.repo= first_reviews.repo AND pulls.number = first_reviews.number;",
+          "rawSql": "SELECT pulls.*, first_reviews.first_review_calc as first_review_calc\r\nFROM metricsDB.pulls pulls\r\nINNER JOIN (\r\n  SELECT repo, number, MIN(submitted_at) as first_review_calc\r\n  FROM metricsDB.reviews\r\n  WHERE state LIKE \"%approved%\"\r\n  GROUP BY repo, number\r\n) first_reviews ON pulls.repo= first_reviews.repo AND pulls.number = first_reviews.number\r\nWHERE pulls.repo IN ($repo);",
           "refId": "A",
           "sql": {
             "columns": [
@@ -522,7 +522,7 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "P211906C1C32DB77E"
+        "uid": "a73f237f-b6a9-4e5a-9525-2357ccd6fabb"
       },
       "fieldConfig": {
         "defaults": {
@@ -635,12 +635,12 @@
         {
           "datasource": {
             "type": "mysql",
-            "uid": "P211906C1C32DB77E"
+            "uid": "a73f237f-b6a9-4e5a-9525-2357ccd6fabb"
           },
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT\r\n  YEAR(pr_events.timestamp) AS year_number,\r\n  WEEK(pr_events.timestamp) AS week_number,\r\n  SUM(IF(pr_events.event_type = 'Creation', 1, 0)) AS created_count,\r\n  SUM(IF(pr_events.event_type = 'Merge', 1, 0)) AS merged_count,\r\n  STR_TO_DATE(CONCAT(CONCAT(YEAR(pr_events.timestamp), WEEK(pr_events.timestamp)),' Monday'), '%x%v %W') AS year_week\r\nFROM\r\n  metricsDB.pr_events pr_events\r\nWHERE\r\n  pr_events.event_type IN ('Creation', 'Merge') AND pr_events.timestamp IS NOT NULL\r\nGROUP BY\r\n  year_number,\r\n  week_number\r\nORDER BY\r\n  year_number,\r\n  week_number;",
+          "rawSql": "SELECT\r\n  YEAR(pr_events.timestamp) AS year_number,\r\n  WEEK(pr_events.timestamp) AS week_number,\r\n  SUM(IF(pr_events.event_type = 'Creation', 1, 0)) AS created_count,\r\n  SUM(IF(pr_events.event_type = 'Merge', 1, 0)) AS merged_count,\r\n  STR_TO_DATE(CONCAT(CONCAT(YEAR(pr_events.timestamp), WEEK(pr_events.timestamp)),' Monday'), '%x%v %W') AS year_week\r\nFROM\r\n  metricsDB.pr_events pr_events\r\nWHERE\r\n  pr_events.event_type IN ('Creation', 'Merge') AND pr_events.timestamp IS NOT NULL AND pr_events.repo IN ($repo)\r\nGROUP BY\r\n  year_number,\r\n  week_number\r\nORDER BY\r\n  year_number,\r\n  week_number;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -668,7 +668,7 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "P211906C1C32DB77E"
+        "uid": "a73f237f-b6a9-4e5a-9525-2357ccd6fabb"
       },
       "description": "",
       "fieldConfig": {
@@ -788,7 +788,7 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT pulls.*, first_commits.first_commit_calc as first_commit_calc, \r\nAVG(TIMESTAMPDIFF(SECOND, first_commit_calc, pulls.merged)/86400) OVER ( \r\n               ORDER BY merged ASC) AS AVGTTM,\r\n(pulls.merged - first_commit_calc) as TTM\r\nFROM metricsDB.df_pulls pulls\r\nINNER JOIN (\r\n  SELECT repo, number, MIN(commit_date) as first_commit_calc\r\n  FROM metricsDB.df_commits\r\n  GROUP BY repo, number\r\n) first_commits ON pulls.repo= first_commits.repo AND pulls.number = first_commits.number\r\nWHERE pulls.merged IS NOT NULL;",
+          "rawSql": "SELECT pulls.*, first_commits.first_commit_calc as first_commit_calc, \r\nAVG(TIMESTAMPDIFF(SECOND, first_commit_calc, pulls.merged)/86400) OVER ( \r\n               ORDER BY merged ASC) AS AVGTTM,\r\n(pulls.merged - first_commit_calc) as TTM\r\nFROM metricsDB.pulls pulls\r\nINNER JOIN (\r\n  SELECT repo, number, MIN(commit_date) as first_commit_calc\r\n  FROM metricsDB.commits\r\n  GROUP BY repo, number\r\n) first_commits ON pulls.repo= first_commits.repo AND pulls.number = first_commits.number\r\nWHERE pulls.merged IS NOT NULL AND pulls.repo IN ($repo);",
           "refId": "A",
           "sql": {
             "columns": [
@@ -859,7 +859,7 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "P211906C1C32DB77E"
+        "uid": "a73f237f-b6a9-4e5a-9525-2357ccd6fabb"
       },
       "description": "",
       "fieldConfig": {
@@ -874,7 +874,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "blue"
+                "color": "blue",
+                "value": null
               },
               {
                 "color": "green",
@@ -913,19 +914,19 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "9.4.7",
+      "pluginVersion": "9.5.1",
       "repeatDirection": "h",
       "targets": [
         {
           "datasource": {
             "type": "mysql",
-            "uid": "P211906C1C32DB77E"
+            "uid": "a73f237f-b6a9-4e5a-9525-2357ccd6fabb"
           },
           "editorMode": "code",
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT pulls.*, first_commits.first_commit_calc as first_commit_calc\r\nFROM metricsDB.df_pulls pulls\r\nINNER JOIN (\r\n  SELECT repo, number, MIN(commit_date) as first_commit_calc\r\n  FROM metricsDB.df_commits\r\n  GROUP BY repo, number\r\n) first_commits ON pulls.repo= first_commits.repo AND pulls.number = first_commits.number\r\nWHERE pulls.number = ${pr_number:value};",
+          "rawSql": "SELECT pulls.*, first_commits.first_commit_calc as first_commit_calc\r\nFROM metricsDB.pulls pulls\r\nINNER JOIN (\r\n  SELECT repo, number, MIN(commit_date) as first_commit_calc\r\n  FROM metricsDB.commits\r\n  GROUP BY repo, number\r\n) first_commits ON pulls.repo= first_commits.repo AND pulls.number = first_commits.number\r\nWHERE pulls.number = ${pr_number:value} AND pulls.repo IN ($repo);",
           "refId": "A",
           "sql": {
             "columns": [
@@ -1007,7 +1008,7 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "P211906C1C32DB77E"
+        "uid": "a73f237f-b6a9-4e5a-9525-2357ccd6fabb"
       },
       "description": "",
       "fieldConfig": {
@@ -1023,7 +1024,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "blue"
+                "color": "blue",
+                "value": null
               },
               {
                 "color": "green",
@@ -1062,7 +1064,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "9.4.7",
+      "pluginVersion": "9.5.1",
       "repeatDirection": "h",
       "targets": [
         {
@@ -1074,7 +1076,7 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT pulls.*, first_commits.first_commit_calc as first_commit_calc\r\nFROM metricsDB.df_pulls pulls\r\nINNER JOIN (\r\n  SELECT repo, number, MIN(commit_date) as first_commit_calc\r\n  FROM metricsDB.df_commits\r\n  GROUP BY repo, number\r\n) first_commits ON pulls.repo= first_commits.repo AND pulls.number = first_commits.number\r\nWHERE pulls.number = ${pr_number:value};",
+          "rawSql": "SELECT pulls.*, first_commits.first_commit_calc as first_commit_calc\r\nFROM metricsDB.pulls pulls\r\nINNER JOIN (\r\n  SELECT repo, number, MIN(commit_date) as first_commit_calc\r\n  FROM metricsDB.commits\r\n  GROUP BY repo, number\r\n) first_commits ON pulls.repo= first_commits.repo AND pulls.number = first_commits.number\r\nWHERE pulls.number = ${pr_number:value}  AND pulls.repo IN ($repo);",
           "refId": "A",
           "sql": {
             "columns": [
@@ -1153,7 +1155,7 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "P211906C1C32DB77E"
+        "uid": "a73f237f-b6a9-4e5a-9525-2357ccd6fabb"
       },
       "description": "",
       "fieldConfig": {
@@ -1178,7 +1180,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "blue"
+                "color": "blue",
+                "value": null
               },
               {
                 "color": "green",
@@ -1217,7 +1220,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "9.4.7",
+      "pluginVersion": "9.5.1",
       "repeatDirection": "h",
       "targets": [
         {
@@ -1229,7 +1232,7 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT pulls.*, first_reviews.first_review_calc as first_review_calc\r\nFROM metricsDB.df_pulls pulls\r\nINNER JOIN (\r\n  SELECT repo, number, MIN(submitted_at) as first_review_calc\r\n  FROM metricsDB.df_reviews\r\n  WHERE state = \"APPROVED\"\r\n  GROUP BY repo, number\r\n) first_reviews ON pulls.repo= first_reviews.repo AND pulls.number = first_reviews.number\r\nWHERE pulls.number = ${pr_number:value};\r\n",
+          "rawSql": "SELECT pulls.*, first_reviews.first_review_calc as first_review_calc\r\nFROM metricsDB.pulls pulls\r\nINNER JOIN (\r\n  SELECT repo, number, MIN(submitted_at) as first_review_calc\r\n  FROM metricsDB.reviews\r\n  WHERE state LIKE \"%approved%\"\r\n  GROUP BY repo, number\r\n) first_reviews ON pulls.repo= first_reviews.repo AND pulls.number = first_reviews.number\r\nWHERE pulls.number = ${pr_number:value}  AND pulls.repo IN ($repo);\r\n",
           "refId": "A",
           "sql": {
             "columns": [
@@ -1308,7 +1311,7 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "P211906C1C32DB77E"
+        "uid": "a73f237f-b6a9-4e5a-9525-2357ccd6fabb"
       },
       "fieldConfig": {
         "defaults": {
@@ -1362,7 +1365,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT pulls.*, first_commits.first_commit_calc as first_commit_calc, review.first_review\r\nFROM metricsDB.df_pulls pulls\r\nINNER JOIN (\r\n  SELECT repo, number, MIN(commit_date) as first_commit_calc\r\n  FROM metricsDB.commits\r\n  GROUP BY repo, number\r\n) first_commits ON pulls.repo= first_commits.repo AND pulls.number = first_commits.number\r\nINNER JOIN (\r\n  SELECT repo, number, MIN(submitted_at) as first_review\r\n  FROM metricsDB.reviews\r\n  GROUP BY repo, number\r\n) review ON pulls.repo= review.repo AND pulls.number = review.number\r\nWHERE pulls.number = ${pr_number:value};",
+          "rawSql": "SELECT pulls.*, first_commits.first_commit_calc as first_commit_calc, review.first_review\r\nFROM metricsDB.pulls pulls\r\nINNER JOIN (\r\n  SELECT repo, number, MIN(commit_date) as first_commit_calc\r\n  FROM metricsDB.commits\r\n  GROUP BY repo, number\r\n) first_commits ON pulls.repo= first_commits.repo AND pulls.number = first_commits.number\r\nINNER JOIN (\r\n  SELECT repo, number, MIN(submitted_at) as first_review\r\n  FROM metricsDB.reviews\r\n  GROUP BY repo, number\r\n) review ON pulls.repo= review.repo AND pulls.number = review.number\r\nWHERE pulls.number = ${pr_number:value}  AND pulls.repo IN ($repo);",
           "refId": "A",
           "sql": {
             "columns": [
@@ -1462,7 +1465,7 @@
       "type": "piechart"
     }
   ],
-  "refresh": "",
+  "refresh": false,
   "revision": 1,
   "schemaVersion": 38,
   "style": "dark",
@@ -1471,19 +1474,23 @@
     "list": [
       {
         "current": {
-          "selected": false,
-          "text": "devops-metrics",
-          "value": "devops-metrics"
+          "selected": true,
+          "text": [
+            "205"
+          ],
+          "value": [
+            "205"
+          ]
         },
         "datasource": {
           "type": "mysql",
-          "uid": "P211906C1C32DB77E"
+          "uid": "a73f237f-b6a9-4e5a-9525-2357ccd6fabb"
         },
         "definition": "SELECT DISTINCT repo\nFROM metricsDB.pulls",
         "hide": 0,
-        "includeAll": false,
+        "includeAll": true,
         "label": "Repository",
-        "multi": false,
+        "multi": true,
         "name": "repo",
         "options": [],
         "query": "SELECT DISTINCT repo\nFROM metricsDB.pulls",
@@ -1501,16 +1508,16 @@
         },
         "datasource": {
           "type": "mysql",
-          "uid": "P211906C1C32DB77E"
+          "uid": "a73f237f-b6a9-4e5a-9525-2357ccd6fabb"
         },
-        "definition": "Select CONCAT(number, \"###\", head_name) as pr_number\nFrom metricsDB.df_pulls\nWHERE merged is not null",
+        "definition": "Select CONCAT(number, \"###\", head_name) as pr_number\nFrom metricsDB.pulls WHERE repo IN ($repo) AND merged is not null;",
         "hide": 0,
         "includeAll": true,
         "label": "Pull Request",
         "multi": false,
         "name": "pr_number",
         "options": [],
-        "query": "Select CONCAT(number, \"###\", head_name) as pr_number\nFrom metricsDB.df_pulls\nWHERE merged is not null",
+        "query": "Select CONCAT(number, \"###\", head_name) as pr_number\nFrom metricsDB.pulls WHERE repo IN ($repo) AND merged is not null;",
         "refresh": 1,
         "regex": "/(?<value>.*)###(?<text>.*).*/",
         "skipUrlSync": false,
@@ -1520,13 +1527,13 @@
     ]
   },
   "time": {
-    "from": "now-1y",
-    "to": "now"
+    "from": "2023-02-02T19:10:03.000Z",
+    "to": "2023-04-19T19:46:57.000Z"
   },
   "timepicker": {},
   "timezone": "",
   "title": "DevOps Metrics Github",
   "uid": "zXs6ywSVk1",
-  "version": 34,
+  "version": 13,
   "weekStart": ""
 }
