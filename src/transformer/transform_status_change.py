@@ -45,14 +45,25 @@ class TransformStatusChanges:
             "from_status",
         ] = self._creation_status
 
+        if self._use_version:
+            # We add +1 to the id because the index is not taken into account in this case
+            # But will be when going through the rows of the dataframe in add_transition_to_released_status
+            pivot_column_id = df_status_changes.columns.get_loc("version") + 1
+        else:
+            pivot_column_id = (
+                df_status_changes.columns.get_loc("parent_key") + 1
+            )
+
         df_status_changes = self.add_transition_to_released_status(
-            df_status_changes
+            df_status_changes, pivot_column_id
         )
         df_status_changes["control_date"] = df_status_changes["to_date"]
 
         return df_status_changes
 
-    def add_transition_to_released_status(self, df_status_changes):
+    def add_transition_to_released_status(
+        self, df_status_changes, pivot_column_id
+    ):
         df_closed = df_status_changes[
             df_status_changes["to_status"].isin(self._closed_statuses)
         ]
@@ -64,10 +75,7 @@ class TransformStatusChanges:
         df_released = pd.DataFrame()
         for row in df_closed_dedup.itertuples():
             df_pivots = self._pivot_management
-            if self._use_version:
-                pivot = row.version.split(",")
-            else:
-                pivot = row.parent_key.split(",")
+            pivot = row[pivot_column_id].split(",")
             dates = df_pivots[df_pivots["name"].isin(pivot)][
                 ["release_date", "name"]
             ].dropna()
