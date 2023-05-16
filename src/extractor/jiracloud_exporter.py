@@ -42,9 +42,7 @@ class JiracloudExporter(exporter.Exporter):
         adapted_dict = dict()
         for key in data_dict:
             if key == "pivot":
-                adapted_dict["pivot"] = self.adapt_pivot(
-                    data_dict["pivot"]
-                )
+                adapted_dict["pivot"] = self.adapt_pivot(data_dict["pivot"])
             elif key == "status_changes":
                 adapted_dict["status_changes"] = self.adapt_status_changes(
                     data_dict["status_changes"]
@@ -112,13 +110,11 @@ class JiracloudExporter(exporter.Exporter):
         project_key_list = self._project_keys.split(",")
         for project_key in project_key_list:
             if self._pivot == "Versions":
-                pivot_dict[
-                    project_key
-                ] = self.execute_project_version_request(project_key, "")
+                pivot_dict[project_key] = self.execute_project_version_request(
+                    project_key, ""
+                )
             elif self._pivot == "Epics":
-                pivot_dict[
-                    project_key
-                ] = self.extract_epics(project_key)
+                pivot_dict[project_key] = self.extract_epics(project_key)
         return pivot_dict
 
     def execute_jql_request(
@@ -167,7 +163,7 @@ class JiracloudExporter(exporter.Exporter):
             issues.extend(task.result())
 
         return issues
-    
+
     def extract_epics(self, project_key):
         fields = f"resolutiondate,issuetype,resolution,created,project"
         parameters = ""
@@ -188,10 +184,10 @@ class JiracloudExporter(exporter.Exporter):
     def adapt_pivot(self, pivots_dict):
         mapping = None
         event_type = None
-        if(self._pivot == "Versions"):
+        if self._pivot == "Versions":
             mapping = self._versions_mapping
             event_type = "release_management"
-        elif(self._pivot == "Epics"):
+        elif self._pivot == "Epics":
             mapping = self._epics_mapping
             event_type = "epic_management"
 
@@ -200,13 +196,13 @@ class JiracloudExporter(exporter.Exporter):
             df_pivots = pd.json_normalize(pivots_dict[project_key])
             if df_pivots.empty:
                 continue
-            df_pivots = common.df_drop_and_rename_columns(
-                df_pivots, mapping
-            )
+            df_pivots = common.df_drop_and_rename_columns(df_pivots, mapping)
             df_pivots["project_key"] = project_key
             df_pivots["event_type"] = event_type
-            if(self._pivot == "Epics"):
-                df_pivots["released"] = df_pivots["released"].apply(lambda x: True if x == self._jira_resolved else False)
+            if self._pivot == "Epics":
+                df_pivots["released"] = df_pivots["released"].apply(
+                    lambda x: True if x == self._jira_resolved else False
+                )
             df_all_projects_pivot = pd.concat(
                 [df_all_projects_pivot, df_pivots]
             )
@@ -229,13 +225,17 @@ class JiracloudExporter(exporter.Exporter):
         df_versions = df_versions.groupby("key", as_index=False).agg(
             {"name": ",".join}
         )
-        df_status_changes = df_status_changes.merge(right = df_versions, how = "left")
+        df_status_changes = df_status_changes.merge(
+            right=df_versions, how="left"
+        )
         df_status_changes = common.df_drop_and_rename_columns(
             df_status_changes, self._status_changes_mapping
         )
-        df_status_changes["version"] = df_status_changes["version"].fillna("no_version")
-        df_status_changes["parent_key"] = df_status_changes["parent_key"].fillna("no_parent")
+        df_status_changes["version"] = df_status_changes["version"].fillna(
+            "no_version"
+        )
+        df_status_changes["parent_key"] = df_status_changes[
+            "parent_key"
+        ].fillna("no_parent")
         df_status_changes["event_type"] = "status_change"
         return df_status_changes
-
-    

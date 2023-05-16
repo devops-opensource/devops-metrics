@@ -15,8 +15,6 @@ class TransformReleaseManagement:
         df_pivot_closed = common.convert_column_to_datetime(
             "start_date", df_pivot_closed
         )
-        df_pivot_closed["control_date"] = df_pivot_closed[
-            "release_date"
-        ]
+        df_pivot_closed["control_date"] = df_pivot_closed["release_date"]
 
         return df_pivot_closed

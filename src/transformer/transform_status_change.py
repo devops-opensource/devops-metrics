@@ -60,8 +60,8 @@ class TransformStatusChanges:
         df_released = pd.DataFrame()
         for row in df_closed_dedup.itertuples():
             df_version = self._release_management
-            if(df_version["event_type"].iloc[0] == "epic_management"):
-                versions = row.parent_key.split(",") 
+            if df_version["event_type"].iloc[0] == "epic_management":
+                versions = row.parent_key.split(",")
             else:
                 versions = row.version.split(",")
             dates = df_version[df_version["name"].isin(versions)][
