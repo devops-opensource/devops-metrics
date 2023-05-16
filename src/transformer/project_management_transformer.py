@@ -11,13 +11,13 @@ class ProjectManagementTransformer(Transformer):
 
     def transform_data(self, adapted_data):
         transformer = TransformReleaseManagement()
-        df_release_management = (
+        df_pivot = (
             transformer.transform_release_management(
-                adapted_data["versions"]
+                adapted_data["pivot"]
             )
         )
         status_changes_transformer = TransformStatusChanges(
-            self.config, df_release_management
+            self.config, df_pivot
         )
         df_status_changes = (
             status_changes_transformer.transform_status_changes(
@@ -26,6 +26,6 @@ class ProjectManagementTransformer(Transformer):
         )
         df_dict = {
             "status_changes": df_status_changes,
-            "releases": df_release_management,
+            "pivot": df_pivot,
         }
         return df_dict

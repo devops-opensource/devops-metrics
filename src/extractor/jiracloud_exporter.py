@@ -20,17 +20,20 @@ class JiracloudExporter(exporter.Exporter):
         self._token = config["JIRA_CLOUD"]["jira_token"]
         self._jira_adress = config["JIRA_CLOUD"]["jira_cloud_url"]
         self._project_keys = config["JIRA_CLOUD"]["jira_project_keys"]
+        self._pivot = config["JIRA_CLOUD"]["jira_pivot"]
+        self._jira_resolved = config["JIRA_CLOUD"]["jira_resolved"]
 
         with open("src/extractor/mappings.json") as json_file:
             mapping = json.load(json_file)
             self._versions_mapping = mapping["versions"]
+            self._epics_mapping = mapping["epics"]
             self._status_changes_mapping = mapping["status_changes"]
 
     def extract_data(self):
-        project_version_dict = self.extract_project_versions()
+        pivot_dict = self.extract_pivot()
         status_changes_dict = self.extract_status_changelogs()
         data_dict = {
-            "versions": project_version_dict,
+            "pivot": pivot_dict,
             "status_changes": status_changes_dict,
         }
         return data_dict
@@ -38,11 +41,11 @@ class JiracloudExporter(exporter.Exporter):
     def adapt_data(self, data_dict):
         adapted_dict = dict()
         for key in data_dict:
-            if key is "versions":
-                adapted_dict["versions"] = self.adapt_versions(
-                    data_dict["versions"]
+            if key == "pivot":
+                adapted_dict["pivot"] = self.adapt_pivot(
+                    data_dict["pivot"]
                 )
-            elif key is "status_changes":
+            elif key == "status_changes":
                 adapted_dict["status_changes"] = self.adapt_status_changes(
                     data_dict["status_changes"]
                 )
@@ -104,22 +107,27 @@ class JiracloudExporter(exporter.Exporter):
 
         return issues
 
-    def extract_project_versions(self):
-        project_version_dict = dict()
+    def extract_pivot(self):
+        pivot_dict = dict()
         project_key_list = self._project_keys.split(",")
         for project_key in project_key_list:
-            project_version_dict[
-                project_key
-            ] = self.execute_project_version_request(project_key, "")
-        return project_version_dict
+            if self._pivot == "Versions":
+                pivot_dict[
+                    project_key
+                ] = self.execute_project_version_request(project_key, "")
+            elif self._pivot == "Epics":
+                pivot_dict[
+                    project_key
+                ] = self.extract_epics(project_key)
+        return pivot_dict
 
     def execute_jql_request(
         self, query, fields, parameters, is_recursive=True
     ):
         jira_url = f"{self._jira_adress}/rest/api/2/search?"
 
-        fields_string = f"&fields={fields}" if fields else None
-        parameter_string = f"&{parameters}" if parameters else None
+        fields_string = f"&fields={fields}" if fields else ""
+        parameter_string = f"&{parameters}" if parameters else ""
         query_string = f"jql={query}"
 
         with closing(self.create_session()) as session:
@@ -159,6 +167,14 @@ class JiracloudExporter(exporter.Exporter):
             issues.extend(task.result())
 
         return issues
+    
+    def extract_epics(self, project_key):
+        fields = f"resolutiondate,issuetype,resolution,created,project"
+        parameters = ""
+        query = f"project = {project_key} AND issuetype in (Epic)"
+
+        epics = self.execute_jql_request(query, fields, parameters)
+        return epics
 
     def extract_status_changelogs(self):
         fields = f"issuetype,status,created,project,parent,fixVersions"
@@ -169,20 +185,32 @@ class JiracloudExporter(exporter.Exporter):
 
         return changelogs
 
-    def adapt_versions(self, versions_dict):
-        df_all_projects_versions = pd.DataFrame()
-        for project_key in versions_dict:
-            df_versions = pd.json_normalize(versions_dict[project_key])
-            if df_versions.empty:
+    def adapt_pivot(self, pivots_dict):
+        mapping = None
+        event_type = None
+        if(self._pivot == "Versions"):
+            mapping = self._versions_mapping
+            event_type = "release_management"
+        elif(self._pivot == "Epics"):
+            mapping = self._epics_mapping
+            event_type = "epic_management"
+
+        df_all_projects_pivot = pd.DataFrame()
+        for project_key in pivots_dict:
+            df_pivots = pd.json_normalize(pivots_dict[project_key])
+            if df_pivots.empty:
                 continue
-            df_versions = common.df_drop_and_rename_columns(
-                df_versions, self._versions_mapping
+            df_pivots = common.df_drop_and_rename_columns(
+                df_pivots, mapping
             )
-            df_versions["project_key"] = project_key
-            df_all_projects_versions = pd.concat(
-                [df_all_projects_versions, df_versions]
+            df_pivots["project_key"] = project_key
+            df_pivots["event_type"] = event_type
+            if(self._pivot == "Epics"):
+                df_pivots["released"] = df_pivots["released"].apply(lambda x: True if x == self._jira_resolved else False)
+            df_all_projects_pivot = pd.concat(
+                [df_all_projects_pivot, df_pivots]
             )
-        return df_all_projects_versions
+        return df_all_projects_pivot
 
     def adapt_status_changes(self, status_changes):
         df_changelogs = pd.json_normalize(
@@ -198,15 +226,16 @@ class JiracloudExporter(exporter.Exporter):
             status_changes, ["fields", "fixVersions"], ["key"]
         )
         df_versions = df_versions[["key", "name"]]
-        df_versions = df_versions.fillna("no_version")
         df_versions = df_versions.groupby("key", as_index=False).agg(
             {"name": ",".join}
         )
-        df_status_changes = df_status_changes.merge(df_versions)
-
+        df_status_changes = df_status_changes.merge(right = df_versions, how = "left")
         df_status_changes = common.df_drop_and_rename_columns(
             df_status_changes, self._status_changes_mapping
         )
+        df_status_changes["version"] = df_status_changes["version"].fillna("no_version")
+        df_status_changes["parent_key"] = df_status_changes["parent_key"].fillna("no_parent")
+        df_status_changes["event_type"] = "status_change"
         return df_status_changes
 
     

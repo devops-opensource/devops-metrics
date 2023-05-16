@@ -41,8 +41,6 @@ class TransformStatusChanges:
             "from_status",
         ] = self._creation_status
 
-        df_status_changes["event_type"] = "status_change"
-
         df_status_changes = self.add_transition_to_released_status(
             df_status_changes
         )
@@ -61,8 +59,11 @@ class TransformStatusChanges:
 
         df_released = pd.DataFrame()
         for row in df_closed_dedup.itertuples():
-            versions = row.version.split(",")
             df_version = self._release_management
+            if(df_version["event_type"].iloc[0] == "epic_management"):
+                versions = row.parent_key.split(",") 
+            else:
+                versions = row.version.split(",")
             dates = df_version[df_version["name"].isin(versions)][
                 ["release_date", "name"]
             ].dropna()
