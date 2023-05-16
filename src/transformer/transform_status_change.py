@@ -49,7 +49,7 @@ class TransformStatusChanges:
             # We add +1 to the id because the index 
             # is not taken into account in this case
             # But will be when going through the rows
-            #  of the dataframe in add_transition_to_released_status
+            # of the dataframe in add_transition_to_released_status
             pivot_column_id = df_status_changes.columns.get_loc("version") + 1
         else:
             pivot_column_id = (
