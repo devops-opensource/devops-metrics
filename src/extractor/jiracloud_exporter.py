@@ -182,17 +182,20 @@ class JiracloudExporter(exporter.Exporter):
         return changelogs
 
     def adapt_pivot(self, pivots_dict):
-        mapping = None
-        event_type = None
         if self._pivot == "Versions":
-            mapping = self._versions_mapping
-            event_type = "release_management"
-        elif self._pivot == "Epics":
-            mapping = self._epics_mapping
-            event_type = "epic_management"
+            df_pivots = self._adapt_pivot(
+                pivots_dict, elf._versions_mapping, "release_management"
+            )
 
-        return self._adapt_pivot(pivots_dict, mapping, event_type)
-    
+        elif self._pivot == "Epics":
+            df_pivots = self._adapt_pivot(
+                pivots_dict, self._epics_mapping, "epic_management"
+            )
+            df_pivots["released"] = df_pivots["released"].apply(
+                lambda x: True if x == self._jira_resolved else False
+            )
+        return df_pivots
+
     def _adapt_pivot(self, pivots_dict, mapping, event_type):
         df_all_projects_pivot = pd.DataFrame()
         for project_key in pivots_dict:
@@ -202,10 +205,6 @@ class JiracloudExporter(exporter.Exporter):
             df_pivots = common.df_drop_and_rename_columns(df_pivots, mapping)
             df_pivots["project_key"] = project_key
             df_pivots["event_type"] = event_type
-            if self._pivot == "Epics":
-                df_pivots["released"] = df_pivots["released"].apply(
-                    lambda x: True if x == self._jira_resolved else False
-                )
             df_all_projects_pivot = pd.concat(
                 [df_all_projects_pivot, df_pivots]
             )
