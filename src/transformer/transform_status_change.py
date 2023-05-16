@@ -8,13 +8,17 @@ class TransformStatusChanges:
     _released_status = ""
     _closed_statuses = []
 
-    def __init__(self, config, release_management):
-        self._release_management = release_management
+    def __init__(self, config, pivot_management):
+        self._pivot_management = pivot_management
         self._creation_status = config["JIRA_CLOUD"]["jira_creation_status"]
         self._released_status = config["JIRA_CLOUD"]["jira_released_status"]
         self._closed_statuses = config["JIRA_CLOUD"][
             "jira_closed_statuses"
         ].split(",")
+        if pivot_management["event_type"].iloc[0] == "epic_management":
+            self._use_version = False
+        else:
+            self._use_version = True
 
     def transform_status_changes(self, df_status_changes):
         if df_status_changes.empty:
@@ -59,12 +63,12 @@ class TransformStatusChanges:
 
         df_released = pd.DataFrame()
         for row in df_closed_dedup.itertuples():
-            df_version = self._release_management
-            if df_version["event_type"].iloc[0] == "epic_management":
-                versions = row.parent_key.split(",")
+            df_pivots = self._pivot_management
+            if self._use_version:
+                pivot = row.version.split(",")
             else:
-                versions = row.version.split(",")
-            dates = df_version[df_version["name"].isin(versions)][
+                pivot = row.parent_key.split(",")
+            dates = df_pivots[df_pivots["name"].isin(pivot)][
                 ["release_date", "name"]
             ].dropna()
             if len(dates) != 0:

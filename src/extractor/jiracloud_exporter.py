@@ -191,6 +191,9 @@ class JiracloudExporter(exporter.Exporter):
             mapping = self._epics_mapping
             event_type = "epic_management"
 
+        return self._adapt_pivot(pivots_dict, mapping, event_type)
+    
+    def _adapt_pivot(self, pivots_dict, mapping, event_type):
         df_all_projects_pivot = pd.DataFrame()
         for project_key in pivots_dict:
             df_pivots = pd.json_normalize(pivots_dict[project_key])
