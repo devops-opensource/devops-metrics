@@ -29,9 +29,7 @@ class GitlabExporter(Exporter):
         session.headers.update(headers)
         return session
 
-    def execute_paginated_request(
-        self, endpoint, parameters={}
-    ):
+    def execute_paginated_request(self, endpoint, parameters={}):
         another_page = True
         url = f"{self.gitlab_url}/{endpoint}"
         results = []
@@ -39,7 +37,7 @@ class GitlabExporter(Exporter):
             with self.create_session() as session:
                 r = session.get(url, params=parameters, verify=False)
             json_response = r.json()
-            if(not isinstance(json_response, list)):
+            if not isinstance(json_response, list):
                 json_response = [json_response]
             results.extend(json_response)
             if "next" in r.links:
@@ -50,7 +48,8 @@ class GitlabExporter(Exporter):
 
     def extract_data(self):
         all_merge_requests = self.extract_all_merge_requests(
-            self.gitlab_repo_list)
+            self.gitlab_repo_list
+        )
         mr_keys = self.get_mr_repo_id_iid_list(all_merge_requests)
         all_commits = self.extract_all_commits(mr_keys)
         all_reviewers = self.extract_all_reviewers(mr_keys)
@@ -59,7 +58,7 @@ class GitlabExporter(Exporter):
             "merge_requests": all_merge_requests,
             "commits": all_commits,
             "reviewers": all_reviewers,
-            "repo_names": all_repo_names
+            "repo_names": all_repo_names,
         }
 
     def extract_all_merge_requests(self, repo_list):
@@ -113,10 +112,13 @@ class GitlabExporter(Exporter):
         response = self.execute_paginated_request(
             f"projects/{project_id}/merge_requests/ \
             {merge_request_iid}/commits",
-            params
+            params,
         )
-        response_dict = {"repo": project_id,
-                         "iid": merge_request_iid, "response": response}
+        response_dict = {
+            "repo": project_id,
+            "iid": merge_request_iid,
+            "response": response,
+        }
         return response_dict
 
     def extract_all_reviewers(self, mr_list):
@@ -137,20 +139,21 @@ class GitlabExporter(Exporter):
         params = {}
         response = self.execute_paginated_request(
             f"projects/{project_id}/merge_requests/{merge_request_iid}/notes",
-            params
+            params,
         )
-        response_dict = {"repo": project_id,
-                         "iid": merge_request_iid, "response": response}
+        response_dict = {
+            "repo": project_id,
+            "iid": merge_request_iid,
+            "response": response,
+        }
         return response_dict
-    
+
     def extract_all_repo_names(self, repo_list):
         all_repos = []
         with ThreadPoolExecutor(max_workers=20) as executor:
             threads = []
             for repo in repo_list:
-                threads.append(
-                    executor.submit(self.extract_repo_names, repo)
-                )
+                threads.append(executor.submit(self.extract_repo_names, repo))
             for task in as_completed(threads):
                 response = task.result()
                 if response != []:
@@ -160,15 +163,16 @@ class GitlabExporter(Exporter):
     def extract_repo_names(self, project_id):
         params = {}
         response = self.execute_paginated_request(
-            f"projects/{project_id}", 
-            params
+            f"projects/{project_id}", params
         )
         return response
 
     def adapt_data(self, raw_data):
         repo_name_dict = self.get_repo_names_dict(raw_data["repo_names"])
         all_merge_requests = raw_data["merge_requests"]
-        df_merge_requests = self.adapt_merge_requests(all_merge_requests, repo_name_dict)
+        df_merge_requests = self.adapt_merge_requests(
+            all_merge_requests, repo_name_dict
+        )
         all_commits = raw_data["commits"]
         df_commits = self.adapt_commits(all_commits, repo_name_dict)
         all_reviewers = raw_data["reviewers"]
@@ -178,7 +182,7 @@ class GitlabExporter(Exporter):
             "df_commits": df_commits,
             "df_reviews": df_reviewers,
         }
-    
+
     def get_repo_names_dict(self, all_repo_names):
         df_repo_names = pd.json_normalize(all_repo_names)
         df_repo_names = df_repo_names[["id", "name"]]
@@ -189,20 +193,26 @@ class GitlabExporter(Exporter):
         df_merge_requests = pd.DataFrame()
         for merge_request in all_merge_requests:
             df_curr_merge_request = pd.json_normalize(
-                merge_request["response"])
-            df_curr_merge_request["repo"] = repo_name_dict[int(merge_request["repo"])]["name"]
+                merge_request["response"]
+            )
+            df_curr_merge_request["repo"] = repo_name_dict[
+                int(merge_request["repo"])
+            ]["name"]
             df_curr_merge_request = common.df_drop_and_rename_columns(
                 df_curr_merge_request, self.mappings["merge_requests"]
             )
             df_merge_requests = pd.concat(
-                [df_merge_requests, df_curr_merge_request])
+                [df_merge_requests, df_curr_merge_request]
+            )
         return df_merge_requests
 
     def adapt_commits(self, all_commits, repo_name_dict):
         df_commits = pd.DataFrame()
         for commit in all_commits:
             df_curr_commits = pd.json_normalize(commit["response"])
-            df_curr_commits["repo"] = repo_name_dict[int(commit["repo"])]["name"]
+            df_curr_commits["repo"] = repo_name_dict[int(commit["repo"])][
+                "name"
+            ]
             df_curr_commits["iid"] = commit["iid"]
             df_curr_commits = common.df_drop_and_rename_columns(
                 df_curr_commits, self.mappings["commits"]
@@ -213,18 +223,19 @@ class GitlabExporter(Exporter):
     def adapt_reviewers(self, all_reviewers, repo_name_dict):
         df_reviewers = pd.DataFrame()
         for reviewer in all_reviewers:
-            if 'error' in reviewer["response"]:
+            if "error" in reviewer["response"]:
                 continue
 
             df_curr_reviewers = pd.json_normalize(reviewer["response"])
             df_curr_reviewers = df_curr_reviewers.assign(
                 repo=repo_name_dict[int(reviewer["repo"])]["name"],
-                iid=reviewer["iid"]
+                iid=reviewer["iid"],
             )
             df_reviewers = pd.concat([df_reviewers, df_curr_reviewers])
 
-        df_reviewers = df_reviewers[df_reviewers["body"].str.contains(
-            "approved")]
+        df_reviewers = df_reviewers[
+            df_reviewers["body"].str.contains("approved")
+        ]
         df_reviewers = common.df_drop_and_rename_columns(
             df_reviewers, self.mappings["reviewers"]
         )
