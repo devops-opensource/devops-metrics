@@ -21,7 +21,7 @@ class JiracloudExporter(exporter.Exporter):
         self._jira_adress = config["JIRA_CLOUD"]["jira_cloud_url"]
         self._project_keys = config["JIRA_CLOUD"]["jira_project_keys"]
 
-        with open("src/extractor/mappings.json") as json_file:
+        with open("src/extractor/jira_mappings.json") as json_file:
             mapping = json.load(json_file)
             self._versions_mapping = mapping["versions"]
             self._status_changes_mapping = mapping["status_changes"]
@@ -38,11 +38,11 @@ class JiracloudExporter(exporter.Exporter):
     def adapt_data(self, data_dict):
         adapted_dict = dict()
         for key in data_dict:
-            if key is "versions":
+            if key == "versions":
                 adapted_dict["versions"] = self.adapt_versions(
                     data_dict["versions"]
                 )
-            elif key is "status_changes":
+            elif key == "status_changes":
                 adapted_dict["status_changes"] = self.adapt_status_changes(
                     data_dict["status_changes"]
                 )
