@@ -90,7 +90,7 @@ The dashboard has two parts. The first part contains global metrics based on a m
 
 Have fun playing with the data!
 
-# Installation(Linux environment)
+# Installation (Linux or macOS environment)
 ## Create a virtual environment
 ``` bash
 python3 -m pip install --user virtualenv
@@ -115,6 +115,6 @@ The config.local.cfg provide an example with a configuration for jira cloud and 
 To run the script use the following command and replace config_file_path with the path to the configuration file:
 
 ```bash
-python3 main.py config_file_path.cgf
+python3 main.py config_file_path.cfg JiraCloud CSV
 ```
 

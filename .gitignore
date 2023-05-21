@@ -4,6 +4,7 @@ __pycache__/
 *.pyc
 .venv
 .env
+env
 *.py[cod]
 *$py.class
 my_config.local.cfg

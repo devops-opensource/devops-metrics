@@ -12,7 +12,7 @@ class ProjectManagementTransformer(Transformer):
     def transform_data(self, adapted_data):
         transformer = TransformReleaseManagement()
         df_release_management = (
-            TransformReleaseManagement.transform_release_management(
+            transformer.transform_release_management(
                 adapted_data["versions"]
             )
         )
