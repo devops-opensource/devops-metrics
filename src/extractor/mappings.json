@@ -16,5 +16,12 @@
         "released" : "released",
         "releaseDate": "release_date",
         "startDate": "start_date"
+    },
+    "epics" : {
+        "key": "name",
+        "fields.issue_type.description": "description",
+        "fields.resolution.name" : "released",
+        "fields.resolutiondate": "release_date",
+        "fields.created": "start_date"
     }
 }
