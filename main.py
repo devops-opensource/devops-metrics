@@ -4,7 +4,7 @@ from src.common import common
 
 parser = argparse.ArgumentParser()
 parser.add_argument("config_file")
-parser.add_argument("Exporter", type=str, help="Loader type: JiraCloud")
+parser.add_argument("Exporter", type=str, help="Loader type: GitHub")
 parser.add_argument("Loader", type=str, help="Loader type: CSV or MYSQL")
 args = parser.parse_args()
 

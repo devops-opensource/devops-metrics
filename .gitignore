@@ -7,3 +7,4 @@ __pycache__/
 *.py[cod]
 *$py.class
 my_config.local.cfg
+config.copilot.cfg
