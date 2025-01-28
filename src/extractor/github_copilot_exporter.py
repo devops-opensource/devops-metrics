@@ -3,9 +3,7 @@ import json
 import pandas as pd
 import sys
 import os
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
 from src.extractor.exporter import Exporter
-from src.common import common
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timedelta, timezone
 
