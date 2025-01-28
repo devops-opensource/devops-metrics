@@ -88,6 +88,18 @@ class GithubCopilotExporter(Exporter):
             team_metrics[team['slug']] = metrics
         return team_metrics
     
+    
+    def extract_metrics_global(self):
+        """
+        Retrieve Copilot metrics at the organization (global) level.
+        This is a high-level summary of metrics for the entire org.
+        """
+        endpoint = f"orgs/{self.github_org}/copilot/metrics"
+        # Reuse our paginated request just as we do for teams
+        global_metrics = self.execute_paginated_request(endpoint)
+
+        return global_metrics
+    
     def extract_daily_active_users(self):
         # Note: there is a discrepency between the active users returned by /metrics and /usage
         # Note 2: active users is typically more elevated than the alternative field "engaged_users" since it tracks people who may have logged in but not used the tool
@@ -163,4 +175,43 @@ class GithubCopilotExporter(Exporter):
             'added_seats': [added_seats['added_this_cycle']],
             'inactive_seats': [inactive_seats['inactive_this_cycle']]
         })
+        return df
+    
+    def adapt_metrics_global(self, metrics_global):
+        """
+        Adapt the global Copilot metrics data into a DataFrame with the specified format.
+
+        Parameters:
+            metrics_global (list): List of metrics data from extract_metrics_global.
+
+        Returns:
+            pd.DataFrame: DataFrame with columns:
+                - editor_name
+                - model_name
+                - total_engaged_users
+                - total_chat
+                - total_chat_insertion_events
+                - total_chat_copy_events
+        """
+        records = []
+        for metric in metrics_global:
+            date = metric.get('date')
+            copilot_ide_chat = metric.get('copilot_ide_chat', {})
+            editors = copilot_ide_chat.get('editors', [])
+            for editor in editors:
+                editor_name = editor.get('name')
+                models = editor.get('models', [])
+                for model in models:
+                    record = {
+                        'date': date,
+                        'editor_name': editor_name,
+                        'model_name': model.get('name'),
+                        'total_engaged_users': model.get('total_engaged_users'),
+                        'total_chat': model.get('total_chats', 0),
+                        'total_chat_insertion_events': model.get('total_chat_insertion_events', 0),
+                        'total_chat_copy_events': model.get('total_chat_copy_events', 0)
+                    }
+                    records.append(record)
+        
+        df = pd.DataFrame(records)
         return df
