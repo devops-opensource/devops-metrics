@@ -66,11 +66,10 @@ class GithubCopilotExporter(Exporter):
         metrics_per_team = self.extract_metrics_per_team(teams)
 
         daily_active_users = self.extract_daily_active_users()
-        average_active_users = self.extract_average_active_users(daily_active_users)
+        # average active users calculated using raw daily_active_users data in the transformer
         new_seats_added, inactive_users = self.extract_seats_information()
         return {
             "daily_active_users": daily_active_users,
-            "average_active_users": average_active_users,
             "new_seats_added": new_seats_added,
             "inactive_users": inactive_users,
             "metrics_per_team": metrics_per_team
@@ -91,23 +90,15 @@ class GithubCopilotExporter(Exporter):
     def extract_daily_active_users(self):
         # Note: there is a discrepency between the active users returned by /metrics and /usage
         # Note 2: active users is typically more elevated than the alternative field "engaged_users" since it tracks people who may have logged in but not used the tool
-        endpoint = f"orgs/{self.github_org}/copilot/metrics"
+        endpoint = f"{self.github_org}/copilot/metrics"
         all_metrics = self.execute_paginated_request(endpoint)
         daily_active_users = {}
         for metric in all_metrics:
             daily_active_users[metric['date']] = metric['total_active_users']
         return daily_active_users
     
-    def extract_average_active_users(self, daily_active_users):
-        count = 0
-        total_active_users = 0
-        for date, active_users in daily_active_users.items():
-            count += 1
-            total_active_users += active_users
-        return total_active_users / count
-    
     def extract_seats_information(self):
-        endpoint = f"orgs/{self.github_org}/copilot/billing"
+        endpoint = f"{self.github_org}/copilot/billing"
         seats_information = self.execute_simple_request(endpoint)
         seats_information_breakdown = seats_information['seat_breakdown']
         return (
@@ -128,9 +119,6 @@ class GithubCopilotExporter(Exporter):
     def adapt_data(self, raw_data):
         daily_active_users = raw_data["daily_active_users"]
         df_daily_active_users = self.adapt_daily_active_users(daily_active_users)
-
-        average_active_users = raw_data["average_active_users"]
-        df_average_active_users = self.adapt_average_active_users(average_active_users)
         
         
         added_seats, inactive_seats = raw_data["new_seats_added"], raw_data["inactive_users"]
@@ -138,7 +126,6 @@ class GithubCopilotExporter(Exporter):
     
         return {
             "df_daily_active_users": df_daily_active_users,
-            "df_average_active_users": df_average_active_users,
             "df_seats": df_seats
         }
     
@@ -152,10 +139,6 @@ class GithubCopilotExporter(Exporter):
         df['date'] = pd.to_datetime(df['date'])
         df['active_users'] = df['active_users'].astype(int)
         
-        return df
-
-    def adapt_average_active_users(self, average_active_users):
-        df = pd.DataFrame({'average_active_users': [average_active_users]})
         return df
 
     def adapt_seats_information(self, added_seats, inactive_seats):

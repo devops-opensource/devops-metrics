@@ -10,4 +10,18 @@ class CopilotTransformer(Transformer):
         self.config = config
 
     def transform_data(self, adapted_data):
-        return adapted_data
+        daily_active_users = adapted_data['df_daily_active_users']
+        average_active_users = self.transform_average_active_users(adapted_data['df_daily_active_users'])
+        df_seats = adapted_data['df_seats']
+        df_dict = {
+            "df_daily_active_users": daily_active_users,
+            "df_average_active_users": average_active_users,
+            "df_seats": df_seats,
+        }
+        return df_dict
+    
+
+    def transform_average_active_users(self, daily_active_users):
+        average_active_users = daily_active_users['active_users'].mean().astype(int)
+        df = pd.DataFrame({'average_active_users': [average_active_users]})
+        return df
