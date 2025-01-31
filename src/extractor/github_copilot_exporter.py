@@ -87,7 +87,6 @@ class GithubCopilotExporter(Exporter):
             team_metrics[team['slug']] = metrics
         return team_metrics
     
-    
     def extract_metrics_global(self):
         """
         Retrieve Copilot metrics at the organization (global) level.
@@ -119,11 +118,6 @@ class GithubCopilotExporter(Exporter):
         )
 
     def extract_teams(self):
-        """
-        Récupère la liste des équipes dans l'organisation GitHub.
-        Basé sur la documentation :
-        https://docs.github.com/fr/rest/teams/teams#list-teams
-        """
         endpoint = f"orgs/{self.github_org}/teams"
         teams = self.execute_paginated_request(endpoint)
         return teams
@@ -160,7 +154,7 @@ class GithubCopilotExporter(Exporter):
         })
         return df
     
-    def adapt_metrics_global(self, metrics_global):
+    def adapt_metrics_chat_global(self, metrics_global, team: str = None):
         """
         Adapt the global Copilot metrics data into a DataFrame with the specified format.
 
@@ -186,6 +180,7 @@ class GithubCopilotExporter(Exporter):
                 models = editor.get('models', [])
                 for model in models:
                     record = {
+                        'team': team,
                         'date': date,
                         'editor_name': editor_name,
                         'model_name': model.get('name'),
@@ -198,3 +193,58 @@ class GithubCopilotExporter(Exporter):
         
         df = pd.DataFrame(records)
         return df
+    
+    def adapt_metrics_chat_team(self, metrics_team):
+        records = []
+        for team, metric in metrics_team.items():
+            records.append(self.adapt_metrics_chat_global(metric, team))
+        return records
+
+    def adapt_metrics_completitions_team(self, metrics_team):
+        records = []
+        for team, metric in metrics_team.items():
+            records.append(self.adapt_metrics_completitions_global(metric, team))
+        return records
+
+    def adapt_metrics_completitions_global(self, metrics_global, team = None):
+        """
+        Adapt the global Copilot metrics data into a DataFrame with the specified format.
+
+        Parameters:
+            metrics_global (list): List of metrics data from extract_metrics_global.
+
+        Returns:
+            pd.DataFrame: DataFrame with columns:
+                - editor_name
+                - model_name
+                - total_engaged_users
+                - total_chat
+                - total_chat_insertion_events
+                - total_chat_copy_events
+        """
+        records = []
+        for metric in metrics_global:
+            date = metric.get('date')
+            copilot_ide_chat = metric.get('copilot_ide_code_completions', {})
+            editors = copilot_ide_chat.get('editors', [])
+            for editor in editors:
+                editor_name = editor.get('name')
+                models = editor.get('models', [])
+                for model in models:
+                    languages = model.get('languages', [])
+                    for language in languages:
+                        record = {
+                            'team': team,
+                            'date': date,
+                            'editor_name': editor_name,
+                            'model_name': model.get('name'),
+                            'language': language.get('name'),
+                            'total_code_lines_suggested': language.get('total_code_lines_accepted'),
+                            'total_code_lines_accepted': model.get('total_code_lines_accepted', 0),
+                            'total_engaged_users': model.get('total_engaged_users', 0)
+                    }
+                    records.append(record)
+        
+        df = pd.DataFrame(records)
+        return df
+
