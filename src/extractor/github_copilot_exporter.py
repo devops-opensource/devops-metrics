@@ -74,7 +74,6 @@ class GithubCopilotExporter(Exporter):
             "metrics_global": metrics_global,
         }
     
-
     def extract_metrics_per_team(self, teams):
         """
         Retrieve Copilot metrics for each team and store them in a dict
@@ -237,7 +236,6 @@ class GithubCopilotExporter(Exporter):
                 - total_chat_copy_events
         """
         records = []
-        print(metrics_global)
         for metric in metrics_global:
             date = metric.get('date')
             copilot_ide_chat = metric.get('copilot_ide_code_completions', {})

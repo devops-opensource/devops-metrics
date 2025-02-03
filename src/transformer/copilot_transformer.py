@@ -105,4 +105,3 @@ class CopilotTransformer(Transformer):
         but for the entire organization
         """
         return self.transform_completion_metrics(metrics_completion_global, ['date', 'language'])
-
