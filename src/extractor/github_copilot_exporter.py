@@ -126,16 +126,29 @@ class GithubCopilotExporter(Exporter):
         daily_active_users = raw_data["daily_active_users"]
         df_daily_active_users = self.adapt_daily_active_users(daily_active_users)
         
-        
         added_seats, inactive_seats = raw_data["new_seats_added"], raw_data["inactive_users"]
         df_seats = self.adapt_seats_information(added_seats, inactive_seats)
     
+        metrics_per_team = raw_data["metrics_per_team"] 
+        df_metrics_chat_team = self.adapt_metrics_chat_team(metrics_per_team)
+        df_metrics_completions_team = self.adapt_metrics_completions_team(metrics_per_team)
+
+        metrics_global = raw_data["metrics_global"]
+        df_metrics_chat_global = self.adapt_metrics_chat_global(metrics_global)
+        df_metrics_completions_global = self.adapt_metrics_completions_global(metrics_global)
+
+
         return {
             "df_daily_active_users": df_daily_active_users,
-            "df_seats": df_seats
+            "df_seats": df_seats,
+            "df_metrics_chat_team": df_metrics_chat_team,
+            "df_metrics_completions_team": df_metrics_completions_team,
+            "df_metrics_chat_global": df_metrics_chat_global,
+            "df_metrics_completions_global": df_metrics_completions_global
         }
-    
+
     def adapt_daily_active_users(self, daily_active_users):
+
         df = pd.DataFrame.from_dict(daily_active_users, orient='index', columns=['active_users'])
         
         df.index = pd.to_datetime(df.index)
