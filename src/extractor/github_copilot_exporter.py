@@ -64,17 +64,17 @@ class GithubCopilotExporter(Exporter):
     def extract_data(self):
         teams = self.extract_teams()
         metrics_per_team = self.extract_metrics_per_team(teams)
+        metrics_global = self.extract_metrics_global()
 
         daily_active_users = self.extract_daily_active_users()
         # average active users calculated using raw daily_active_users data in the transformer
         new_seats_added, inactive_users = self.extract_seats_information()
         return {
-            "daily_active_users": daily_active_users,
-            "new_seats_added": new_seats_added,
-            "inactive_users": inactive_users,
-            "metrics_per_team": metrics_per_team
+            "metrics_per_team": metrics_per_team,
+            "metrics_global": metrics_global,
         }
     
+
     def extract_metrics_per_team(self, teams):
         """
         Retrieve Copilot metrics for each team and store them in a dict
@@ -188,6 +188,7 @@ class GithubCopilotExporter(Exporter):
                         'total_chat': model.get('total_chats', 0),
                         'total_chat_insertion_events': model.get('total_chat_insertion_events', 0),
                         'total_chat_copy_events': model.get('total_chat_copy_events', 0)
+
                     }
                     records.append(record)
         
@@ -195,18 +196,18 @@ class GithubCopilotExporter(Exporter):
         return df
     
     def adapt_metrics_chat_team(self, metrics_team):
-        records = []
+        df = pd.DataFrame()
         for team, metric in metrics_team.items():
-            records.append(self.adapt_metrics_chat_global(metric, team))
-        return records
+            df = pd.concat([df, self.adapt_metrics_chat_global(metric, team)])
+        return df
 
-    def adapt_metrics_completitions_team(self, metrics_team):
-        records = []
+    def adapt_metrics_completions_team(self, metrics_team):
+        df = pd.DataFrame()
         for team, metric in metrics_team.items():
-            records.append(self.adapt_metrics_completitions_global(metric, team))
-        return records
+            df = pd.concat([df, self.adapt_metrics_completions_global(metric, team)])
+        return df
 
-    def adapt_metrics_completitions_global(self, metrics_global, team = None):
+    def adapt_metrics_completions_global(self, metrics_global, team = None):
         """
         Adapt the global Copilot metrics data into a DataFrame with the specified format.
 
@@ -223,6 +224,7 @@ class GithubCopilotExporter(Exporter):
                 - total_chat_copy_events
         """
         records = []
+        print(metrics_global)
         for metric in metrics_global:
             date = metric.get('date')
             copilot_ide_chat = metric.get('copilot_ide_code_completions', {})

@@ -38,11 +38,21 @@ if __name__ == "__main__":
         quit(f"Unable to connect to {args.Loader}")
 
     # Extract and Transform status changes and release
-    print("Extract JIRA data then Transform as status_changes and releases")
+    print(f"Extract {exporter_name}")
     raw_data = exporter.extract_data()
-    adapted_data = exporter.adapt_data(raw_data)
-    df_dict = transformer.transform_data(adapted_data)
+    print("Extract completed")
 
+    print(f"Adapt {exporter_name}")
+    adapted_data = exporter.adapt_data(raw_data)
+    print("Adapt completed")
+    
+    print(f"Transform {exporter_name}")
+    df_dict = transformer.transform_data(adapted_data)
+    print("Transform completed")
+
+    print(f"Load {loader_name}")
     loader.load_data(df_dict)
+    print("Load completed")
 
     print("Job done !")
+
