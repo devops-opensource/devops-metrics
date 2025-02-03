@@ -1,0 +1,24 @@
+{
+    "completions": {
+        "copilot_ide_code_completions.editors": "editor_name",
+        "copilot_ide_code_completions.editors.models": "model_name",
+        "copilot_ide_code_completions.editors.models.language": "language_name",
+        "copilot_ide_code_completions.editors.models.languages.total_code_acceptances": "total_code_acceptances",
+        "copilot_ide_code_completions.editors.models.languages.total_code_completions": "total_code_suggestions",
+        "copilot_ide_code_completions.editors.models.languages.total_code_lines_accepted": "total_code_lines_accepted",
+        "copilot_ide_code_completions.editors.models.languages.total_code_lines_suggested": "total_code_lines_suggesteds",
+        "total_active_users": "total_active_users",
+        "total_engaged_users": "total_engaged_users"
+    },
+    "chats": {
+        "copilot_ide_chat.editors": "editor_name",
+        "copilot_ide_chat.editors.models": "model_name",
+        "copilot_ide_chat.editors.models.total_chats": "total_chats",
+        "copilot_ide_chat.editors.models.total_chat_insertion_events": "total_chat_insertion_events",
+        "copilot_ide_chat.editors.models.total_chat_copy_events": "total_chat_copy_events" 
+    },
+    "billing": {
+        "active_this_cycle": [],
+        "inactive_this_cycle": []
+    }
+}
