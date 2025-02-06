@@ -32,8 +32,11 @@ class CopilotTransformer(Transformer):
         df = df.fillna(0)
         return df
     
-    def transform_average_active_users(self, daily_active_users: pd.DataFrame) -> pd.DataFrame:
-        average_active_users = daily_active_users['active_users'].mean().astype(int)
+    def transform_average_active_users(self, daily_active_users: pd.Series) -> pd.DataFrame:
+        """
+        Calculate average active users from a series of daily active users
+        """
+        average_active_users = daily_active_users.mean().astype(int)
         df = pd.DataFrame({'average_active_users': [average_active_users]})
         return df
 

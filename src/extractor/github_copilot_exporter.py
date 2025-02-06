@@ -123,7 +123,7 @@ class GithubCopilotExporter(Exporter):
             raise
 
     def extract_daily_active_users(self) -> Dict[str, int]:
-        endpoint = f"{self.github_org}/copilot/metrics"
+        endpoint = f"orgs/{self.github_org}/copilot/metrics"
         all_metrics = self.execute_paginated_request(endpoint)
         daily_active_users = {}
         for metric in all_metrics:
@@ -131,7 +131,7 @@ class GithubCopilotExporter(Exporter):
         return daily_active_users
 
     def extract_seats_information(self) -> Tuple[Dict[str, int], Dict[str, int]]:
-        endpoint = f"{self.github_org}/copilot/billing"
+        endpoint = f"orgs/{self.github_org}/copilot/billing"
         seats_information = self.execute_simple_request(endpoint)
         seats_information_breakdown = seats_information['seat_breakdown']
         return (
