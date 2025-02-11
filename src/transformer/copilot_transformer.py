@@ -1,6 +1,7 @@
 from src.transformer.transformer import Transformer
 import pandas as pd
 from typing import Dict, List
+import datetime
 
 class CopilotTransformer(Transformer):
     def initialize_data(self, config: dict) -> None:
@@ -10,10 +11,10 @@ class CopilotTransformer(Transformer):
         transformed: Dict[str, pd.DataFrame] = {}
         # Transform each dataframe using corresponding method
         for key, df in adapted_data.items():
-            if key == 'df_daily_active_users':
+            if key == 'df_metrics_active_users':
                 transformed[key] = df
-                transformed['df_average_active_users'] = self.transform_average_active_users(df['active_users'])
-            elif key == 'df_seats':
+                transformed['df_average_active_users'] = self.transform_average_active_users(df['total_active_users'])
+            elif key == 'df_billing_global':
                 transformed[key] = df
             elif 'metrics_chat' in key:
                 transform_method = self.transform_chat_metrics_team if 'team' in df.columns else self.transform_chat_metrics_global
@@ -36,8 +37,12 @@ class CopilotTransformer(Transformer):
         """
         Calculate average active users from a series of daily active users
         """
+        current_date = datetime.datetime.now().strftime("%Y-%m-%d")
         average_active_users = daily_active_users.mean().astype(int)
-        df = pd.DataFrame({'average_active_users': [average_active_users]})
+        df = pd.DataFrame({
+            'extract_date': current_date,
+            'average_active_users': [average_active_users]
+            })
         return df
 
     def transform_chat_metrics(self, metrics_chat: pd.DataFrame, aggregation_list: List[str]) -> pd.DataFrame:
