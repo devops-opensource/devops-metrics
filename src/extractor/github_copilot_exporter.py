@@ -1,7 +1,7 @@
 import logging
 import requests
 import pandas as pd
-from typing import Dict, List, Tuple, Any, Optional
+from typing import Dict, List, Any, Optional
 from configparser import ConfigParser
 from src.extractor.exporter import Exporter
 import datetime
@@ -17,7 +17,6 @@ if not logger.handlers:
     logger.addHandler(ch)
 
 pd.options.mode.chained_assignment = None  # default='warn'
-
 
 class GithubCopilotExporter(Exporter):
 
@@ -80,11 +79,13 @@ class GithubCopilotExporter(Exporter):
         metrics_per_team = self.extract_metrics_per_team(teams)
         metrics_global = self.extract_metrics_global()
         billing_global = self.extract_billing()
+        seat_assignments = self.extract_seat_assignments()
 
         return {
             "metrics_per_team": metrics_per_team,
             "metrics_global": metrics_global,
-            "billing_global": billing_global
+            "billing_global": billing_global,
+            "seat_assignments": seat_assignments
         }
 
     def extract_metrics_per_team(self, teams: List[Dict[str, Any]]) -> Dict[str, List[Dict[str, Any]]]:
@@ -139,6 +140,18 @@ class GithubCopilotExporter(Exporter):
             logger.error(f"Error fetching teams from GitHub: {e}")
             raise
 
+    def extract_seat_assignments(self) -> List[Dict[str, Any]]:
+        """Extract all Copilot seat assignments for the organization."""
+        endpoint = f"orgs/{self.github_org}/copilot/billing/seats"
+        try:
+            seat_assignments = self.execute_simple_request(endpoint)
+            if not seat_assignments:
+                logger.warning(f"Warning: No Copilot seat assignments found for organization {self.github_org}")
+            return seat_assignments
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error fetching Copilot seat assignments: {e}")
+            raise
+
     def adapt_data(self, raw_data: Dict[str, Any]) -> Dict[str, pd.DataFrame]:    
         metrics_per_team = raw_data["metrics_per_team"] 
         df_metrics_chat_team = self.adapt_metrics_chat_team(metrics_per_team)
@@ -152,13 +165,17 @@ class GithubCopilotExporter(Exporter):
         billing_global = raw_data["billing_global"]
         df_billing_global = self.adapt_billing_global(billing_global)
 
+        seat_assignments = raw_data["seat_assignments"]
+        df_seat_assignments = self.adapt_seat_assignments(seat_assignments)
+
         return {
             "df_metrics_active_users": df_metrics_active_users,
             "df_billing_global": df_billing_global,
             "df_metrics_chat_team": df_metrics_chat_team,
             "df_metrics_completions_team": df_metrics_completions_team,
             "df_metrics_chat_global": df_metrics_chat_global,
-            "df_metrics_completions_global": df_metrics_completions_global
+            "df_metrics_completions_global": df_metrics_completions_global,
+            "df_seat_assignments": df_seat_assignments
         }
     
     def adapt_metrics_active_users(self, metrics_global: List[Dict[str, Any]], team: Optional[str] = None) -> pd.DataFrame:
@@ -272,3 +289,30 @@ class GithubCopilotExporter(Exporter):
                 logger.error(f"Error processing team {team}: {e}")
                 continue
         return pd.concat(dfs, ignore_index=True) if dfs else pd.DataFrame()
+
+
+
+    def adapt_seat_assignments(self, seat_assignments: List[Dict[str, Any]]) -> pd.DataFrame:
+        """Adapt seat assignments data into a DataFrame."""
+        records = []
+        for assignment in seat_assignments['seats']:
+            try:
+                assignee = assignment.get('assignee', {})
+                assigning_team = assignment.get('assigning_team', {})
+                
+                record = {
+                    'username': assignee.get('login'),
+                    'team': assigning_team.get('name') if assigning_team else None,
+                    'team_slug': assigning_team.get('slug') if assigning_team else None,
+                    'created_at': assignment.get('created_at'),
+                    'updated_at': assignment.get('updated_at'),
+                    'last_activity_at': assignment.get('last_activity_at'),
+                    'last_activity_editor': assignment.get('last_activity_editor'),
+                    'pending_cancellation_date': assignment.get('pending_cancellation_date')
+                }
+                records.append(record)
+            except Exception as e:
+                logger.error(f"Error processing seat assignment: {e}")
+                continue
+                
+        return pd.DataFrame(records)

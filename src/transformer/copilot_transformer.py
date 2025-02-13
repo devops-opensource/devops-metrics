@@ -2,6 +2,7 @@ from src.transformer.transformer import Transformer
 import pandas as pd
 from typing import Dict, List
 import datetime
+from src.common import common
 
 class CopilotTransformer(Transformer):
     def initialize_data(self, config: dict) -> None:
@@ -16,6 +17,8 @@ class CopilotTransformer(Transformer):
                 transformed['df_average_active_users'] = self.transform_average_active_users(df['total_active_users'])
             elif key == 'df_billing_global':
                 transformed[key] = df
+            elif key == 'df_seat_assignments':
+                transformed[key] = self.transform_seat_assignments(df)
             elif 'metrics_chat' in key:
                 transform_method = self.transform_chat_metrics_team if 'team' in df.columns else self.transform_chat_metrics_global
                 transformed[key] = transform_method(df)
@@ -114,3 +117,21 @@ class CopilotTransformer(Transformer):
         but for the entire organization
         """
         return self.transform_completion_metrics(metrics_completion_global, ['date', 'language'])
+
+    def transform_seat_assignments(self, seat_assignments: pd.DataFrame) -> pd.DataFrame:
+        """
+        Transform seat assignments data to include inactive status for the last cycle.
+        Last cycle is defined as the previous month from the first of the month.
+        """
+        for date_column in ['created_at', 'updated_at', 'last_activity_at', 'pending_cancellation_date']:
+            seat_assignments = common.convert_column_to_datetime(date_column, seat_assignments)
+            
+        today = pd.Timestamp.now(tz='UTC')
+        last_cycle_start = (today.replace(day=1) - pd.DateOffset(months=1))
+        
+        seat_assignments['inactive_last_cycle'] = (
+            (seat_assignments['last_activity_at'].isna()) | 
+            (seat_assignments['last_activity_at'].dt.tz_localize('UTC') < last_cycle_start)
+        )
+        
+        return seat_assignments

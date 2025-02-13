@@ -1,0 +1,114 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #F0F0F0;
+  --foreground: #1A1A1A;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #1A1A1A;
+    --foreground: #FFFFFF;
+  }
+}
+
+body {
+  @apply bg-background text-foreground min-h-screen;
+}
+
+h1 {
+  @apply text-4xl font-bold mb-4 text-neutral-800;
+}
+
+h2 {
+  @apply text-2xl font-semibold mb-3 text-neutral-800;
+}
+
+h3 {
+  @apply text-xl font-semibold mb-2 text-neutral-800;
+}
+
+.btn {
+  @apply px-4 py-2 rounded-lg font-medium transition-colors duration-200;
+}
+
+.btn-primary {
+  @apply bg-primary text-white hover:bg-primary-hover;
+}
+
+.btn-secondary {
+  @apply bg-secondary text-white hover:bg-secondary-hover;
+}
+
+.card {
+  @apply bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-200 border border-neutral-100;
+}
+
+.metric-value {
+  @apply text-4xl font-bold text-primary;
+}
+
+.metric-label {
+  @apply text-sm text-neutral-800 mt-1;
+}
+
+.chart-container {
+  @apply bg-white p-6 rounded-lg shadow-md border border-neutral-100;
+}
+
+/* Input Styling */
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+select,
+textarea {
+  @apply w-full px-4 py-2 border border-neutral-200 rounded-lg bg-white text-neutral-800;
+  @apply focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent;
+  @apply placeholder:text-neutral-400;
+  @apply shadow-sm;
+}
+
+/* Input Label Styling */
+label {
+  @apply block text-sm font-medium text-neutral-800 mb-1;
+}
+
+/* Form Group Spacing */
+.form-group {
+  @apply mb-4;
+}
+
+/* Error State */
+.input-error {
+  @apply border-secondary;
+}
+
+.error-message {
+  @apply text-sm text-secondary mt-1;
+}
+
+/* Text styles */
+p {
+  @apply text-neutral-800;
+}
+
+/* Table styles */
+table {
+  @apply w-full;
+}
+
+th {
+  @apply text-left p-4 bg-neutral-50 text-neutral-800 font-semibold border-b border-neutral-200;
+}
+
+td {
+  @apply p-4 border-b border-neutral-100 text-neutral-700;
+}
+
+/* Link styles */
+a {
+  @apply text-primary hover:text-primary-hover transition-colors duration-200;
+}
