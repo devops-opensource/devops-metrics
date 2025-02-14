@@ -9,6 +9,8 @@ import {
   Title,
   Tooltip,
   Legend,
+  Scale,
+  CoreScaleOptions,
 } from 'chart.js';
 import { Chart } from 'react-chartjs-2';
 
@@ -86,6 +88,7 @@ export const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
     },
     scales: {
       x: {
+        type: 'category' as const,
         grid: {
           display: showGrid,
           color: 'rgba(0, 0, 0, 0.05)'
@@ -97,13 +100,15 @@ export const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
         }
       },
       y: {
+        type: 'linear' as const,
         beginAtZero: true,
         grid: {
           display: showGrid,
           color: 'rgba(0, 0, 0, 0.05)'
         },
         ticks: {
-          callback: (value: number) => {
+          callback: function(this: Scale<CoreScaleOptions>, tickValue: number | string) {
+            const value = Number(tickValue);
             if (value >= 1000000) return `${(value / 1000000).toFixed(1)}M`;
             if (value >= 1000) return `${(value / 1000).toFixed(1)}k`;
             return value;
@@ -111,13 +116,15 @@ export const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
         }
       },
       y1: {
+        type: 'linear' as const,
         beginAtZero: true,
         position: 'right' as const,
         grid: {
           display: false,
         },
         ticks: {
-          callback: (value: number) => {
+          callback: function(this: Scale<CoreScaleOptions>, tickValue: number | string) {
+            const value = Number(tickValue);
             if (value >= 1000000) return `${(value / 1000000).toFixed(1)}M`;
             if (value >= 1000) return `${(value / 1000).toFixed(1)}k`;
             return value;
