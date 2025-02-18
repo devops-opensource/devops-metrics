@@ -170,21 +170,25 @@ export default function Home() {
             title="Hours Saved"
             value={data.hoursSaved}
             description="Estimated number of hours saved by using GitHub Copilot"
+            unit="hrs"
           />
           <MetricCard
             title="Cost Savings"
-            value={`$${data.costSavings.toLocaleString()}`}
+            value={data.costSavings}
             description="Estimated value in dollars based on salary and time saved"
+            unit="$"
           />
           <MetricCard
             title="Total Devs"
             value={data.totalDevs}
             description="Number of developers within the organization"
+            unit="devs"
           />
           <MetricCard
             title="Avg Active Devs"
             value={data.activeUsers}
             description="Average number of active developers"
+            unit="devs"
           />
         </div>
 

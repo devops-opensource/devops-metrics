@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Link from "next/link";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -23,9 +24,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        suppressHydrationWarning
       >
         <header className="bg-white border-b border-neutral-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -34,8 +36,9 @@ export default function RootLayout({
                 Analytics Dashboard
               </div>
               <nav className="flex space-x-4">
-                <a href="#" className="text-neutral-800 hover:text-primary">Dashboard</a>
-                <a href="#" className="text-neutral-800 hover:text-primary">Settings</a>
+                <Link href="/" className="text-neutral-800 hover:text-primary">Dashboard</Link>
+                <Link href="/teams" className="text-neutral-800 hover:text-primary">Teams</Link>
+                <Link href="#" className="text-neutral-800 hover:text-primary">Settings</Link>
               </nav>
             </div>
           </div>

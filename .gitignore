@@ -11,3 +11,4 @@ config.copilot.cfg
 _df_average_active_users.csv
 _df_daily_active_users.csv
 _df_seats.csv
+**/node_modules/**
