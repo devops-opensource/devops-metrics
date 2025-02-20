@@ -64,6 +64,7 @@ interface DashboardData {
   };
 }
 
+// Reduce cognitive load by splitting the code into smaller functions
 // Load and process CSV data
 const loadData = async (startDate: Date, endDate: Date, selectedTeam: string): Promise<DashboardData | null> => {
   try {
@@ -143,14 +144,14 @@ const loadData = async (startDate: Date, endDate: Date, selectedTeam: string): P
         labels: dates,
         datasets: [
           {
-            label: `${selectedTeam} Completion Rate`,
+            label: selectedTeam,
             data: filteredCompletionData.map((row: TeamMetricsData) => row.completion_acceptance_rate * 100),
             borderColor: 'rgb(255, 99, 132)',
             backgroundColor: 'rgba(255, 99, 132, 0.1)',
             type: 'line'
           },
           {
-            label: 'Organization Completion Rate',
+            label: 'Organization',
             data: filteredCompletionGlobalData.map((row: TeamMetricsData) => row.completion_acceptance_rate * 100),
             borderColor: 'rgb(128, 128, 128)',
             backgroundColor: 'rgba(128, 128, 128, 0.1)',
@@ -163,14 +164,14 @@ const loadData = async (startDate: Date, endDate: Date, selectedTeam: string): P
         labels: dates,
         datasets: [
           {
-            label: `${selectedTeam} Chat Acceptance`,
+            label: selectedTeam,
             data: filteredChatData.map((row: TeamMetricsData) => row.chat_acceptance_rate * 100),
             borderColor: 'rgb(75, 192, 192)',
             backgroundColor: 'rgba(75, 192, 192, 0.1)',
             type: 'line'
           },
           {
-            label: 'Organization Chat Acceptance',
+            label: 'Organization',
             data: filteredChatGlobalData.map((row: TeamMetricsData) => row.chat_acceptance_rate * 100),
             borderColor: 'rgb(128, 128, 128)',
             backgroundColor: 'rgba(128, 128, 128, 0.1)',
@@ -183,14 +184,14 @@ const loadData = async (startDate: Date, endDate: Date, selectedTeam: string): P
         labels: dates,
         datasets: [
           {
-            label: `${selectedTeam} Chat Per User`,
+            label: selectedTeam,
             data: filteredChatData.map((row: TeamMetricsData) => row.chat_per_user),
             borderColor: 'rgb(54, 162, 235)',
             backgroundColor: 'rgba(54, 162, 235, 0.1)',
             type: 'line'
           },
           {
-            label: 'Organization Chat Per User',
+            label: 'Organization',
             data: filteredChatGlobalData.map((row: TeamMetricsData) => row.chat_per_user),
             borderColor: 'rgb(128, 128, 128)',
             backgroundColor: 'rgba(128, 128, 128, 0.1)',
@@ -264,8 +265,8 @@ export default function Teams() {
           </div>
         </div>
 
-        <div className="flex gap-4 mb-6">
-          <div className="w-64">
+        <div className="flex items-center gap-4 mb-6">
+          <div className="w-64 h-full">
             <Select
               options={data.teams.map(team => ({ value: team, label: team }))}
               value={{ value: selectedTeam, label: selectedTeam }}
@@ -276,28 +277,31 @@ export default function Teams() {
                 control: (base) => ({
                   ...base,
                   backgroundColor: 'white',
+                  height: '40px', // Fixed height to match DateRangePicker
                 }),
                 option: (base) => ({
                   ...base,
-                  color: '#1f2937', // Tailwind gray-800
+                  color: '#1f2937',
                 }),
                 singleValue: (base) => ({
                   ...base,
-                  color: '#1f2937', // Tailwind gray-800
+                  color: '#1f2937',
                 }),
                 placeholder: (base) => ({
                   ...base,
-                  color: '#6b7280', // Tailwind gray-500
+                  color: '#6b7280',
                 }),
               }}
             />
           </div>
-          <DateRangePicker
-            startDate={startDate}
-            endDate={endDate}
-            onStartDateChange={setStartDate}
-            onEndDateChange={setEndDate}
-          />
+          <div className="h-full">
+            <DateRangePicker
+              startDate={startDate}
+              endDate={endDate}
+              onStartDateChange={setStartDate}
+              onEndDateChange={setEndDate}
+            />
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
