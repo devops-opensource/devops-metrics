@@ -64,7 +64,7 @@ interface DashboardData {
   };
 }
 
-// Reduce cognitive load by splitting the code into smaller functions
+
 // Load and process CSV data
 const loadData = async (startDate: Date, endDate: Date, selectedTeam: string): Promise<DashboardData | null> => {
   try {

@@ -15,11 +15,11 @@ export const Settings: React.FC<SettingsProps> = ({
 }) => {
   return (
     <div className="bg-white p-6 rounded-lg shadow-md">
-      <h2 className="text-xl font-semibold mb-4">Settings</h2>
+      <h2 className="text-xl font-semibold mb-4">Paramètres</h2>
       <div className="space-y-4">
         <div>
           <label htmlFor="maxDevs" className="block text-sm font-medium text-gray-700">
-            Maximum Number of Developers
+            Nombre de développeurs dans l&apos;organisation
           </label>
           <input
             type="number"
@@ -32,7 +32,7 @@ export const Settings: React.FC<SettingsProps> = ({
         </div>
         <div>
           <label htmlFor="meanSalary" className="block text-sm font-medium text-gray-700">
-            Mean Developer Salary (USD)
+            Salaire moyen des développeurs ($)
           </label>
           <input
             type="number"

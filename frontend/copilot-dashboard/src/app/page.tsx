@@ -5,13 +5,7 @@ import { MetricCard } from '../components/MetricCard';
 import { TimeSeriesChart } from '../components/TimeSeriesChart';
 import { Settings } from '../components/Settings';
 import { DateRangePicker } from '../components/DateRangePicker';
-
-interface MetricsData {
-  date: string;
-  total_active_users: string;
-  total_engaged_users: string;
-}
-
+import { TransformedBillingRecord } from '@/types/billing';
 interface DashboardData {
   activeUsers: number;
   totalDevs: number;
@@ -44,23 +38,25 @@ interface DashboardData {
 const loadData = async (startDate: Date, endDate: Date): Promise<DashboardData | null> => {
   try {
     const response = await fetch('/api/metrics');
-    const csvData: MetricsData[] = await response.json();
+    const csvData: TransformedBillingRecord[] = await response.json();
     
     // Filter data based on date range
     const filteredData = csvData.filter(row => {
-      const date = new Date(row.date);
+      const date = new Date(row.extract_date);
       return date >= startDate && date <= endDate;
     });
     
     // Process the data
-    const dates = filteredData.map((row) => new Date(row.date).toLocaleDateString('fr-FR', { month: 'short', day: 'numeric' }));
-    const activeUsers = filteredData.map((row) => parseInt(row.total_active_users));
-    const engagedUsers = filteredData.map((row) => parseInt(row.total_engaged_users));
+    const dates = filteredData.map((row) => new Date(row.extract_date).toLocaleDateString('fr-FR', { month: 'short', day: 'numeric' }));
+    // Get the mean of the active users
+    const activeUsers = filteredData.map((row) => row.total);
+    // Get the mean of the engaged users
+    const engagedUsers = filteredData.map((row) => row.total_engaged_users);
     
     // Calculate metrics
-    const latestActiveUsers = activeUsers[activeUsers.length - 1] || 0;
+    const latestActiveUsers = engagedUsers[engagedUsers.length - 1] || 0;
     const totalDevs = Math.max(...activeUsers, 0);
-    const hoursSaved = engagedUsers.reduce((sum: number, users: number) => sum + users * 8, 0); // Assuming 8 hours per day
+    const hoursSaved = engagedUsers.reduce((sum: number, users: number) => sum + users * 0.7, 0); // Assuming 8 hours per day
     const costSavings = hoursSaved * 50; // Assuming $50 per hour saved
 
     return {
@@ -72,16 +68,16 @@ const loadData = async (startDate: Date, endDate: Date): Promise<DashboardData |
         labels: dates,
         datasets: [
           {
-            label: 'Active Users',
-            data: activeUsers,
+            label: 'Heures potentielles économisées',
+            data: activeUsers.map(users => users * 0.5),
             borderColor: 'rgb(255, 99, 132)',
             backgroundColor: 'rgba(255, 99, 132, 0.1)',
             type: 'line' as const,
-            yAxisID: 'y1'
+            yAxisID: 'y'
           },
           {
-            label: 'Hours Saved',
-            data: engagedUsers.map(users => users * 8),
+            label: 'Heures économisées',
+            data: engagedUsers.map(users => users * 0.5),
             backgroundColor: 'rgba(0, 182, 255, 0.5)',
             borderColor: 'rgb(0, 182, 255)',
             type: 'bar' as const,
@@ -92,16 +88,23 @@ const loadData = async (startDate: Date, endDate: Date): Promise<DashboardData |
       costSavingsData: {
         labels: dates,
         datasets: [{
-          label: 'Daily Savings ($)',
-          data: engagedUsers.map(users => users * 50 * 8), // $50 per hour, 8 hours per day
+          label: 'Économies quotidiennes ($)',
+          data: engagedUsers.map(users => users * 50 * 0.7 ), // 50€ par heure, 8 heures par jour
           backgroundColor: 'rgba(75, 192, 192, 0.5)',
           borderColor: 'rgb(75, 192, 192)',
           type: 'bar' as const
+        },
+        {
+          label: 'Économies quotidiennes potentielles  ($)',
+          data: activeUsers.map(users => users * 50 * 0.7), // 50€ par heure, 8 heures par jour
+          backgroundColor: 'rgba(173, 24, 31, 0.5)',
+          borderColor: 'rgb(172, 43, 43)',
+          type: 'line' as const
         }]
       }
     };
   } catch (error) {
-    console.error('Error loading data:', error);
+    console.error('Erreur lors du chargement des données:', error);
     return null;
   }
 };
@@ -134,7 +137,7 @@ export default function Home() {
     </div>;
   }
 
-  const potentialAnnualSavings = maxDevs * 50 * 48 * 3.5;
+  const potentialAnnualSavings = maxDevs * 40 * 48 * 3.5;
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
@@ -143,12 +146,12 @@ export default function Home() {
           <div>
             <h1 className="text-3xl font-bold mb-2">Gologic</h1>
             <p className="text-gray-600">
-              Potential Annual Savings: {maxDevs} devs X $50/hr X 48 weeks X 3.5/hrs = ${(potentialAnnualSavings / 1000000).toFixed(2)}M
+              Économies annuelles potentielles sur l&apos;ensemble des développeurs : {maxDevs} devs X 50$/h X 48 semaines X 3.5h = {(potentialAnnualSavings / 1000000).toFixed(2)}M$
             </p>
           </div>
           <div className="text-right">
-            <p className="text-sm text-gray-500 mb-1">Last Refresh</p>
-            <p className="font-medium">{new Date().toLocaleDateString('en-US', { 
+            <p className="text-sm text-gray-500 mb-1">Dernière mise à jour</p>
+            <p className="font-medium">{new Date().toLocaleDateString('fr-FR', { 
               month: 'long',
               day: 'numeric',
               year: 'numeric'
@@ -167,27 +170,27 @@ export default function Home() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <MetricCard
-            title="Hours Saved"
+            title="Heures économisées"
             value={data.hoursSaved}
-            description="Estimated number of hours saved by using GitHub Copilot"
-            unit="hrs"
+            description="Nombre estimé d'heures économisées grâce à GitHub Copilot sur la période sélectionnée"
+            unit="h"
           />
           <MetricCard
-            title="Cost Savings"
+            title="Économies réalisées"
             value={data.costSavings}
-            description="Estimated value in dollars based on salary and time saved"
+            description="Valeur estimée en dollars basée sur le salaire et le temps économisé sur la période sélectionnée"
             unit="$"
           />
           <MetricCard
-            title="Total Devs"
+            title="Total développeurs"
             value={data.totalDevs}
-            description="Number of developers within the organization"
+            description="Nombre de développeurs dans l'organisation avec une licence"
             unit="devs"
           />
           <MetricCard
-            title="Avg Active Devs"
+            title="Moy. développeurs actifs"
             value={data.activeUsers}
-            description="Average number of active developers"
+            description="Nombre moyen de développeurs actifs"
             unit="devs"
           />
         </div>
@@ -195,7 +198,7 @@ export default function Home() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
           <div className="lg:col-span-2">
             <TimeSeriesChart
-              title="Engagement and Hours Saved"
+              title="Engagement et heures économisées"
               data={data.timeSeriesData}
               height={400}
             />
@@ -212,7 +215,7 @@ export default function Home() {
 
         <div className="mb-8">
           <TimeSeriesChart
-            title="Daily Cost Savings"
+            title="Économies quotidiennes"
             data={data.costSavingsData}
             height={300}
           />
