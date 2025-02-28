@@ -1,4 +1,5 @@
 import React from 'react';
+import type { FC } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -14,6 +15,25 @@ import {
 } from 'chart.js';
 import { Chart } from 'react-chartjs-2';
 
+export interface TimeSeriesData {
+  labels: string[];
+  datasets: Array<{
+    label: string;
+    data: number[];
+    backgroundColor?: string;
+    borderColor?: string;
+    type: 'line' | 'bar';
+    yAxisID?: string;
+  }>;
+}
+
+export interface TimeSeriesChartProps {
+  title: string;
+  data: TimeSeriesData;
+  height?: number;
+  showGrid?: boolean;
+}
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -25,24 +45,7 @@ ChartJS.register(
   Legend
 );
 
-interface TimeSeriesChartProps {
-  title: string;
-  data: {
-    labels: string[];
-    datasets: {
-      label: string;
-      data: number[];
-      backgroundColor?: string;
-      borderColor?: string;
-      type: 'line' | 'bar';
-      yAxisID?: string;
-    }[];
-  };
-  height?: number;
-  showGrid?: boolean;
-}
-
-export const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({ 
+export const TimeSeriesChart: FC<TimeSeriesChartProps> = ({ 
   title, 
   data, 
   height = 300,
@@ -139,4 +142,4 @@ export const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
       <Chart type='bar' options={options} data={data} />
     </div>
   );
-}; 
+};

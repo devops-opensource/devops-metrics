@@ -1,13 +1,14 @@
 import React from 'react';
+import type { FC } from 'react';
 
-interface DateRangePickerProps {
+export interface DateRangePickerProps {
   startDate: Date;
   endDate: Date;
   onStartDateChange: (date: Date) => void;
   onEndDateChange: (date: Date) => void;
 }
 
-export const DateRangePicker: React.FC<DateRangePickerProps> = ({
+export const DateRangePicker: FC<DateRangePickerProps> = ({
   startDate,
   endDate,
   onStartDateChange,
@@ -79,4 +80,4 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
       </div>
     </div>
   );
-}; 
+};

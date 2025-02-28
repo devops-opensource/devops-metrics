@@ -1,6 +1,7 @@
 import React from 'react';
+import type { FC } from 'react';
 
-interface MetricCardProps {
+export interface MetricCardProps {
   title: string;
   value: string | number;
   description: string;
@@ -9,7 +10,7 @@ interface MetricCardProps {
   unit?: string;
 }
 
-export const MetricCard: React.FC<MetricCardProps> = ({ 
+export const MetricCard: FC<MetricCardProps> = ({ 
   title, 
   value, 
   description, 
@@ -92,4 +93,4 @@ export const MetricCard: React.FC<MetricCardProps> = ({
       )}
     </div>
   );
-}; 
+};

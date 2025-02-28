@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "DevOps Analytics Dashboard | Gologic",
-  description: "Track your organization's DevOps performance and metrics",
+  title: "Tableau de Bord DevOps | Gologic",
+  description: "Suivez les performances et métriques DevOps de votre organisation",
 };
 
 export default function RootLayout({
@@ -24,7 +24,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="fr" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning
@@ -33,12 +33,12 @@ export default function RootLayout({
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div className="flex justify-between items-center">
               <div className="text-2xl font-bold text-neutral-900">
-                Analytics Dashboard
+                Tableau de Bord
               </div>
               <nav className="flex space-x-4">
-                <Link href="/" className="text-neutral-800 hover:text-primary">Dashboard</Link>
-                <Link href="/teams" className="text-neutral-800 hover:text-primary">Teams</Link>
-                <Link href="#" className="text-neutral-800 hover:text-primary">Settings</Link>
+                <Link href="/" className="text-neutral-800 hover:text-primary">Tableau de Bord</Link>
+                <Link href="/teams" className="text-neutral-800 hover:text-primary">Équipes</Link>
+                <Link href="#" className="text-neutral-800 hover:text-primary">Paramètres</Link>
               </nav>
             </div>
           </div>

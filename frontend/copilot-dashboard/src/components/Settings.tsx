@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface SettingsProps {
+export interface SettingsProps {
   maxDevs: number;
   meanSalary: number;
   onMaxDevsChange: (value: number) => void;

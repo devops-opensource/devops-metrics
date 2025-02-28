@@ -1,135 +1,22 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { MetricCard } from '../components/MetricCard';
+import { useState } from 'react';
+import type { ReactElement } from 'react';
 import { TimeSeriesChart } from '../components/TimeSeriesChart';
-import { Settings } from '../components/Settings';
 import { DateRangePicker } from '../components/DateRangePicker';
-import { TransformedBillingRecord } from '@/types/billing';
-interface DashboardData {
-  activeUsers: number;
-  totalDevs: number;
-  hoursSaved: number;
-  costSavings: number;
-  timeSeriesData: {
-    labels: string[];
-    datasets: {
-      label: string;
-      data: number[];
-      backgroundColor?: string;
-      borderColor: string;
-      type: 'line' | 'bar';
-      yAxisID?: string;
-    }[];
-  };
-  costSavingsData: {
-    labels: string[];
-    datasets: {
-      label: string;
-      data: number[];
-      backgroundColor: string;
-      borderColor: string;
-      type: 'line' | 'bar';
-    }[];
-  };
-}
+import { DashboardHeader } from '../components/DashboardHeader';
+import { DashboardMetrics } from '../components/DashboardMetrics';
+import { useDashboardData } from '@/hooks/useDashboardData';
 
-// Load and process CSV data
-const loadData = async (startDate: Date, endDate: Date): Promise<DashboardData | null> => {
-  try {
-    const response = await fetch('/api/metrics');
-    const csvData: TransformedBillingRecord[] = await response.json();
-    
-    // Filter data based on date range
-    const filteredData = csvData.filter(row => {
-      const date = new Date(row.extract_date);
-      return date >= startDate && date <= endDate;
-    });
-    
-    // Process the data
-    const dates = filteredData.map((row) => new Date(row.extract_date).toLocaleDateString('fr-FR', { month: 'short', day: 'numeric' }));
-    // Get the mean of the active users
-    const activeUsers = filteredData.map((row) => row.total);
-    // Get the mean of the engaged users
-    const engagedUsers = filteredData.map((row) => row.total_engaged_users);
-    
-    // Calculate metrics
-    const latestActiveUsers = engagedUsers[engagedUsers.length - 1] || 0;
-    const totalDevs = Math.max(...activeUsers, 0);
-    const hoursSaved = engagedUsers.reduce((sum: number, users: number) => sum + users * 0.7, 0); // Assuming 8 hours per day
-    const costSavings = hoursSaved * 50; // Assuming $50 per hour saved
-
-    return {
-      activeUsers: latestActiveUsers,
-      totalDevs,
-      hoursSaved,
-      costSavings,
-      timeSeriesData: {
-        labels: dates,
-        datasets: [
-          {
-            label: 'Heures potentielles économisées',
-            data: activeUsers.map(users => users * 0.5),
-            borderColor: 'rgb(255, 99, 132)',
-            backgroundColor: 'rgba(255, 99, 132, 0.1)',
-            type: 'line' as const,
-            yAxisID: 'y'
-          },
-          {
-            label: 'Heures économisées',
-            data: engagedUsers.map(users => users * 0.5),
-            backgroundColor: 'rgba(0, 182, 255, 0.5)',
-            borderColor: 'rgb(0, 182, 255)',
-            type: 'bar' as const,
-            yAxisID: 'y'
-          }
-        ]
-      },
-      costSavingsData: {
-        labels: dates,
-        datasets: [{
-          label: 'Économies quotidiennes ($)',
-          data: engagedUsers.map(users => users * 50 * 0.7 ), // 50€ par heure, 8 heures par jour
-          backgroundColor: 'rgba(75, 192, 192, 0.5)',
-          borderColor: 'rgb(75, 192, 192)',
-          type: 'bar' as const
-        },
-        {
-          label: 'Économies quotidiennes potentielles  ($)',
-          data: activeUsers.map(users => users * 50 * 0.7), // 50€ par heure, 8 heures par jour
-          backgroundColor: 'rgba(173, 24, 31, 0.5)',
-          borderColor: 'rgb(172, 43, 43)',
-          type: 'line' as const
-        }]
-      }
-    };
-  } catch (error) {
-    console.error('Erreur lors du chargement des données:', error);
-    return null;
-  }
-};
-
-export default function Home() {
-  const [maxDevs, setMaxDevs] = useState(200);
-  const [meanSalary, setMeanSalary] = useState(100000);
-  const [data, setData] = useState<DashboardData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [startDate, setStartDate] = useState(() => {
+export default function Home(): ReactElement {
+  const [startDate, setStartDate] = useState<Date>(() => {
     const date = new Date();
     date.setDate(date.getDate() - 30);
     return date;
   });
-  const [endDate, setEndDate] = useState(() => new Date());
+  const [endDate, setEndDate] = useState<Date>(() => new Date());
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      const result = await loadData(startDate, endDate);
-      setData(result);
-      setLoading(false);
-    };
-    fetchData();
-  }, [startDate, endDate]);
+  const { data, loading } = useDashboardData(startDate, endDate);
 
   if (loading || !data) {
     return <div className="min-h-screen bg-gray-50 p-8 flex items-center justify-center">
@@ -137,27 +24,10 @@ export default function Home() {
     </div>;
   }
 
-  const potentialAnnualSavings = maxDevs * 40 * 48 * 3.5;
-
   return (
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h1 className="text-3xl font-bold mb-2">Gologic</h1>
-            <p className="text-gray-600">
-              Économies annuelles potentielles sur l&apos;ensemble des développeurs : {maxDevs} devs X 50$/h X 48 semaines X 3.5h = {(potentialAnnualSavings / 1000000).toFixed(2)}M$
-            </p>
-          </div>
-          <div className="text-right">
-            <p className="text-sm text-gray-500 mb-1">Dernière mise à jour</p>
-            <p className="font-medium">{new Date().toLocaleDateString('fr-FR', { 
-              month: 'long',
-              day: 'numeric',
-              year: 'numeric'
-            })}</p>
-          </div>
-        </div>
+        <DashboardHeader />
 
         <div className="mb-6">
           <DateRangePicker
@@ -168,49 +38,14 @@ export default function Home() {
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <MetricCard
-            title="Heures économisées"
-            value={data.hoursSaved}
-            description="Nombre estimé d'heures économisées grâce à GitHub Copilot sur la période sélectionnée"
-            unit="h"
-          />
-          <MetricCard
-            title="Économies réalisées"
-            value={data.costSavings}
-            description="Valeur estimée en dollars basée sur le salaire et le temps économisé sur la période sélectionnée"
-            unit="$"
-          />
-          <MetricCard
-            title="Total développeurs"
-            value={data.totalDevs}
-            description="Nombre de développeurs dans l'organisation avec une licence"
-            unit="devs"
-          />
-          <MetricCard
-            title="Moy. développeurs actifs"
-            value={data.activeUsers}
-            description="Nombre moyen de développeurs actifs"
-            unit="devs"
-          />
-        </div>
+        <DashboardMetrics data={data} />
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-          <div className="lg:col-span-2">
-            <TimeSeriesChart
-              title="Engagement et heures économisées"
-              data={data.timeSeriesData}
-              height={400}
-            />
-          </div>
-          <div>
-            <Settings
-              maxDevs={maxDevs}
-              meanSalary={meanSalary}
-              onMaxDevsChange={setMaxDevs}
-              onMeanSalaryChange={setMeanSalary}
-            />
-          </div>
+        <div className="mb-8">
+          <TimeSeriesChart
+            title="Engagement et heures économisées"
+            data={data.timeSeriesData}
+            height={400}
+          />
         </div>
 
         <div className="mb-8">

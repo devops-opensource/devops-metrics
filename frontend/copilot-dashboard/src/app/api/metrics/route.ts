@@ -49,6 +49,7 @@ export async function GET() {
     return NextResponse.json(transformedRecords);
   } catch (error) {
     console.error('Erreur lors de la lecture du fichier CSV:', error);
+    
     return NextResponse.json({ error: 'Échec du chargement des données métriques' }, { status: 500 });
   }
 } 
