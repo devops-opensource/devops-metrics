@@ -3,9 +3,11 @@
 import { useState, useEffect } from 'react';
 import { MetricCard } from '../../components/MetricCard';
 import { TimeSeriesChart } from '../../components/TimeSeriesChart';
+import { TopLanguagesCard } from '../../components/TopLanguagesCard';
 import { DateRangePicker } from '../../components/DateRangePicker';
 import Select from 'react-select';
 import { useTeamsData } from '@/hooks/useTeamsData';
+import { useLanguageData } from '@/hooks/useLanguageData';
 
 interface ChatMetric {
   team: string;
@@ -22,6 +24,7 @@ export default function Teams() {
   const [endDate, setEndDate] = useState(() => new Date());
 
   const { data, loading } = useTeamsData(startDate, endDate, selectedTeam);
+  const { data: languageData, loading: languageLoading, error: languageError } = useLanguageData(selectedTeam);
 
   useEffect(() => {
     const initializeTeams = async () => {
@@ -143,6 +146,33 @@ export default function Teams() {
               data={data.chatPerUserData}
               height={300}
             />
+          </div>
+        </div>
+
+        {/* Top Languages Section */}
+        <div className="mb-8">
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <h2 className="text-xl font-semibold mb-4">Langages les plus utilisés</h2>
+            <p className="text-gray-600 mb-6">
+              Les trois langages de programmation avec le plus grand nombre de lignes de code suggérées pour l&apos;équipe sélectionnée,
+              ainsi que leur taux d&apos;acceptation de complétion.
+            </p>
+            
+            {languageLoading ? (
+              <div className="flex items-center justify-center h-48">
+                <p className="text-gray-500">Chargement des données de langage...</p>
+              </div>
+            ) : languageError ? (
+              <div className="flex items-center justify-center h-48">
+                <p className="text-red-500">Erreur: {languageError}</p>
+              </div>
+            ) : (
+              <TopLanguagesCard 
+                languages={languageData} 
+                loading={false} 
+                error={null} 
+              />
+            )}
           </div>
         </div>
       </div>
