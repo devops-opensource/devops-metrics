@@ -29,8 +29,7 @@ def jira_cloud_config():
             "jira_project_keys": "TEST",
             "jira_creation_status": "Created",
             "jira_released_status": "Released",
-            "jira_closed_statuses": "Closed,Done",
-            "jira_pivot": "Versions"
+            "jira_closed_statuses": "Closed,Done"
         }
     }
     return config
@@ -43,6 +42,7 @@ def mock_exporter():
             "jira_token": "jira_token",
             "jira_cloud_url": "https://example.com",
             "jira_project_keys": "EXAMPLE",
+            "jira_pivot": "Versions"
         }
     }
 

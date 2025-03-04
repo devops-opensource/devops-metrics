@@ -59,7 +59,7 @@ def test_transform_status_changes(config, sample_df_status_changes, sample_df_ve
 
     assert isinstance(result, pd.DataFrame)
     assert len(result) == 3
-    assert result["event_type"].iloc[0] == "status_change"
+    assert result.get("event_type").iloc[0] == "status_change"
     assert isinstance(result["control_date"].iloc[0], pd.Timestamp)
 
     # Test if the columns are in the correct format
