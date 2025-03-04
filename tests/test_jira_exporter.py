@@ -42,7 +42,6 @@ def mock_exporter():
             "jira_token": "jira_token",
             "jira_cloud_url": "https://example.com",
             "jira_project_keys": "EXAMPLE",
-            "jira_pivot": "Versions"
         }
     }
 
