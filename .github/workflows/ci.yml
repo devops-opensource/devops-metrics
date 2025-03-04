@@ -48,7 +48,7 @@ jobs:
           CC_TEST_REPORTER_ID: ${{ secrets.CODE_CLIMATE_COVERAGE_ID }}
         with:
           coverageCommand: coverage xml -o coverage.xml # explicitly exporting coverage file to be read by coverage report command.
-          coverageLocations: coverage.py=coverage.xml
+          coverageLocations: coverage.py
           debug: true
 
   publish:
