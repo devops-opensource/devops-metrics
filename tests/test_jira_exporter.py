@@ -29,7 +29,8 @@ def jira_cloud_config():
             "jira_project_keys": "TEST",
             "jira_creation_status": "Created",
             "jira_released_status": "Released",
-            "jira_closed_statuses": "Closed,Done"
+            "jira_closed_statuses": "Closed,Done",
+            "jira_pivot": "Versions"
         }
     }
     return config
