@@ -15,8 +15,12 @@ class TransformStatusChanges:
         self._closed_statuses = config["JIRA_CLOUD"][
             "jira_closed_statuses"
         ].split(",")
-        if pivot_management["event_type"].iloc[0] == "epic_management":
-            self._use_version = False
+
+        if "event_type" in pivot_management.columns and not pivot_management["event_type"].empty:
+            if pivot_management["event_type"].iloc[0] == "epic_management":
+                self._use_version = False
+            else:
+                self._use_version = True
         else:
             self._use_version = True
 
