@@ -40,13 +40,13 @@ export default function Home(): ReactElement {
 
         <DashboardMetrics data={data} />
 
-        <div className="mb-8">
+{/*         <div className="mb-8">
           <TimeSeriesChart
             title="Engagement et heures économisées"
             data={data.timeSeriesData}
             height={400}
           />
-        </div>
+        </div> */}
 
         <div className="mb-8">
           <TimeSeriesChart
@@ -55,6 +55,16 @@ export default function Home(): ReactElement {
             height={300}
           />
         </div>
+
+        <div className="mb-8">
+          <TimeSeriesChart
+            title="Activité des développeurs"
+            data={data.usersActivityData}
+            height={300}
+          />
+        </div>
+
+
       </div>
     </div>
   );

@@ -1,24 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import type { FC } from 'react';
+import { useMetricsStore } from '@/store/metricsStore';
+import { useDebounce } from '@/hooks/useDebounce';
 
 export interface DashboardHeaderProps {
-  initialMaxDevs?: number;
-  initialHourlyRate?: number;
-  initialWeeksPerYear?: number;
-  initialHoursPerWeek?: number;
+  initialTitle?: string;
 }
 
 export const DashboardHeader: FC<DashboardHeaderProps> = ({ 
-  initialMaxDevs = 200,
-  initialHourlyRate = 50,
-  initialWeeksPerYear = 48,
-  initialHoursPerWeek = 3.5
+  initialTitle = "Gologic"
 }) => {
   const [showFormulaDetails, setShowFormulaDetails] = useState(false);
-  const [maxDevs, setMaxDevs] = useState(initialMaxDevs);
-  const [hourlyRate, setHourlyRate] = useState(initialHourlyRate);
-  const [weeksPerYear, setWeeksPerYear] = useState(initialWeeksPerYear);
-  const [hoursPerWeek, setHoursPerWeek] = useState(initialHoursPerWeek);
+  const [title, setTitle] = useState(initialTitle);
+  const [localHourlyRate, setLocalHourlyRate] = useState("");
+
+  const { 
+    maxDevs, 
+    hourlyRate, 
+    weeksPerYear, 
+    hoursPerWeek,
+    setMaxDevs,
+    setHourlyRate,
+    setWeeksPerYear,
+    setHoursPerWeek
+  } = useMetricsStore();
+
+  const debouncedHourlyRate = useDebounce(localHourlyRate, 500);
+
+  // Initialize local hourly rate and handle updates from store
+  useEffect(() => {
+    if (hourlyRate.toString() !== localHourlyRate) {
+      setLocalHourlyRate(hourlyRate.toString());
+    }
+  }, [hourlyRate]);
+
+  // Update global store when debounced value changes
+  useEffect(() => {
+    if (debouncedHourlyRate && debouncedHourlyRate !== hourlyRate.toString()) {
+      setHourlyRate(Number(debouncedHourlyRate));
+    }
+  }, [debouncedHourlyRate, setHourlyRate, hourlyRate]);
 
   const potentialAnnualSavings = maxDevs * hourlyRate * weeksPerYear * hoursPerWeek;
   const formattedSavings = (potentialAnnualSavings / 1000000).toFixed(2);
@@ -32,7 +53,7 @@ export const DashboardHeader: FC<DashboardHeaderProps> = ({
   };
 
   const handleHourlyRateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setHourlyRate(Number(e.target.value));
+    setLocalHourlyRate(e.target.value);
   };
 
   const handleWeeksPerYearChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,11 +64,21 @@ export const DashboardHeader: FC<DashboardHeaderProps> = ({
     setHoursPerWeek(Number(e.target.value));
   };
 
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-md p-6 mb-8">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
-      <div>
-          <h1 className="text-3xl font-bold mb-2 text-indigo-700">Gologic</h1>
+        <div>
+          <input
+            type="text"
+            value={title}
+            onChange={handleTitleChange}
+            className="text-3xl font-bold mb-2 text-indigo-700 bg-transparent border-none focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 rounded px-1"
+            aria-label="Company name"
+          />
           <div className="flex items-center">
             <p className="text-gray-700 font-medium">
               Économies annuelles potentielles: <span className="text-indigo-600 font-bold text-xl">{formattedSavings}M$</span>
@@ -67,15 +98,15 @@ export const DashboardHeader: FC<DashboardHeaderProps> = ({
               </svg>
             </button>
           </div>
-      </div>
-      <div className="text-right">
-        <p className="text-sm text-gray-500 mb-1">Dernière mise à jour</p>
+        </div>
+        <div className="text-right">
+          <p className="text-sm text-gray-500 mb-1">Dernière mise à jour</p>
           <p className="font-medium text-gray-700">{new Date().toLocaleDateString('fr-FR', { 
-          month: 'long',
-          day: 'numeric',
-          year: 'numeric'
-        })}</p>
-      </div>
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric'
+          })}</p>
+        </div>
       </div>
 
       {showFormulaDetails && (
@@ -109,7 +140,7 @@ export const DashboardHeader: FC<DashboardHeaderProps> = ({
                   type="number"
                   id="hourlyRate"
                   className="block w-full rounded-md border-gray-300 pl-3 pr-12 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                  value={hourlyRate}
+                  value={localHourlyRate}
                   onChange={handleHourlyRateChange}
                   min="1"
                 />

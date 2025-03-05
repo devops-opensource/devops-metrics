@@ -7,4 +7,5 @@ export interface DashboardData {
   costSavings: number;
   timeSeriesData: TimeSeriesData;
   costSavingsData: TimeSeriesData;
+  usersActivityData: TimeSeriesData;
 }
