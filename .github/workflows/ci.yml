@@ -54,7 +54,7 @@ jobs:
         run: |
           pip install coverage
 
-          mkdir coverage
+          mkdir ./coverage
 
           mv ./coverage-data/.coverage-*/.coverage-* ./coverage
 
