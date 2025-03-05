@@ -53,8 +53,7 @@ jobs:
       - name: Merge coverage
         run: |
           pip install coverage
-          ls -la ./coverage/.coverage-*
-          mv ./coverage/.coverage-*/.coverage-* ./.coverage
+          mv ./coverage/.coverage-*/.coverage-* ./coverage
           coverage combine ./coverage
           coverage xml -o coverage.xml
 
