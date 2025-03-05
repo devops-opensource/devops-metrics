@@ -49,7 +49,7 @@ jobs:
       - name: Download coverage report
         uses: actions/download-artifact@v4
         with:
-          path: coverage
+          path: .coverage
 
       - name: Merge coverage
         run: |
