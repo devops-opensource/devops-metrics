@@ -56,7 +56,7 @@ jobs:
 
           mkdir ./coverage-data
 
-          ls -la ./coverage/.coverage-*
+          ls -la ./coverage/.coverage-*/.coverage-*
           mv ./coverage/.coverage-*/.coverage-* ./coverage-data
 
           coverage combine ./coverage-data
