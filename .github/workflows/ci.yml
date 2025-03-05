@@ -21,6 +21,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
+          cache: 'pip'
 
       - name: Install dependencies
         run: |
@@ -28,10 +29,17 @@ jobs:
           if [ -f requirements/dev_requirements.txt ]; then pip install -r requirements/dev_requirements.txt ; fi
           pip install _submodules/splunk --upgrade
 
-      - name: Run unit tests
+      - name: Run unit tests and build coverage report
         run: |
             coverage run -m pytest -v tests
             coverage xml -o coverage-${{matrix.python-version}}.xml # explicitly exporting coverage file to be read by coverage report command.
+      
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage-${{matrix.python-version}}.xml
+          retention-days: 5
 
   quality-gate:
     runs-on: ubuntu-latest
@@ -42,10 +50,11 @@ jobs:
         uses: actions/checkout@v3
         with:
           submodules: recursive
-
-      - name: Run unit tests and build coverage report
-        run: |
-            coverage xml -o coverage.xml # explicitly exporting coverage file to be read by coverage report command.
+          
+      - name: Download coverage report
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-report
 
       - name: Publish code coverage to code climate
         uses: paambaati/codeclimate-action@v3.2.0
@@ -53,6 +62,9 @@ jobs:
           CC_TEST_REPORTER_ID: ${{ secrets.CODE_CLIMATE_COVERAGE_ID }}
         with:
           debug: true
+          coverageLocations: |
+            coverage-3.9.xml:coverage.py
+            coverage-3.10.xml:coverage.py
 
   publish:
     if: github.ref == 'refs/heads/main'
