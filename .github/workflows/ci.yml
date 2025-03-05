@@ -31,13 +31,13 @@ jobs:
 
       - name: Run unit tests
         run: |
-            coverage run -m pytest -v tests
+            coverage run --data-file=.coverage-${{ matrix.python-version }} -m pytest -v tests
       
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: .coverage-${{ matrix.python-version }}
-          path: .coverage
+          name: .coverage
+          path: .coverage-${{ matrix.python-version }}
           overwrite: true
           include-hidden-files: true
 
@@ -54,7 +54,7 @@ jobs:
       - name: Merge coverage
         run: |
           pip install coverage
-          ls -la ./coverage/.coverage-*
+          ls -la ./coverage/.coverage
           mv ./coverage/.coverage-*/* ./.coverage
           coverage combine ./coverage
           coverage xml -o coverage.xml
