@@ -55,7 +55,6 @@ jobs:
         run: |
           pip install coverage
           coverage combine ./coverage
-          coverage report
           coverage xml -o coverage.xml
 
       - name: Publish code coverage to code climate
