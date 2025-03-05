@@ -48,12 +48,15 @@ jobs:
       - name: Download coverage report
         uses: actions/download-artifact@v4
         with:
-          path: coverage
+          path: coverage-data
 
       - name: Merge coverage
         run: |
           pip install coverage
-          mv -v ./coverage/.coverage-*/.coverage-* ./coverage
+
+          mkdir coverage
+
+          mv ./coverage-data/.coverage-*/.coverage-* ./coverage
 
           ls -l ./coverage
 
