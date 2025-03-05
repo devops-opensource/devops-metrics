@@ -32,7 +32,7 @@ jobs:
       - name: Run unit tests
         run: |
             coverage run -m pytest -v tests
-            coverage xml -o coverage.xml # explicitly exporting coverage file to be read by coverage report command.
+            coverage xml -o coverage-${{ matrix.python-version }}.xml # explicitly exporting coverage file to be read by coverage report command.
       
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
