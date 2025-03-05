@@ -57,9 +57,8 @@ jobs:
           mkdir ./coverage-data
 
           mv ./coverage/.coverage-*/.coverage-* ./coverage-data
+          coverage combine $(ls ./coverage-data/*)  
 
-          ls -la ./coverage-data
-          coverage combine ./coverage-data
           coverage xml -o coverage.xml
 
       - name: Publish code coverage to code climate
