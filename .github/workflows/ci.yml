@@ -53,6 +53,7 @@ jobs:
 
       - name: Merge coverage
         run: |
+          mv coverage/.coverage-* coverage/
           pip install coverage
           coverage combine coverage
           coverage report
