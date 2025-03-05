@@ -39,6 +39,7 @@ jobs:
           name: .coverage-${{ matrix.python-version }}
           path: .coverage
           overwrite: true
+          include-hidden-files: true
 
   quality-gate:
     runs-on: ubuntu-latest
