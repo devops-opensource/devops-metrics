@@ -57,7 +57,7 @@ jobs:
           mkdir ./coverage-data
 
           mv ./coverage/.coverage-*/.coverage-* ./coverage-data
-          coverage combine $(ls ./coverage-data/*)  
+          coverage combine $(ls ./coverage-data/.coverage-*)  
 
           coverage xml -o coverage.xml
 
