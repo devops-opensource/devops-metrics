@@ -13,12 +13,12 @@ export const DashboardMetrics: FC<DashboardMetricsProps> = ({ data }) => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-{/*       <MetricCard
+      <MetricCard
         title="Heures économisées"
         value={data.hoursSaved}
         description="Nombre estimé d'heures économisées grâce à GitHub Copilot sur la période sélectionnée"
         unit="h"
-      /> */}
+      />
       <MetricCard
         title="Économies confirmées"
         value={costSavingsInMillions}

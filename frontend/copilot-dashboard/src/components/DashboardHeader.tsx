@@ -170,7 +170,7 @@ export const DashboardHeader: FC<DashboardHeaderProps> = ({
             </div>
             <div>
               <label htmlFor="hoursPerWeek" className="block text-sm font-medium text-gray-700 mb-1">
-                Heures par semaine
+                Heures sauvées par semaine
               </label>
               <div className="relative rounded-md shadow-sm">
                 <input
