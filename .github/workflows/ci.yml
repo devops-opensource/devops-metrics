@@ -59,7 +59,7 @@ jobs:
           mv ./coverage/.coverage-*/.coverage-* ./coverage-data
           coverage combine $(ls ./coverage-data/.coverage-*)  
 
-          coverage xml --data-file=.coverage -o coverage.xml
+          coverage xml --data-file=.coverage -o coverage.xml --debug
 
       - name: Publish code coverage to code climate
         uses: paambaati/codeclimate-action@v3.2.0
