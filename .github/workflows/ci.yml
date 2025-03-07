@@ -60,7 +60,7 @@ jobs:
 
       - name: Check for critical issues
         run: |
-          if grep -q "critical" python.sarif; then
+          if grep -q "critical" ./results/python.sarif; then
             echo "Critical issues found. Failing the workflow."
             exit 1
           fi
