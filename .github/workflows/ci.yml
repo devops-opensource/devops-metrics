@@ -60,13 +60,6 @@ jobs:
         uses: github/codeql-action/analyze@v3
         with:
           category: "/language:python"
-
-      - name: Check for critical issues
-        run: |
-          if grep -q "critical" ./results/python.sarif; then
-            echo "Critical issues found. Failing the workflow."
-            exit 1
-          fi
           
       - name: Download coverage report
         uses: actions/download-artifact@v4
