@@ -57,6 +57,13 @@ jobs:
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
+
+      - name: Check for critical issues
+        run: |
+          if grep -q "critical" codeql-results.sarif; then
+            echo "Critical issues found. Failing the workflow."
+            exit 1
+          fi
           
       - name: Download coverage report
         uses: actions/download-artifact@v4
