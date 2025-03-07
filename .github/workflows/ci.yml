@@ -59,11 +59,10 @@ jobs:
         uses: github/codeql-action/analyze@v3
 
       - name: Check for critical issues
+        if: ${{ failure() }}
         run: |
-          if grep -q "critical" codeql-results.sarif; then
-            echo "Critical issues found. Failing the workflow."
-            exit 1
-          fi
+          echo "CodeQL found issues in the code. Please fix them before merging."
+          exit 1
           
       - name: Download coverage report
         uses: actions/download-artifact@v4
