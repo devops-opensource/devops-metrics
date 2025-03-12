@@ -4,7 +4,7 @@ import { DashboardData } from '@/types/dashboard';
 import { useMetricsStore } from '@/store/metricsStore';
 
 const isWeekend = (date: Date): boolean => {
-  const day = date.getDay();
+  const day = date.getUTCDay(); // utilisation de la valeur UTC
   return day === 6 || day === 0; 
 };
 
