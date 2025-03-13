@@ -137,15 +137,45 @@ These transformations abstract away the differences between source systems, crea
 
 ### Loader
 
-# Contributing (Coming soon)
+# Installation(Linux environment)
+## Create a virtual environment
+``` bash
+python3 -m pip install --user virtualenv
+python3 -m venv env
+source env/bin/activate
+```
 
-# Dependencies
-| Name                                                 | Version  |
-|------------------------------------------------------|----------|
-| Python                                               | 3.10     |
-| requests                                             | 3.10     |
-| pandas                                               | 1.4.42   |
-| mysql                                                | 0.0.3    |
+You should see in your terminal (.env) from the moment you use the command source
+
+## Install dependencies in your virtual environmment
+``` bash
+python3 -m pip install -r  requirements/dev_requirements.txt
+git submodules update --init
+python3 -m pip install _submodules/splunk
+```
+
+# Execute the script
+## Fill the configuration file
+Rename config.default.cfg in config.cfg and fill it with your configurations. 
+The config.local.cfg provide an example with a configuration for jira cloud and mysql.
+
+## Usage 
+To run the script use the following command:
+
+```bash
+python3 main.py config_file_path.cfg Exporter Loader
+```
+
+Where:
+- `config_file_path.cfg` - Path to your configuration file
+- `Exporter` - Type of exporter to use (e.g., GitHub, Jira, GitLab, GitHubCopilot)
+- `Loader` - Type of loader to use (e.g., CSV, MYSQL)
+
+Example usage:
+```bash
+python3 main.py config.cfg GitHub MYSQL
+python3 main.py config.local.cfg Jira CSV
+```
 
 # Local demo with docker-compose (Tested in a linux environment)
 ## context
@@ -182,43 +212,4 @@ The dashboard has two parts. The first part contains global metrics based on a m
 ![complete](/docs/images/demo-6-grafana-complete.png)
 
 Have fun playing with the data!
-
-# Installation(Linux environment)
-## Create a virtual environment
-``` bash
-python3 -m pip install --user virtualenv
-python3 -m venv env
-source env/bin/activate
-```
-
-You should see in your terminal (.env) from the moment you use the command source
-
-## Install dependencies in your virtuel environmment
-``` bash
-python3 -m pip install -r  requirements/dev_requirements.txt
-git submodules update --init
-python3 -m pip install _submodules/splunk
-```
-# Execute the script
-## Fill the configuration file
-Rename config.default.cfg in config.cfg and fill it with your configurations. 
-The config.local.cfg provide an example with a configuration for jira cloud and mysql.
-
-## Usage 
-To run the script use the following command:
-
-```bash
-python3 main.py config_file_path.cfg Exporter Loader
-```
-
-Where:
-- `config_file_path.cfg` - Path to your configuration file
-- `Exporter` - Type of exporter to use (e.g., GitHub, Jira, GitLab, GitHubCopilot)
-- `Loader` - Type of loader to use (e.g., CSV, MYSQL)
-
-Example usage:
-```bash
-python3 main.py config.cfg GitHub MYSQL
-python3 main.py config.local.cfg Jira CSV
-```
 
