@@ -1,57 +1,150 @@
 # DevOps-Metrics
 This project aim at providing maximum flexibility for **aggregating data from multiple source in a single target to calculate metrics related to DevOps**. The vision of this project is to **break silos between those systems** and enable cross-platform metrics to get an overview of the whole development process.
 
-The repository contains actually extractor from Jira on-premise and Jira cloud. The actual targets are MySql and also Splunk. 
+We are using a traditional ETL process to extract data from the source, transform it and load it into a target. There is multiple source and targets supported. With the transformer, we make sure to transform the data no matter the source to the same target format.
 
-We are working on a new extractor(GitHub) and we will provide at the same time a flexible architecture that will allow the community to create new extractors and targets.
+## Extractors
 
-## Data models
-### Release management
-This type of data is intended to calculate the **frequency of release**. 
-```json 
-{
-  name: string
-  release_date: string
-  description: string 
-  start_date: timestamp
-  event_type: string 
-  project_key: string
-  control_date: timestamp 
-}
-```
+### Jira Cloud 
+The Jira Cloud extractor connects to your Jira instance via the REST API to extract data for DevOps metrics analysis. It requires a Jira Cloud URL, user email, and API token for authentication.
 
-### Status change
-Status change contains the history of transitions between status in project management systems. 
-There is two status created by the tool:
-- A status when the item is created in the backlog
-- A status when the item is published( Trigger is publication of a version)
+#### Data Extracted
+The extractor pulls two primary datasets:
 
-Those data can be used to measure **lead time**, **cycle time** and metrics around **value streams**.
+1. **Pivot Data** - Configurable to extract either:
+   - **Versions (Releases)**: Captures release data including release dates, names, and descriptions
+   - **Epics**: Gathers epic-level information including creation dates, resolution dates, and status
 
-```json 
-{
-  from_status: string
-  to_status: string
-  key: string
-  to_date: timestamp
-  issue_type: string
-  project_key: string
-  parent_key: string 
-  version: string
-  from_date: timestamp
-  event_type: string
-  release_version: string
-  control_date: timestamp
-}
-```
+2. **Status Changes** - Tracks the complete workflow history of issues:
+   - Captures all status transitions for stories
+   - Records timestamps for each transition
+   - Links issues to their parent epics
+   - Associates issues with fix versions
+
+### Repository Management (GitHub and GitLab)
+Both GitHub and GitLab extractors connect to repositories via REST APIs to extract pull request/merge request data for comprehensive DevOps metrics analysis.
+
+#### GitHub Data Extracted
+The GitHub extractor requires a GitHub URL, username, organization name, repository list, and authentication token and pulls three primary datasets:
+
+1. **Pull Requests** - Captures detailed information about closed pull requests:
+   - Pull request metadata (title, description, creation date)
+   - Merge status and timestamps
+   - Author information
+   - Branch details
+
+2. **Commits** - Collects all commits associated with pull requests:
+   - Commit messages and timestamps
+   - Author and committer information
+   - Code changes metadata
+   - Links to parent pull requests
+
+3. **Reviews** - Gathers code review data for pull requests:
+   - Review comments and feedback
+   - Review state (approved, changes requested, etc.)
+   - Reviewer information
+   - Review timestamps
+
+#### GitLab Data Extracted
+The GitLab extractor requires a GitLab URL, username, organization name, repository list, and authentication token and pulls three similar datasets:
+
+1. **Merge Requests** - Captures detailed information about merged merge requests:
+   - Merge request metadata (title, description, creation date)
+   - Merge status and timestamps
+   - Author information
+   - Branch details
+
+2. **Commits** - Collects all commits associated with merge requests:
+   - Commit messages and timestamps
+   - Author information
+   - Code changes metadata
+   - Links to parent merge requests
+
+3. **Reviews** - Gathers approval data for merge requests:
+   - Approval notes and feedback
+   - Reviewer information
+   - Review timestamps
+   - Only captures notes containing "approved"
+
+### GitHub Copilot
+The GitHub Copilot extractor connects to your GitHub organization via the REST API to extract Copilot usage data for detailed AI pair programming metrics analysis. It requires a GitHub URL, organization name, and authentication token.
+
+#### Data Extracted
+The extractor pulls three primary datasets:
+
+1. **Team-specific Metrics** - Captures Copilot usage data for each team in the organization:
+   - Chat interactions with Copilot
+   - Code completion acceptance rates
+   - Language-specific usage patterns
+   - Editor-specific utilization
+
+2. **Organization-wide Metrics** - Collects aggregated Copilot metrics across the organization:
+   - Active and engaged users
+   - Chat usage statistics across different editors and models
+   - Code completion statistics including lines suggested and accepted
+   - Language-specific performance metrics
+
+3. **Billing Information** - Gathers seat utilization and subscription data:
+   - Total seats allocated
+   - Active and inactive seats
+   - New seats added in current billing cycle
+   - Utilization rates
+
+## Transformations
+The transformers standardize data from any source into consistent formats to enable uniform metrics calculation regardless of origin platform:
+
+### Project Management Data Transformation
+- **Release Management Metrics**: Transforms release data into standardized formats enabling:
+  - Deployment frequency analysis
+  - Release cycle time calculations
+  - Version tracking and comparison
+
+- **Status Change Metrics**: Transforms work item transitions to measure:
+  - Lead time (time from creation to deployment)
+  - Cycle time (time from development start to deployment)
+  - Value stream mapping (time spent in each workflow state)
+  - Release tracking (work items in specific releases)
+
+### Version Control Data Transformation
+- **Code Change Metrics**: Standardized metrics regardless of version control system:
+  - Pull/merge request lifecycle metrics
+  - Time to complete code reviews
+  - Code change frequency and distribution
+  - Development flow efficiency
+  
+- **Review Activity Metrics**: Unified metrics for code review processes:
+  - Review response times
+  - Approval cycles and reviewer engagement
+  - Team collaboration patterns
+  - Code quality indicators
+
+### AI-Assisted Development Transformation
+- **User Adoption Metrics**: Tracks usage patterns of AI-assisted tools:
+  - Active and engaged users over time
+  - Resource utilization statistics
+
+- **Interaction Metrics**: Measures effectiveness of AI interactions:
+  - AI chat activity and acceptance rates
+  - Language-specific AI assistance patterns
+  - Team and organization-level usage comparison
+
+- **Productivity Metrics**: Quantifies productivity impact:
+  - Code suggestion acceptance rates
+  - Developer efficiency gains
+  - Cost-effectiveness analysis
+
+These transformations abstract away the differences between source systems, creating uniform metrics that enable cross-platform analysis regardless of the tools used in your development process.
+
+### Loader
+
 # Contributing (Coming soon)
 
 # Dependencies
-| Name                                                 | Version  |
+| Name                                                 | Version  |
 |------------------------------------------------------|----------|
-| Python                                               | 3.10     |
-| requests                                             | 3.10     |
-| pandas                                               | 1.4.42   |
+| Python                                               | 3.10     |
+| requests                                             | 3.10     |
+| pandas                                               | 1.4.42   |
 | mysql                                                | 0.0.3    |
 
 # Local demo with docker-compose (Tested in a linux environment)
@@ -112,9 +205,20 @@ Rename config.default.cfg in config.cfg and fill it with your configurations.
 The config.local.cfg provide an example with a configuration for jira cloud and mysql.
 
 ## Usage 
-To run the script use the following command and replace config_file_path with the path to the configuration file:
+To run the script use the following command:
 
 ```bash
-python3 main.py config_file_path.cgf
+python3 main.py config_file_path.cfg Exporter Loader
+```
+
+Where:
+- `config_file_path.cfg` - Path to your configuration file
+- `Exporter` - Type of exporter to use (e.g., GitHub, Jira, GitLab, GitHubCopilot)
+- `Loader` - Type of loader to use (e.g., CSV, MYSQL)
+
+Example usage:
+```bash
+python3 main.py config.cfg GitHub MYSQL
+python3 main.py config.local.cfg Jira CSV
 ```
 
