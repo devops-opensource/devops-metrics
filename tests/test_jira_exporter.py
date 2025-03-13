@@ -15,7 +15,9 @@ def mock_config():
             "jira_project_keys": "PROJECT",
             "jira_creation_status": "Created",
             "jira_released_status": "Released",
-            "jira_closed_statuses": "Closed,Resolved"
+            "jira_closed_statuses": "Closed,Resolved",
+            "jira_pivot": "Versions",
+            "jira_resolved": ""
         }
     }
 
@@ -29,7 +31,9 @@ def jira_cloud_config():
             "jira_project_keys": "TEST",
             "jira_creation_status": "Created",
             "jira_released_status": "Released",
-            "jira_closed_statuses": "Closed,Done"
+            "jira_closed_statuses": "Closed,Done",
+            "jira_pivot": "Versions",
+            "jira_resolved": ""
         }
     }
     return config
@@ -42,6 +46,8 @@ def mock_exporter():
             "jira_token": "jira_token",
             "jira_cloud_url": "https://example.com",
             "jira_project_keys": "EXAMPLE",
+            "jira_pivot": "Versions",
+            "jira_resolved": ""
         }
     }
 
@@ -272,29 +278,29 @@ def test_execute_jql_request_multiple_pages(mock_exporter):
 
 
 def test_extract_data(mock_exporter):
-    with patch.object(mock_exporter, "extract_project_versions") as mock_extract_project_versions, \
+    with patch.object(mock_exporter, "extract_pivot") as mock_extract_pivot, \
         patch.object(mock_exporter, "extract_status_changelogs") as mock_extract_status_changelogs:
 
-        mock_extract_project_versions.return_value = {"EXAMPLE": []}
+        mock_extract_pivot.return_value = {"EXAMPLE": []}
         mock_extract_status_changelogs.return_value = []
 
         result = mock_exporter.extract_data()
 
     assert isinstance(result, dict)
-    assert set(result.keys()) == {"versions", "status_changes"}
+    assert set(result.keys()) == {"pivot", "status_changes"}
 
 def test_adapt_data(mock_exporter):
-    with patch.object(mock_exporter, "adapt_versions") as mock_adapt_versions, \
+    with patch.object(mock_exporter, "adapt_pivot") as mock_adapt_pivot, \
         patch.object(mock_exporter, "adapt_status_changes") as mock_adapt_status_changes:
 
-        mock_adapt_versions.return_value = pd.DataFrame()
+        mock_adapt_pivot.return_value = pd.DataFrame()
         mock_adapt_status_changes.return_value = pd.DataFrame()
 
         data_dict = {
-            "versions": [],
+            "pivot": [],
             "status_changes": [],
         }
         result = mock_exporter.adapt_data(data_dict)
 
     assert isinstance(result, dict)
-    assert set(result.keys()) == {"versions", "status_changes"}
+    assert set(result.keys()) == {"pivot", "status_changes"}
