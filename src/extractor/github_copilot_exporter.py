@@ -49,7 +49,7 @@ class GithubCopilotExporter(Exporter):
         try:
             while another_page:
                 with self.create_session() as session:
-                    r = session.get(url, params=parameters, verify=False)
+                    r = session.get(url, params=parameters)
                     r.raise_for_status()
 
                 json_response = r.json()
