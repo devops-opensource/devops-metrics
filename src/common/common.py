@@ -38,7 +38,7 @@ def ExporterFactory(type) -> exporter.Exporter:
     localizers = {
         "JiraCloud": jiracloud_exporter.JiracloudExporter,
         "GitHub": github_exporter.GithubExporter,
-        "GitHub_copilot": github_copilot_exporter.GithubCopilotExporter,
+        "GitHubCopilot": github_copilot_exporter.GithubCopilotExporter,
         "GitLab": gitlab_exporter.GitlabExporter,
     }
     return localizers[type]()
@@ -49,7 +49,7 @@ def TransformerFactory(type) -> transformer.Transformer:
     localizers = {
         "JiraCloud": project_management_transformer.ProjectManagementTransformer,
         "GitHub": version_control_transformer.VersionControlTransformer,
-        "GitHub_copilot": copilot_transformer.CopilotTransformer,
+        "GitHubCopilot": copilot_transformer.CopilotTransformer,
         "GitLab": version_control_transformer.VersionControlTransformer,
     }
     return localizers[type]()
