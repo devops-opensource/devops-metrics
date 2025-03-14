@@ -184,7 +184,7 @@ class JiracloudExporter(exporter.Exporter):
     def adapt_pivot(self, pivots_dict):
         if self._pivot == "Versions":
             df_pivots = self._adapt_pivot(
-                pivots_dict, elf._versions_mapping, "release_management"
+                pivots_dict, self._versions_mapping, "release_management"
             )
 
         elif self._pivot == "Epics":

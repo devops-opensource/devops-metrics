@@ -3,3 +3,4 @@ requests == 2.27.1
 pandas == 2.2.3
 sqlalchemy == 1.4.42
 pymysql == 1.0.3
+numpy == 1.26.3
