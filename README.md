@@ -150,7 +150,7 @@ You should see in your terminal (.env) from the moment you use the command sourc
 ## Install dependencies in your virtual environmment
 ``` bash
 python3 -m pip install -r  requirements/dev_requirements.txt
-git submodules update --init
+git submodule update --init
 python3 -m pip install _submodules/splunk
 ```
 

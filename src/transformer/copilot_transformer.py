@@ -37,6 +37,9 @@ class CopilotTransformer(Transformer):
         """
         Calculate average active users from a series of daily active users
         """
+        if daily_active_users.empty:
+            raise ValueError("The series of daily active users is empty.")
+        
         current_date = datetime.datetime.now().strftime("%Y-%m-%d")
         average_active_users = daily_active_users.mean().astype(int)
         df = pd.DataFrame({

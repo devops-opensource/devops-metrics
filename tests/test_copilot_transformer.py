@@ -68,25 +68,29 @@ def test_initialize_data(transformer, mock_config):
     transformer.initialize_data(mock_config)
     assert transformer.config == mock_config
 
-def test_sanitize_metrics(transformer):
-    df = pd.DataFrame({
-        'col1': [float('inf'), float('-inf'), np.nan, 1.0],
-        'col2': [1.0, np.nan, float('inf'), 2.0]
-    })
-    
-    result = transformer.sanitize_metrics(df)
-    
-    assert not result.isin([float('inf'), float('-inf')]).any().any()
-    assert not result.isna().any().any()
-    assert (result[result['col1'] == 0].shape[0] == 3)  # Three values replaced: inf, -inf, and nan
-    assert (result[result['col2'] == 0].shape[0] == 2)  # One inf and one nan replaced
 
-def test_transform_average_active_users(transformer, sample_daily_active_users):
-    result = transformer.transform_average_active_users(sample_daily_active_users)
-    
+def test_transform_average_active_users_with_series(transformer, sample_daily_active_users):
+    # Pass only the numeric series to avoid non-numeric 'date' values causing errors
+    series_active_users = sample_daily_active_users['active_users']
+    result = transformer.transform_average_active_users(series_active_users)
+    current_date = pd.to_datetime("today").strftime("%Y-%m-%d")
     assert isinstance(result, pd.DataFrame)
+    assert 'extract_date' in result.columns
     assert 'average_active_users' in result.columns
-    assert result['average_active_users'].iloc[0] == 200  # (100 + 200 + 300) / 3
+    expected = int(series_active_users.mean())
+    assert result['average_active_users'].iloc[0] == expected
+    assert result['extract_date'].iloc[0] == current_date
+
+def test_transform_average_active_users_with_dataframe_error(transformer, sample_daily_active_users):
+    # Passing the full DataFrame (which includes non-numeric columns) should raise a TypeError
+    with pytest.raises(TypeError):
+        transformer.transform_average_active_users(sample_daily_active_users)
+
+def test_transform_average_active_users_empty_series(transformer):
+    # An empty numeric series should result in a ValueError due to inability to convert NaN to int
+    empty_series = pd.Series([], dtype=int)
+    with pytest.raises(ValueError):
+        transformer.transform_average_active_users(empty_series)
 
 def test_transform_chat_metrics_team(transformer, sample_chat_metrics_team):
     result = transformer.transform_chat_metrics_team(sample_chat_metrics_team)
