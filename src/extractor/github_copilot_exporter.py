@@ -1,7 +1,7 @@
 import logging
 import requests
 import pandas as pd
-from typing import Dict, List, Tuple, Any, Optional
+from typing import Dict, List, Any, Optional
 from configparser import ConfigParser
 from src.extractor.exporter import Exporter
 import datetime
