@@ -4,6 +4,7 @@ __pycache__/
 *.pyc
 .venv
 .env
+env/
 *.py[cod]
 *$py.class
 my_config.local.cfg
@@ -11,3 +12,12 @@ config.copilot.cfg
 _df_average_active_users.csv
 _df_daily_active_users.csv
 _df_seats.csv
+notebooks/.ipynb_checkpoints/
+notebooks/copilot_metrics_active_users.csv
+notebooks/copilot_metrics_average_active_users.csv
+notebooks/copilot_metrics_billing_global.csv
+notebooks/copilot_metrics_chat_global.csv
+notebooks/copilot_metrics_chat_team.csv
+notebooks/copilot_metrics_completion_global.csv
+notebooks/copilot_metrics_completion_team.csv
+_submodules/splunk

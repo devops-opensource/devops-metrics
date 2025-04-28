@@ -35,7 +35,7 @@ class GitlabExporter(Exporter):
         results = []
         while another_page:
             with self.create_session() as session:
-                r = session.get(url, params=parameters, verify=False)
+                r = session.get(url, params=parameters)
             json_response = r.json()
             if not isinstance(json_response, list):
                 json_response = [json_response]
