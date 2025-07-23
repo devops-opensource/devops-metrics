@@ -16,14 +16,38 @@ class CopilotTransformer(Transformer):
                 transformed['df_average_active_users'] = self.transform_average_active_users(df['total_active_users'])
             elif key == 'df_billing_global':
                 transformed[key] = df
+            elif key == 'df_billing_seats':
+                transformed[key] = self.transform_billing_seats_simplified(df)
             elif 'metrics_chat' in key:
-                transform_method = self.transform_chat_metrics_team if 'team' in df.columns else self.transform_chat_metrics_global
-                transformed[key] = transform_method(df)
+                if 'global' in key:
+                    transformed[key] = self.transform_chat_metrics_global(df)
+                elif 'team' in key:
+                    transformed[key] = self.transform_chat_metrics_team(df)
             elif 'metrics_completion' in key:
-                transform_method = self.transform_completion_metrics_team if 'team' in df.columns else self.transform_completion_metrics_global
-                transformed[key] = transform_method(df)
+                if 'global' in key:
+                    transformed[key] = self.transform_completion_metrics_global(df)
+                elif 'team' in key:
+                    transformed[key] = self.transform_completion_metrics_team(df)
 
         return transformed
+
+    def transform_billing_seats_simplified(self, df: pd.DataFrame) -> pd.DataFrame:
+        """
+        Return a simplified billing seats DataFrame with only the requested columns.
+        """
+        required_columns = [
+            'assignee_login',
+            'created_at',
+            'updated_at',
+            'pending_cancellation_date',
+            'last_activity_at',
+            'last_activity_editor',
+            'plan_type',
+            'assignee_id'
+        ]
+        # Only keep columns that exist in the DataFrame
+        columns_to_keep = [col for col in required_columns if col in df.columns]
+        return df[columns_to_keep].copy()
     
     def sanitize_metrics(self, df: pd.DataFrame) -> pd.DataFrame:
         """

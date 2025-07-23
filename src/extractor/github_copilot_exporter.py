@@ -41,7 +41,7 @@ class GithubCopilotExporter(Exporter):
         session.headers.update(headers)
         return session
 
-    def execute_paginated_request(self, endpoint: str, parameters: Dict[str, Any] = {"per_page": 100}) -> List[Dict[str, Any]]:
+    def execute_paginated_request(self, endpoint: str, parameters: Dict[str, Any] = {"per_page": 100}, extract_key: Optional[str] = None) -> List[Dict[str, Any]]:
         another_page = True
         url = f"{self.github_url}/{endpoint}"
         results = []
@@ -53,7 +53,14 @@ class GithubCopilotExporter(Exporter):
                     r.raise_for_status()
 
                 json_response = r.json()
-                results.extend(json_response)
+                
+                # If extract_key is provided, extract that key from the response
+                if extract_key:
+                    page_data = json_response.get(extract_key, [])
+                else:
+                    page_data = json_response
+                    
+                results.extend(page_data)
 
                 if "next" in r.links:
                     url = r.links["next"]["url"]
@@ -80,11 +87,13 @@ class GithubCopilotExporter(Exporter):
         metrics_per_team = self.extract_metrics_per_team(teams)
         metrics_global = self.extract_metrics_global()
         billing_global = self.extract_billing()
+        billing_seats = self.extract_billing_seats()
 
         return {
             "metrics_per_team": metrics_per_team,
             "metrics_global": metrics_global,
-            "billing_global": billing_global
+            "billing_global": billing_global,
+            "billing_seats": billing_seats
         }
 
     def extract_metrics_per_team(self, teams: List[Dict[str, Any]]) -> Dict[str, List[Dict[str, Any]]]:
@@ -127,6 +136,18 @@ class GithubCopilotExporter(Exporter):
             {'billing_information': billing_information}
         )
 
+    def extract_billing_seats(self) -> List[Dict[str, Any]]:
+        endpoint = f"orgs/{self.github_org}/copilot/billing/seats"
+        try:
+            # Use a lambda to extract the 'seats' array from each page response
+            billing_seats = self.execute_paginated_request(endpoint, extract_key='seats')
+            if not billing_seats:
+                logger.warning(f"Warning: No billing seats found for organization {self.github_org}")
+            return billing_seats
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error fetching billing seats: {e}")
+            raise
+
     def extract_teams(self) -> List[Dict[str, Any]]:
         endpoint = f"orgs/{self.github_org}/teams"
         try:
@@ -145,6 +166,7 @@ class GithubCopilotExporter(Exporter):
         df_metrics_completions_team = self.adapt_metrics_completions_team(metrics_per_team)
 
         metrics_global = raw_data["metrics_global"]
+        print("metrics_global sample:", metrics_global[:2])
         df_metrics_active_users = self.adapt_metrics_active_users(metrics_global)
         df_metrics_chat_global = self.adapt_metrics_chat_global(metrics_global)
         df_metrics_completions_global = self.adapt_metrics_completions_global(metrics_global)
@@ -152,9 +174,13 @@ class GithubCopilotExporter(Exporter):
         billing_global = raw_data["billing_global"]
         df_billing_global = self.adapt_billing_global(billing_global)
 
+        billing_seats = raw_data["billing_seats"]
+        df_billing_seats = self.adapt_billing_seats(billing_seats)
+
         return {
             "df_metrics_active_users": df_metrics_active_users,
             "df_billing_global": df_billing_global,
+            "df_billing_seats": df_billing_seats,
             "df_metrics_chat_team": df_metrics_chat_team,
             "df_metrics_completions_team": df_metrics_completions_team,
             "df_metrics_chat_global": df_metrics_chat_global,
@@ -199,6 +225,62 @@ class GithubCopilotExporter(Exporter):
             })
         except Exception as e:
             logger.error(f"Error processing billing metric: {e}")
+
+        return pd.DataFrame(records)
+    
+    def adapt_billing_seats(self, billing_seats: List[Dict[str, Any]]) -> pd.DataFrame:
+        records = []
+        current_date = datetime.datetime.now().strftime("%Y-%m-%d")
+        
+        try:
+            for seat in billing_seats:
+                # Extract assignee information
+                assignee = seat.get('assignee', {})
+                assignee_login = assignee.get('login')
+                assignee_id = assignee.get('id')
+                assignee_node_id = assignee.get('node_id')
+                assignee_avatar_url = assignee.get('avatar_url')
+                assignee_url = assignee.get('url')
+                assignee_html_url = assignee.get('html_url')
+                assignee_type = assignee.get('type')
+                assignee_site_admin = assignee.get('site_admin')
+                
+                # Extract assigning team information (if present)
+                assigning_team = seat.get('assigning_team', {})
+                team_id = assigning_team.get('id')
+                team_node_id = assigning_team.get('node_id')
+                team_name = assigning_team.get('name')
+                team_slug = assigning_team.get('slug')
+                team_description = assigning_team.get('description')
+                team_privacy = assigning_team.get('privacy')
+                team_permission = assigning_team.get('permission')
+                
+                records.append({
+                    'extract_date': current_date,
+                    'created_at': seat.get('created_at'),
+                    'updated_at': seat.get('updated_at'),
+                    'pending_cancellation_date': seat.get('pending_cancellation_date'),
+                    'last_activity_at': seat.get('last_activity_at'),
+                    'last_activity_editor': seat.get('last_activity_editor'),
+                    'plan_type': seat.get('plan_type'),
+                    'assignee_login': assignee_login,
+                    'assignee_id': assignee_id,
+                    'assignee_node_id': assignee_node_id,
+                    'assignee_avatar_url': assignee_avatar_url,
+                    'assignee_url': assignee_url,
+                    'assignee_html_url': assignee_html_url,
+                    'assignee_type': assignee_type,
+                    'assignee_site_admin': assignee_site_admin,
+                    'team_id': team_id,
+                    'team_node_id': team_node_id,
+                    'team_name': team_name,
+                    'team_slug': team_slug,
+                    'team_description': team_description,
+                    'team_privacy': team_privacy,
+                    'team_permission': team_permission
+                })
+        except Exception as e:
+            logger.error(f"Error processing billing seats: {e}")
 
         return pd.DataFrame(records)
     
