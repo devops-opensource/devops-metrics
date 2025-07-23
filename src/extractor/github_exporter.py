@@ -15,7 +15,7 @@ class GithubExporter(Exporter):
         self.github_org = config["GITHUB"]["github_org"]
         self.github_repo_list = config["GITHUB"]["github_repo_list"].split(",")
         self.github_token = config["GITHUB"]["github_token"]
-        # self.certificate_path = config["COMMON"]["certificat_path"]
+        self.certificate_path = config["COMMON"]["certificate_path"]
         with open("src/extractor/github_mappings.json") as json_file:
             self.mappings = json.load(json_file)
         self.commits = dict()
@@ -41,7 +41,7 @@ class GithubExporter(Exporter):
                 # r = session.get(
                 #     url, params=parameters, verify=self.certificate_path
                 # )
-                r = session.get(url, params=parameters, verify=False)
+                r = session.get(url, params=parameters, verify=self.certificate_path)
             json_response = r.json()
             results.extend(json_response)
             if (
