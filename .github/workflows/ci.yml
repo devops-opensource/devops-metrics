@@ -77,12 +77,12 @@ jobs:
 
           coverage xml --data-file=.coverage -o coverage.xml
 
-      - name: Publish code coverage to code climate
-        uses: paambaati/codeclimate-action@v3.2.0
-        env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CODE_CLIMATE_COVERAGE_ID }}
-        with:
-          debug: true
+      # - name: Publish code coverage to code climate
+      #   uses: paambaati/codeclimate-action@v3.2.0
+      #   env:
+      #     CC_TEST_REPORTER_ID: ${{ secrets.CODE_CLIMATE_COVERAGE_ID }}
+      #   with:
+      #     debug: true
 
   publish:
     if: github.ref == 'refs/heads/main'
