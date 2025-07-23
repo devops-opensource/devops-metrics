@@ -5,7 +5,7 @@ from src.extractor import (
     github_exporter,
     gitlab_exporter
 )
-from src.loader import mysql_loader, csv_loader, splunk_loader, loader
+from src.loader import mysql_loader, csv_loader, loader #, splunk_loader
 from src.transformer import (
     transformer,
     project_management_transformer,
@@ -60,7 +60,7 @@ def LoaderFactory(type) -> loader.Loader:
     localizers = {
         "MYSQL": mysql_loader.MySqlLoader,
         "CSV": csv_loader.CsvLoader,
-        "SPLUNK": splunk_loader.SplunkLoader,
+        #"SPLUNK": splunk_loader.SplunkLoader,
     }
     return localizers[type]()
 
