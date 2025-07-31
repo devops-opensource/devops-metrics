@@ -83,14 +83,11 @@ class GithubCopilotExporter(Exporter):
             raise
 
     def extract_data(self) -> Dict[str, Any]:
-        teams = self.extract_teams()
-        metrics_per_team = self.extract_metrics_per_team(teams)
         metrics_global = self.extract_metrics_global()
         billing_global = self.extract_billing()
         billing_seats = self.extract_billing_seats()
 
         return {
-            "metrics_per_team": metrics_per_team,
             "metrics_global": metrics_global,
             "billing_global": billing_global,
             "billing_seats": billing_seats
@@ -161,12 +158,7 @@ class GithubCopilotExporter(Exporter):
             raise
 
     def adapt_data(self, raw_data: Dict[str, Any]) -> Dict[str, pd.DataFrame]:    
-        metrics_per_team = raw_data["metrics_per_team"] 
-        df_metrics_chat_team = self.adapt_metrics_chat_team(metrics_per_team)
-        df_metrics_completions_team = self.adapt_metrics_completions_team(metrics_per_team)
-
         metrics_global = raw_data["metrics_global"]
-        print("metrics_global sample:", metrics_global[:2])
         df_metrics_active_users = self.adapt_metrics_active_users(metrics_global)
         df_metrics_chat_global = self.adapt_metrics_chat_global(metrics_global)
         df_metrics_completions_global = self.adapt_metrics_completions_global(metrics_global)
@@ -181,8 +173,6 @@ class GithubCopilotExporter(Exporter):
             "df_metrics_active_users": df_metrics_active_users,
             "df_billing_global": df_billing_global,
             "df_billing_seats": df_billing_seats,
-            "df_metrics_chat_team": df_metrics_chat_team,
-            "df_metrics_completions_team": df_metrics_completions_team,
             "df_metrics_chat_global": df_metrics_chat_global,
             "df_metrics_completions_global": df_metrics_completions_global
         }
@@ -354,3 +344,40 @@ class GithubCopilotExporter(Exporter):
                 logger.error(f"Error processing team {team}: {e}")
                 continue
         return pd.concat(dfs, ignore_index=True) if dfs else pd.DataFrame()
+
+
+class GithubCopilotTeamsExporter(GithubCopilotExporter):
+    """
+    Extended version of GithubCopilotExporter that also extracts team-specific metrics.
+    Inherits all functionality from the base class and adds team support.
+    """
+
+    def extract_data(self) -> Dict[str, Any]:
+        # Get base data from parent class
+        base_data = super().extract_data()
+        
+        # Add team-specific data
+        teams = self.extract_teams()
+        metrics_per_team = self.extract_metrics_per_team(teams)
+        
+        # Combine base data with team data
+        return {
+            "metrics_per_team": metrics_per_team,
+            **base_data  # This includes metrics_global, billing_global, billing_seats
+        }
+
+    def adapt_data(self, raw_data: Dict[str, Any]) -> Dict[str, pd.DataFrame]:
+        # Get base adapted data from parent class
+        base_adapted = super().adapt_data(raw_data)
+        
+        # Add team-specific adaptations
+        metrics_per_team = raw_data["metrics_per_team"] 
+        df_metrics_chat_team = self.adapt_metrics_chat_team(metrics_per_team)
+        df_metrics_completions_team = self.adapt_metrics_completions_team(metrics_per_team)
+        
+        # Combine base data with team data
+        return {
+            **base_adapted,
+            "df_metrics_chat_team": df_metrics_chat_team,
+            "df_metrics_completions_team": df_metrics_completions_team
+        }
