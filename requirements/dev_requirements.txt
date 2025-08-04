@@ -4,3 +4,11 @@ sqlalchemy == 1.4.42
 pymysql == 1.0.3
 coverage 
 pytest
+
+setuptools == 62.1.0 
+requests
+pandas
+sqlalchemy
+pymysql == 1.0.3
+numpy
+azure-data-tables
