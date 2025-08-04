@@ -4,3 +4,4 @@ pandas
 sqlalchemy
 pymysql == 1.0.3
 numpy
+azure-data-tables

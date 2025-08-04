@@ -11,3 +11,16 @@ config.copilot.cfg
 _df_average_active_users.csv
 _df_daily_active_users.csv
 _df_seats.csv
+copilot_df_average_active_users.csv
+copilot_df_billing_global.csv
+copilot_df_billing_seats.csv
+copilot_df_metrics_active_users.csv
+copilot_df_metrics_chat_global.csv
+copilot_df_metrics_chat_team.csv
+copilot_df_metrics_completions_global.csv
+copilot_df_metrics_completions_team.csv
+notebooks/debug_copilot_usage.ipynb
+.github/chatmodes/beastmode.chatmode.md
+config.copilot.az.cfg
+notebooks/debug_copilot_usage.ipynb
+notebooks
