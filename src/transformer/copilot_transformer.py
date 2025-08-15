@@ -18,6 +18,7 @@ class CopilotTransformer(Transformer):
                 transformed[key] = df
             elif key == 'df_billing_seats':
                 transformed[key] = self.transform_billing_seats_simplified(df)
+                transformed['df_heatmap'] = self.transform_heatmap(df)
             elif 'metrics_chat' in key:
                 if 'global' in key:
                     transformed[key] = self.transform_chat_metrics_global(df)
@@ -48,6 +49,26 @@ class CopilotTransformer(Transformer):
         # Only keep columns that exist in the DataFrame
         columns_to_keep = [col for col in required_columns if col in df.columns]
         return df[columns_to_keep].copy()
+    
+    def transform_heatmap(self, df: pd.DataFrame) -> pd.DataFrame:
+        """
+        Return a simplified billing seats DataFrame with only the requested columns, and transform last_activity_at to date-only format.
+        """
+        required_columns = [
+            'assignee_login',
+            'last_activity_at',
+            'assignee_id'
+        ]
+        # Only keep columns that exist in the DataFrame
+        columns_to_keep = [col for col in required_columns if col in df.columns]
+        result = df[columns_to_keep].copy()
+        if 'last_activity_at' in result.columns:
+            # Convert to datetime, then to date string (YYYY-MM-DD)
+            # heatmap only concerned if was active that daily extract and construct history based on days
+            # if the last activity is unchanged from previous days, loader will not upsert since the hash of 3 fields remain the same
+            # THUS will not work with any other loader since they do not have built in persistence 
+            result['last_activity_at'] = pd.to_datetime(result['last_activity_at'], errors='coerce').dt.strftime('%Y-%m-%d')
+        return result
     
     def sanitize_metrics(self, df: pd.DataFrame) -> pd.DataFrame:
         """

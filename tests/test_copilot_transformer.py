@@ -183,3 +183,26 @@ def test_transform_data_with_invalid_data(transformer):
     # Verify that the sanitized values were used in calculations
     assert df_result['chat_per_user'].iloc[0] == pytest.approx(0.0)  # inf/10 -> 0/10 = 0
     assert df_result['chat_acceptance_rate'].iloc[0] == pytest.approx(0.0)  # (30+20)/0 -> 0
+
+
+def test_transform_heatmap_handles_nulls(transformer):
+    # Create a billing seats DataFrame with nulls in last_activity_at
+    df = pd.DataFrame({
+        'assignee_login': ['user1', 'user2', 'user3'],
+        'last_activity_at': [None, '2024-01-01T12:34:56Z', pd.NaT],
+        'assignee_id': [1, 2, 3]
+    })
+
+    result = transformer.transform_heatmap(df)
+
+    # Should return a DataFrame with the same number of rows and the last_activity_at column
+    assert isinstance(result, pd.DataFrame)
+    assert 'last_activity_at' in result.columns
+    assert len(result) == 3
+
+    # Non-null value should be formatted to YYYY-MM-DD
+    assert result.loc[1, 'last_activity_at'] == '2024-01-01'
+
+    # Nulls should remain null/NA (no exception raised and safe to use isna)
+    assert pd.isna(result.loc[0, 'last_activity_at'])
+    assert pd.isna(result.loc[2, 'last_activity_at'])
